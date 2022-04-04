@@ -1,0 +1,44 @@
+{
+    "name": "gate",
+    "type": 1,
+    "ip": "127.0.0.1",
+    "port": 9101,
+
+    "servers": [
+        {
+            "name": "login",
+            "type": 2,
+            "ip":   "127.0.0.1",
+            "port": 9102,
+            "num": 1
+        },
+        {
+            "name": "game",
+            "type": 3,
+            "ip":   "127.0.0.1",
+            "port": 9103,
+            "num": 1
+        },
+        {
+            "name": "chat",
+            "type": 4,
+            "ip":   "127.0.0.1",
+            "port": 9104,
+            "num": 1
+        },
+        {
+            "name": "rank",
+            "type": 5,
+            "ip":   "127.0.0.1",
+            "port": 9105,
+            "num": 1
+        },
+        {
+            "name": "world",
+            "type": 6,
+            "ip":   "127.0.0.1",
+            "port": 9106,
+            "num": 1
+        }
+    ]
+}

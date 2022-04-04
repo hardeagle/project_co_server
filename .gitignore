@@ -3,6 +3,6 @@
 *.o
 *.so
 
-
+.vscode/settings.json
 
 build/

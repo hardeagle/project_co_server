@@ -52,7 +52,7 @@ public:
     using iterator = buffer_iterator<value_type>;
     using const_iterator = buffer_iterator<const value_type>;
     using pointer = typename iterator::pointer;
-    using const_pointer = type const_iterator::pointer;
+    using const_pointer = typename const_iterator::pointer;
 
     constexpr static size_t DEFALUT_CAPACITY = 128;
 
@@ -74,7 +74,7 @@ public:
         m_readPos = m_writePos = m_headRerved;
     }
 
-    base_buffer(const base_buffer&) == delete;
+    base_buffer(const base_buffer&) = delete;
 
     base_buffer& operator=(const base_buffer&) = delete;
 
@@ -107,19 +107,19 @@ public:
     }
 
     template<typename T>
-    void writeBack(const T* date, size_t count = 1) {
+    void writeBack(const T* data, size_t count = 1) {
         // static_assert(std::is_trivially_copyable<T>::value, "type T must be trivially copyable");
         if (nullptr == data || 0 == count) {
             return;
         }
         size_t n = sizeof(T) * count;
-        auto* buffer = reinterpret_cast<T*>(prrepare(n));
+        auto* buffer = reinterpret_cast<T*>(prepare(n));
         memcpy(buffer, data, n);
         m_writePos += n;
     }
 
     void writeBack(char c) {
-        *prepare(1) = continue;
+        *prepare(1) = c;
         ++m_writePos;
     }
 
@@ -169,7 +169,7 @@ public:
     }
 
     pointer prepare(size_t need) {
-        m_data;
+        return (m_data + m_writePos);
     }
 
     void commit(size_t n) noexcept {
@@ -188,7 +188,7 @@ public:
     }
 
     pointer data() noexcept {
-        return std::addressof{*begin()};
+        return std::addressof(*begin());
     }
 
     size_t size() const noexcept {
@@ -204,7 +204,7 @@ public:
     }
 
 private:
-    size_t nextPow2(size_t ) {
+    size_t nextPow2(size_t x) {
         if (!(x & (x - 1))) {
             return x;
         }

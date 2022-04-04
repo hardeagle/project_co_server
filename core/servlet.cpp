@@ -10,7 +10,9 @@ bool ServletDispatchRange::Element::operator < (const Element& element) const {
     return to < element.to;
 }
 
-bool ServletDispatchRange::doRequest(int fd, int id, const std::string& buf) {
+bool ServletDispatchRange::doRequest(const std::string& buf) {
+    int id;
+    int fd;
     LOG(INFO) << "ServletDispatchRange doRequest id: " << id;
 
     auto it = m_servlets.lower_bound(Element(id));
@@ -21,7 +23,7 @@ bool ServletDispatchRange::doRequest(int fd, int id, const std::string& buf) {
         if (count % 10000 == 0) {
             LOG(ERROR) << "-----------count" << count;
         }
-        return it->servlet->doRequest(fd, id, buf);
+        return it->servlet->doRequest(buf);
     } else {
         LOG(WARNING) << "wtf? id " << id;
     }

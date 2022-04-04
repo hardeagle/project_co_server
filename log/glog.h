@@ -1,5 +1,5 @@
-#ifndef __GLOG_H__
-#define __GLOG_H__
+#ifndef __LOG_GLOG_H__
+#define __LOG_GLOG_H__
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -19,7 +19,7 @@ public:
 	GLog(char *program) {
 
         boost::property_tree::ptree root;
-        boost::property_tree::read_json("../json/log.json", root);
+        boost::property_tree::read_json("./json/log.json", root);
 		auto logtostderr = root.get<bool>("logtostderr");
 		auto alsologtostderr = root.get<bool>("alsologtostderr");
 		auto colorlogtostderr = root.get<bool>("colorlogtostderr");
@@ -28,6 +28,15 @@ public:
 		auto max_log_size = root.get<int>("max_log_size");
 		auto minloglevel = root.get<int>("minloglevel");
 		auto stop_logging_if_full_disk = root.get<bool>("stop_logging_if_full_disk");
+
+		// bool logtostderr = true;
+		// bool alsologtostderr = true;
+		// bool colorlogtostderr = true;
+		// bool log_prefix = true;
+		// int logbufsecs = 0;
+		// int max_log_size = 64;
+		// int minloglevel = 0;
+		// int stop_logging_if_full_disk = 1;
 
 
 		google::InitGoogleLogging(program);

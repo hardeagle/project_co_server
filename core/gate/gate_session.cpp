@@ -3,11 +3,17 @@
 #include <functional>
 #include <string>
 
-#include <pulsar
+#include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
 
+#include "gate_server.h"
+
 namespace Eayew {
+
+GateSession::GateSession(int fd)
+    : m_fd(fd) {
+}
 
 void GateSession::run() {
     go std::bind(&GateSession::sync_read, shared_from_this());
@@ -15,6 +21,7 @@ void GateSession::run() {
 }
 
 void GateSession::operator<<(std::string& buffer) {
+    m_rChannel << buffer;
 }
 
 void GateSession::sync_read() {
@@ -33,6 +40,12 @@ void GateSession::sync_read() {
             LOG(ERROR) << "invalid body length";
             return;
         }
+        int type;
+        std::string req;
+        std::string rsp;
+        m_gateServer->rpcManager()->call(type, req, rsp);  // 超时待处理
+
+        write(m_fd, rsp.data(), rsp.size());
     }
 }
 

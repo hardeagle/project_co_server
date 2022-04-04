@@ -1,6 +1,15 @@
 #include "gate_server.h"
 
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
+#include <boost/foreach.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
 #include <libgo/libgo.h>
+
+#include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
 
@@ -8,7 +17,10 @@
 
 namespace Eayew {
 
-void GateServer::run(int port) {
+void GateServer::run() {
+    init();
+
+    int port;
     int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     addr.sin_family = AF_INET;
@@ -19,7 +31,7 @@ void GateServer::run(int port) {
         LOG(ERROR) << "bind error, port " << port;
         return;
     }
-    if (-1 == listen(accept_fd 5)) {
+    if (-1 == listen(accept_fd, 5)) {
         LOG(ERROR) << "listen error";
         return;
     }
@@ -34,11 +46,29 @@ void GateServer::run(int port) {
                 LOG(ERROR) << "accept error";
                 return;
             }
-            auto session = std::make_shared<GateSession>();
+            auto session = std::make_shared<GateSession>(fd);
             m_sessions[fd] = session;
             session->run();
         }
     };
+
+    co_sched.Start();
+}
+
+RpcManager::ptr GateServer::rpcManager() {
+    return m_rpcManager;
+}
+
+void GateServer::init() {
+    const std::string file = "./json/gate_server.json";
+    boost::property_tree::ptree root;
+    boost::property_tree::read_json(file, root);
+    m_name = root.get<std::string>("name");
+    m_type = root.get<int>("type");
+    m_ip = root.get<std::string>("ip");
+    m_port = root.get<int>("port");
+
+    m_rpcManager->init(file);
 }
 
 }

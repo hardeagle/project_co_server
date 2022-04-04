@@ -6,13 +6,15 @@
 
 namespace Eayew {
 
+class Message;
+
 class Servlet {
 public:
     using ptr = std::shared_ptr<Servlet>;
 
     virtual ~Servlet() {}
 
-    virtual bool doRequest(int fd, int id, const std::string& buf) {
+    virtual bool doRequest(const std::string& buf) {
         return true;
     }
 };
@@ -47,7 +49,7 @@ public:
         m_servlets.insert(element);
     }
 
-    bool doRequest(int fd, int id, const std::string& buf);
+    bool doRequest(const std::string& buf);
 
 private:
     std::set<Element> m_servlets;

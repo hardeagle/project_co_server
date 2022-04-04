@@ -9,15 +9,29 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 #ADD_DEFINTIONS(-D BOOST_ASIO_HAS_STD_COROUTINE -D BOOST_ASIO_HAS_CO_AWAIT)
 
-#aux_source_directory(${PROJECT_SOURCE_DIR/logic SRC_LIST})
+aux_source_directory(${PROJECT_SOURCE_DIR}/core SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/core/base SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/core/gate SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/core/rpc SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/game SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/task SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/log SRC_LIST)
 
 
-set(CMAKE_CXX_FLAGS "-std=c++2a -g -O0 ${CMAKE_CXX_FLAGS}")
+#set(CMAKE_CXX_FLAGS "-std=c++2a -g -O0 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++17 -g -O0 ${CMAKE_CXX_FLAGS}")
+
 
 add_executable(co_server main.cpp ${SRC_LIST})
+add_executable(chat_server main_chat.cpp ${SRC_LIST})
+add_executable(game_server main_game.cpp ${SRC_LIST})
+add_executable(gate_server main_gate.cpp ${SRC_LIST})
+add_executable(rank_server main_rank.cpp ${SRC_LIST})
 
-set(exes co_server)
+
+set(exes co_server chat_server game_server gate_server rank_server)
 FOREACH(exe ${exes})
     target_link_libraries(${exe} -ldl)
     target_link_libraries(${exe} -lglog)
