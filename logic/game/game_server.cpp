@@ -6,7 +6,7 @@
 
 
 void GameServer::beforeRun() {
-    initRpc("./json/game_server.json");
+    initByConfig("./json/game_server.json");
 
     initServlet();
 }

@@ -5,7 +5,7 @@
 #include "core/servlet.h"
 
 void ChatServer::beforeRun() {
-    initRpc("./json/chat_server.json");
+    initByConfig("./json/chat_server.json");
 }
 
 void ChatServer::test() {

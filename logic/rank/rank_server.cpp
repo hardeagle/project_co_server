@@ -5,5 +5,5 @@
 #include "core/servlet.h"
 
 void RankServer::beforeRun() {
-    initRpc("./json/rank_server.json");
+    initByConfig("./json/rank_server.json");
 }

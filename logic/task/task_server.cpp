@@ -5,5 +5,5 @@
 #include "core/servlet.h"
 
 void TaskServer::beforeRun() {
-    initRpc("./json/task_server.json");
+    initByConfig("./json/task_server.json");
 }

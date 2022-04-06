@@ -23,9 +23,11 @@ public:
 
     void dispatch(std::string& msg);
 
-    void initRpc(const std::string& file);
+    void initByConfig(const std::string& file);
 
     virtual void beforeRun() {}
+
+    std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 
     std::shared_ptr<ServletDispatchRange> servlet() { return m_servlet; }
 

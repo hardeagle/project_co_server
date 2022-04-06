@@ -103,7 +103,7 @@ void BaseServer::dispatch(std::string& msg) {
     *(m_baseRoutines[id]) << buffer;
 }
 
-void BaseServer::initRpc(const std::string& file) {
+void BaseServer::initByConfig(const std::string& file) {
     boost::property_tree::ptree root;
     boost::property_tree::read_json(file, root);
     m_name = root.get<std::string>("name");

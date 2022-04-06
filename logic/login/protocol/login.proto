@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+//import "login_id.proto";
+
+package LoginProtocol;
+
+message C2S_LoginLoad {
+    bytes loginname = 1;
+}
+
+message S2C_LoginLoad {
+    int32 ret = 1;
+    int32 role_id = 2;
+}

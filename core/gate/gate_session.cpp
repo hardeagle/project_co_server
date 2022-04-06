@@ -43,7 +43,7 @@ void GateSession::sync_read() {
         int type;
         std::string req;
         std::string rsp;
-        m_gateServer->rpcManager()->call(type, req, rsp);  // 超时待处理
+        m_gateServer->rpcManager()->call(type, req);
 
         write(m_fd, rsp.data(), rsp.size());
     }
