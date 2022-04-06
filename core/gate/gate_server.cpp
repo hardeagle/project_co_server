@@ -20,21 +20,22 @@ namespace Eayew {
 void GateServer::run() {
     init();
 
-    int port;
     int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_port = htons(m_port);
+    addr.sin_addr.s_addr = inet_addr(m_ip.data());
     socklen_t len = sizeof(addr);
     if (-1 == bind(accept_fd, (sockaddr*)&addr, len)) {
-        LOG(ERROR) << "bind error, port " << port;
+        LOG(ERROR) << "bind error, port " << m_port;
         return;
     }
     if (-1 == listen(accept_fd, 5)) {
         LOG(ERROR) << "listen error";
         return;
     }
+
+    LOG(INFO) << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
 
     go [&] {
         for(;;) {
@@ -46,6 +47,9 @@ void GateServer::run() {
                 LOG(ERROR) << "accept error";
                 return;
             }
+
+            LOG(INFO) << "accept success, fd " << fd;
+
             auto session = std::make_shared<GateSession>(fd);
             m_sessions[fd] = session;
             session->run();
@@ -68,6 +72,7 @@ void GateServer::init() {
     m_ip = root.get<std::string>("ip");
     m_port = root.get<int>("port");
 
+    m_rpcManager = std::make_shared<RpcManager>(m_type);
     m_rpcManager->init(file);
 }
 

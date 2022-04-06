@@ -107,7 +107,7 @@ public:
     }
 
     template<typename T>
-    void writeBack(const T* data, size_t count = 1) {
+    void writeBack(const T* data, size_t count) {
         // static_assert(std::is_trivially_copyable<T>::value, "type T must be trivially copyable");
         if (nullptr == data || 0 == count) {
             return;
@@ -160,6 +160,19 @@ public:
     }
 
     size_t seek(int offset, seek_origin s =seek_origin::Current) noexcept {
+        switch (s) {
+            case seek_origin::Begin:
+                m_readPos = offset;
+                break;
+            case seek_origin::Current:
+                m_readPos += offset;
+                if (m_readPos > m_writePos) {
+                    m_readPos = m_writePos;
+                }
+                break;
+            default:
+                break;
+        }
         return m_readPos;
     }
 
@@ -169,6 +182,27 @@ public:
     }
 
     pointer prepare(size_t need) {
+        if (writeAbleSize() >= need) {
+            return m_data + m_writePos;
+        }
+        if (writeAbleSize() + m_readPos < need + m_headRerved) {
+            auto required_size = m_writePos + need;
+            required_size = nextPow2(required_size);
+            auto tmp = m_allocator.allocate(required_size);
+            if (nullptr != m_data) {
+                std::memcpy(tmp, m_data, m_writePos);
+                m_allocator.deallocate(m_data, m_capacity);
+            }
+            m_data = tmp;
+            m_capacity = required_size;
+        } else {
+            size_t readable = size();
+            if (0 != readable) {
+                std::memmove(m_data + m_headRerved, m_data + m_readPos, readable);
+            }
+            m_readPos = m_headRerved;
+            m_writePos = m_readPos + readable;
+        }
         return (m_data + m_writePos);
     }
 

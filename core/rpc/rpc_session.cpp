@@ -17,7 +17,6 @@ namespace Eayew {
 RpcSession::RpcSession(const std::string& ip, int port)
     : m_ip(ip)
     , m_port(port) {
-    m_message = std::make_shared<Message>();
 }
 
 void RpcSession::run() {
@@ -36,32 +35,35 @@ void RpcSession::sync_write(std::string& buffer) {
     write(m_fd, msg->data(), msg->size());
 }
 
-void RpcSession::sync_write(uint32_t sender_id, uint32_t received_id, uint32_t role_id,
-                uint32_t session_id, std::string& buf) {
-    Message::ptr msg;
-    msg->setSender(sender_id);
-    msg->setReceiver(received_id);
-    msg->setRoleId(role_id);
-    msg->setSessionId(session_id);
-    msg->writeData(buf);
-    write(m_fd, msg->data(), msg->size());
+void RpcSession::sync_write(uint32_t session_id, std::string& buf) {
+    Message msg;
+    msg.setSender(senderType());
+    msg.setReceiver(receiverType());
+    msg.setRoleId(0);
+    msg.setSessionId(session_id);
+    msg.writeData(buf);
+    write(m_fd, msg.data(), msg.size());
 }
 
 void RpcSession::sync_connect() {
-    int port = 9030;
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_port = htons(m_port);
+    addr.sin_addr.s_addr = inet_addr(m_ip.data());
     if (-1 == connect(m_fd, (sockaddr*)&addr, sizeof(addr))) {
-        LOG(ERROR) << "connect fail, port " << port;
+        LOG(ERROR) << "connect fail, port " << m_port;
         return;
     }
-    m_message->setSender(senderType());
-    m_message->setReceiver(receiverType());
-    m_message->writeData("");
-    write(m_fd, m_message->data(), m_message->size());
+
+    LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
+
+    Message msg;
+    msg.setSender(senderType());
+    msg.setReceiver(receiverType());
+    msg.writeData("");
+    LOG(INFO) << "msg " << msg.data() << " size " << msg.size();
+    write(m_fd, msg.data(), msg.size());
 }
 
 void RpcSession::sync_read() {

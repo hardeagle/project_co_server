@@ -12,6 +12,10 @@
 
 namespace Eayew {
 
+RpcManager::RpcManager(int type)
+    : m_type(type) { 
+}
+
 RpcSession::ptr RpcManager::getClient(int type) {
     return m_rpcSessions[type].begin()->second;
 }
@@ -35,6 +39,8 @@ void RpcManager::init(const std::string& file) {
         auto num = node.second.get<int>("num");
         for (int i = 0; i < num; ++i) {
             auto rs = std::make_shared<RpcSession>(ip, port);
+            rs->senderType(this->type());
+            rs->receiverType(type);
             rs->run();
             m_rpcSessions[type][rs->fd()] = rs;
         }
@@ -52,15 +58,12 @@ void RpcManager::call(int type, std::string& req) {
 
 void RpcManager::call(int type, std::string& req, std::string& rsp) {
     int rpc_id = nextRpcId();
-    {
-        RpcSession::ptr rs = getClient(type);
-        if (!rs) {
-            LOG(ERROR) << "getClient fail";
-            return;
-        }
-
-        //rs->sync_write(rpc_id, req);
+    RpcSession::ptr rs = getClient(type);
+    if (!rs) {
+        LOG(ERROR) << "getClient fail";
+        return;
     }
+    rs->sync_write(rpc_id, req);
 
     co_chan<std::string> channel;
     m_channels[rpc_id] = channel;

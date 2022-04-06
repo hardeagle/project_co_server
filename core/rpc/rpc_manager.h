@@ -16,6 +16,10 @@ class RpcManager {
 public:
     using ptr = std::shared_ptr<RpcManager>;
 
+    RpcManager(int type);
+
+    int type() const { return m_type; }
+
     void init(const std::string& file);
 
     void call(int type, std::string& req);
@@ -30,6 +34,8 @@ private:
     int nextRpcId();
 
 private:
+    int m_type;
+
     std::atomic<int> m_rpcId;
 
     std::unordered_map<int, std::unordered_map<int, std::shared_ptr<RpcSession> > > m_rpcSessions;

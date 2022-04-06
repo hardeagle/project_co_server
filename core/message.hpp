@@ -21,30 +21,38 @@ public:
         return std::make_shared<buffer>();
     }
 
-    void setSender(uint32_t sender_id) {
+    Message() {
+        m_data = std::make_shared<buffer>();
+    }
 
+    void setSender(uint32_t sender_id) {
+        m_senderId = sender_id;
     }
 
     void setReceiver(uint32_t recevier_id) {
-
+        m_receiverId = recevier_id;
     }
 
     void setRoleId(uint32_t role_id) {
-
+        m_roleId = role_id;
     }
 
     void setSessionId(uint32_t session_id) {
-
+        m_sessionId = session_id;
     }
 
     void writeData(std::string_view sv) {
         uint32_t length = 20 + sv.size();
-        m_data->writeBack(length);
-        m_data->writeBack(m_senderId);
-        m_data->writeBack(m_receiverId);
-        m_data->writeBack(m_roleId);
-        m_data->writeBack(m_sessionId);
+        m_data->writeBack(&length, 1);
+        m_data->writeBack(&m_senderId, 1);
+        m_data->writeBack(&m_receiverId, 1);
+        m_data->writeBack(&m_roleId, 1);
+        m_data->writeBack(&m_sessionId, 1);
         m_data->writeBack(sv.data(), sv.size());
+    }
+
+    buffer_ptr getBuffer() {
+        return m_data;
     }
 
     const char* data() const {

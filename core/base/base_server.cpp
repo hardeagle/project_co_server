@@ -37,21 +37,22 @@ void BaseServer::run() {
 
     beforeRun();
 
-    int port = 9013;
-
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_port = htons(m_port);
+    addr.sin_addr.s_addr = inet_addr(m_ip.data());
     socklen_t len = sizeof(addr);
     if (-1 == bind(m_fd, (sockaddr*)&addr, len)) {
-        LOG(ERROR) << "bind fail, port " << port;
+        LOG(ERROR) << "bind fail, port " << m_port;
         return;
     }
     if (-1 == listen(m_fd, 5)) {
         LOG(ERROR) << "listen fail";
+        return;
     }
+
+    LOG(INFO) << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
 
     go [&] {
         for(;;) {
@@ -63,19 +64,23 @@ void BaseServer::run() {
                 LOG(ERROR) << "accept error";
                 return;
             }
-            const int len = 24;
+
+            const int len = 20;
             char buf[len];
             int rlen = read(fd, buf, len);
             if (rlen != len) {
-                LOG(ERROR) << "Invalid rpc connect";
+                LOG(ERROR) << "Invalid rpc connect, rlen " << rlen;
                 continue;
             }
-            int sender_type;
-            int receiver_type;
+            int sender_type = *((int*)&buf[4]);
+            int receiver_type = *((int*)&buf[8]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
                 continue;
             }
+
+            LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
+
             auto ss = std::make_shared<RpcServerSession>(fd);
             ss->senderType(sender_type);
             ss->receiverType(receiver_type);
@@ -106,6 +111,7 @@ void BaseServer::initRpc(const std::string& file) {
     m_ip = root.get<std::string>("ip");
     m_port = root.get<int>("port");
 
+    m_rpcManager = std::make_shared<RpcManager>(m_type);
     m_rpcManager->init(file);
 }
 

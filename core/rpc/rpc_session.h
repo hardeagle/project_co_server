@@ -28,8 +28,7 @@ public:
 
     void sync_write(std::string& buf);
 
-    void sync_write(uint32_t sender_id, uint32_t received_id, uint32_t role_id,
-                    uint32_t session_id, std::string& buf);
+    void sync_write(uint32_t session_id, std::string& buf);
 
 private:
     void sync_connect();
@@ -45,8 +44,6 @@ private:
 
     int m_id;
     int m_fd;
-
-    std::shared_ptr<Message> m_message;
 
     std::shared_ptr<RpcManager> m_rpcManager;
 };

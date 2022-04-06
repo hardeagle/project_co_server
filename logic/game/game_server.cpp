@@ -12,5 +12,5 @@ void GameServer::beforeRun() {
 }
 
 void GameServer::initServlet() {
-    servlet()->addServlet(0,  10, nullptr);
+    //servlet()->addServlet(0,  10, nullptr);
 }
