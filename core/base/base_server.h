@@ -7,6 +7,7 @@
 namespace Eayew {
 
 class BaseRoutine;
+class GateServerSession;
 class RpcServerSession;
 class RpcManager;
 class ServletDispatchRange;
@@ -21,7 +22,9 @@ public:
 
     void run();
 
-    void dispatch(std::string& msg);
+    void gateDispatch(std::string& msg);
+
+    void rpcDispatch(std::string& msg);
 
     void initByConfig(const std::string& file);
 
@@ -44,7 +47,9 @@ private:
 
     std::shared_ptr<ServletDispatchRange> m_servlet;
 
-    std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcServerSessions;
+    std::unordered_map<int, std::shared_ptr<GateServerSession> > m_gateSessions;
+
+    std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
 
     std::unordered_map<int, std::shared_ptr<BaseRoutine> > m_baseRoutines;
 };

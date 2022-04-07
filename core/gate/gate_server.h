@@ -7,15 +7,17 @@
 namespace Eayew {
 
 class GateSession;
-class RpcManager;
+class GatePeerSession;
 
 class GateServer {
 public:
     using ptr = std::shared_ptr<GateServer>;
 
+    int type() const { return m_type; }
+
     void run();
 
-    std::shared_ptr<RpcManager> rpcManager();
+    void dispatch(std::string& buf);
 
 private:
     void init();
@@ -27,9 +29,8 @@ private:
     std::string m_ip;
     std::string m_name;
 
-    std::shared_ptr<RpcManager> m_rpcManager;
-
     std::unordered_map<int, std::shared_ptr<GateSession> > m_sessions;
+    std::unordered_map<int, std::shared_ptr<GatePeerSession> > m_peerSessions;
 };
 
 }

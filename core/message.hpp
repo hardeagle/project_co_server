@@ -17,6 +17,8 @@ class Message final {
 public:
     using ptr = std::shared_ptr<Message>;
 
+    static const int HEAD_LEN = 16;
+
     static buffer_ptr createBuffer(size_t capacity = 64, uint32_t head_reserved = BuFFER_HEAD_RESERVED) {
         return std::make_shared<buffer>();
     }
@@ -25,29 +27,29 @@ public:
         m_data = std::make_shared<buffer>();
     }
 
-    void setSender(uint32_t sender_id) {
+    void setSender(uint16_t sender_id) {
         m_senderId = sender_id;
     }
 
-    void setReceiver(uint32_t recevier_id) {
+    void setReceiver(uint16_t recevier_id) {
         m_receiverId = recevier_id;
-    }
-
-    void setRoleId(uint32_t role_id) {
-        m_roleId = role_id;
     }
 
     void setSessionId(uint32_t session_id) {
         m_sessionId = session_id;
     }
 
+    void setMsgId(uint32_t msg_id) {
+        m_msgId = msg_id;
+    }
+
     void writeData(std::string_view sv) {
-        uint32_t length = 20 + sv.size();
+        uint32_t length = HEAD_LEN + sv.size();
         m_data->writeBack(&length, 1);
         m_data->writeBack(&m_senderId, 1);
         m_data->writeBack(&m_receiverId, 1);
-        m_data->writeBack(&m_roleId, 1);
         m_data->writeBack(&m_sessionId, 1);
+        m_data->writeBack(&m_msgId, 1);
         m_data->writeBack(sv.data(), sv.size());
     }
 
@@ -63,23 +65,52 @@ public:
         return m_data ? m_data->size() : 0;
     }
 
+    bool isValid() {
+        if (size() < HEAD_LEN) {
+            return false;
+        }
+        int len = *((uint32_t*)(m_data->data()));
+        if (len != size()) {
+            return false;
+        }
+        return true;
+    }
+
+    uint16_t senderId() {
+        return *((uint32_t*)(m_data->data() + 4));
+    }
+
+    uint16_t receiverId() {
+        return *((uint32_t*)(m_data->data() + 6));
+    }
+
+    uint16_t sessionId() {
+        return *((uint32_t*)(m_data->data() + 8));
+    }
+
+    uint16_t msgId() {
+        return *((uint32_t*)(m_data->data() + 12));
+    }
+
+    void consumeHead() {
+        m_data->consume(HEAD_LEN);
+    }
+
     void reset() {
-        m_type = 0;
         m_senderId = 0;
         m_receiverId = 0;
-        m_roleId = 0;
         m_sessionId = 0;
+        m_msgId = 0;
         if (m_data) {
             m_data->clear();
         }
     }
 
 private:
-    uint8_t m_type = 0;
-    uint32_t m_senderId = 0;
-    uint32_t m_receiverId = 0;
-    uint32_t m_roleId = 0;
+    uint16_t m_senderId = 0;
+    uint16_t m_receiverId = 0;
     uint32_t m_sessionId = 0;
+    uint32_t m_msgId = 0;
     buffer_ptr m_data;
 };
 

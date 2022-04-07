@@ -1,4 +1,4 @@
-#include "rpc_session.h"
+#include "gate_peer_session.h"
 
 #include <unistd.h>
 #include <sys/socket.h>
@@ -10,41 +10,33 @@
 
 #include "core/message.hpp"
 
-#include "rpc_manager.h"
+#include "gate_server.h"
 
 namespace Eayew {
 
-RpcSession::RpcSession(const std::string& ip, int port)
+GatePeerSession::GatePeerSession(const std::string& ip, int port)
     : m_ip(ip)
     , m_port(port) {
 }
 
-void RpcSession::run() {
+void GatePeerSession::run() {
     sync_connect();
 
     go [this, self = shared_from_this()] {
         sync_read();
     };
-
-    //go std::bind(&RpcSession::sync_read, shared_from_this());
 }
 
-void RpcSession::sync_write(std::string& buffer) {
-    Message::ptr msg;
-    msg->writeData(buffer);
-    write(m_fd, msg->data(), msg->size());
-}
-
-void RpcSession::sync_write(uint32_t session_id, std::string& buf) {
+void GatePeerSession::sync_write(std::string& buffer) {
     Message msg;
     msg.setSender(senderType());
     msg.setReceiver(receiverType());
-    msg.setSessionId(session_id);
-    msg.writeData(buf);
+    msg.setSessionId(0);
+    msg.writeData(buffer);
     write(m_fd, msg.data(), msg.size());
 }
 
-void RpcSession::sync_connect() {
+void GatePeerSession::sync_connect() {
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in addr;
     addr.sin_family = AF_INET;
@@ -65,8 +57,8 @@ void RpcSession::sync_connect() {
     write(m_fd, msg.data(), msg.size());
 }
 
-void RpcSession::sync_read() {
-    while (true) {
+void GatePeerSession::sync_read() {
+    for (;;) {
         const int head_len = 4;
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
@@ -83,7 +75,7 @@ void RpcSession::sync_read() {
         }
         // parse
         std::string body;
-        m_rpcManager->dispatch(body);
+        m_gateServer->dispatch(body);
     }
 }
 

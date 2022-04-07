@@ -14,6 +14,7 @@
 #include "log/glog.h"
 
 #include "gate_session.h"
+#include "gate_peer_session.h"
 
 namespace Eayew {
 
@@ -51,7 +52,7 @@ void GateServer::run() {
             LOG(INFO) << "accept success, fd " << fd;
 
             auto session = std::make_shared<GateSession>(fd);
-            m_sessions[fd] = session;
+            m_sessions[session->id()] = session;
             session->run();
         }
     };
@@ -59,8 +60,8 @@ void GateServer::run() {
     co_sched.Start();
 }
 
-RpcManager::ptr GateServer::rpcManager() {
-    return m_rpcManager;
+void GateServer::dispatch(std::string& buf) {
+
 }
 
 void GateServer::init() {
@@ -72,8 +73,22 @@ void GateServer::init() {
     m_ip = root.get<std::string>("ip");
     m_port = root.get<int>("port");
 
-    m_rpcManager = std::make_shared<RpcManager>(m_type);
-    m_rpcManager->init(file);
+    boost::property_tree::ptree servers = root.get_child("servers");
+    BOOST_FOREACH (boost::property_tree::ptree::value_type& node, servers) {
+        auto name = node.second.get<std::string>("name");
+        auto type = node.second.get<int>("type");
+        auto ip = node.second.get<std::string>("ip");
+        auto port = node.second.get<int>("port");
+        auto num = node.second.get<int>("num");
+        num = 1;
+        for (int i = 0; i < num; ++i) {
+            auto gps = std::make_shared<GatePeerSession>(ip, port);
+            gps->senderType(this->type());
+            gps->receiverType(type);
+            gps->run();
+            m_peerSessions[type] = gps;
+        }
+    }
 }
 
 }

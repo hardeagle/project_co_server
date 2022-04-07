@@ -11,8 +11,11 @@
 
 namespace Eayew {
 
+std::atomic<int> GateSession::s_id = 1;
+
 GateSession::GateSession(int fd)
     : m_fd(fd) {
+    m_id = ++s_id;
 }
 
 void GateSession::run() {
@@ -25,7 +28,7 @@ void GateSession::operator<<(std::string& buffer) {
 }
 
 void GateSession::sync_read() {
-    while (true) {
+    for(;;) {
         const int head_len = 4;
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
@@ -40,19 +43,15 @@ void GateSession::sync_read() {
             LOG(ERROR) << "invalid body length";
             return;
         }
-        int type;
-        std::string req;
-        std::string rsp;
-        m_gateServer->rpcManager()->call(type, req);
-
-        write(m_fd, rsp.data(), rsp.size());
     }
 }
 
 void GateSession::sync_write() {
-    std::string buffer;
-    m_rChannel >> buffer;
-    write(m_fd, buffer.data(), buffer.size());
+    for (;;) {
+        std::string buffer;
+        m_rChannel >> buffer;
+        write(m_fd, buffer.data(), buffer.size());
+    }
 }
 
 }

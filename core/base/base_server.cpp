@@ -11,6 +11,7 @@
 #include "log/glog.h"
 
 #include "base_routine.h"
+#include "gate_server_session.h"
 #include "rpc_server_session.h"
 
 namespace Eayew {
@@ -81,18 +82,31 @@ void BaseServer::run() {
 
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
-            auto ss = std::make_shared<RpcServerSession>(fd);
-            ss->senderType(sender_type);
-            ss->receiverType(receiver_type);
-            m_rpcServerSessions[sender_type] = ss;
-            ss->run();
+            if (1 == sender_type) {
+                auto ss = std::make_shared<GateServerSession>(fd);
+                ss->senderType(sender_type);
+                ss->receiverType(receiver_type);
+                m_gateSessions[sender_type] = ss;
+                ss->run();
+            } else {
+                auto ss = std::make_shared<RpcServerSession>(fd);
+                ss->senderType(sender_type);
+                ss->receiverType(receiver_type);
+                m_rpcSessions[sender_type] = ss;
+                ss->run();
+            }
+
         }
     };
 
     co_sched.Start();
 }
 
-void BaseServer::dispatch(std::string& msg) {
+void BaseServer::gateDispatch(std::string& msg) {
+    
+}
+
+void BaseServer::rpcDispatch(std::string& msg) {
     int id;
     std::string buffer;
     std::unordered_map<int, BaseRoutine::ptr>::iterator it = m_baseRoutines.find(id);

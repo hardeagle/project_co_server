@@ -1,6 +1,7 @@
 #ifndef __CORE_GATE_GATE_SESSION_H__
 #define __CORE_GATE_GATE_SESSION_H__
 
+#include <atomic>
 #include <memory>
 
 #include <libgo/libgo.h>
@@ -14,6 +15,8 @@ public:
     using ptr = std::shared_ptr<GateSession>;
 
     GateSession(int fd);
+
+    int id() const { return m_id; }
 
     void setGateServer(std::shared_ptr<GateServer> gate_server);
 
@@ -32,6 +35,8 @@ private:
     std::shared_ptr<GateServer> m_gateServer;
 
     co_chan<std::string> m_rChannel;
+
+    static std::atomic<int> s_id;
 };
 
 }

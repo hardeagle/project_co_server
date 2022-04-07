@@ -1,7 +1,9 @@
-#include "rpc_server_session.h"
+#include "gate_server_session.h"
 
 #include <functional>
 #include <string>
+
+#include <libgo/libgo.h>
 
 #include "log/glog.h"
 
@@ -9,31 +11,28 @@
 
 namespace Eayew {
 
-RpcServerSession::RpcServerSession(int fd)
+GateServerSession::GateServerSession(int fd)
     : m_fd(fd) {
 }
 
-void RpcServerSession::run() {
-    go std::bind(&RpcServerSession::sync_read, shared_from_this());
+void GateServerSession::run() {
+    go [this, self = shared_from_this()] {
+        sync_read();
+    };
 }
 
-void RpcServerSession::operator<<(std::string& buffer) {
-
-}
-
-void RpcServerSession::setBaseServer(BaseServer::ptr base_server) {
+void GateServerSession::setBaseServer(BaseServer::ptr base_server) {
     m_baseServer = base_server;
 }
 
-
-void RpcServerSession::sync_read() {
-    while (true) {
+void GateServerSession::sync_read() {
+    for (;;) {
         const int head_len = 4;
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
         if (rlen != head_len) {
             LOG(ERROR) << "Invalid head length";
-            return;
+            return; // 异常待处理
         }
         int body_len = 0;
         char body_buf[2048];
@@ -44,13 +43,14 @@ void RpcServerSession::sync_read() {
         }
         // parse
         std::string msg;
-        m_baseServer->rpcDispatch(msg);
+        m_baseServer->gateDispatch(msg);
     }
 }
 
-void RpcServerSession::sync_write() {
+void GateServerSession::sync_write() {
     std::string buffer;
     write(m_fd, buffer.data(), buffer.size());
 }
+
 
 }
