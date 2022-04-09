@@ -111,7 +111,7 @@ void BaseServer::rpcDispatch(std::string& msg) {
     std::string buffer;
     std::unordered_map<int, BaseRoutine::ptr>::iterator it = m_baseRoutines.find(id);
     if (it == m_baseRoutines.end()) {
-        m_baseRoutines[id] = std::make_shared<BaseRoutine>();
+        m_baseRoutines[id] = std::make_shared<BaseRoutine>(*this);
         m_baseRoutines[id]->run();
     }
     *(m_baseRoutines[id]) << buffer;

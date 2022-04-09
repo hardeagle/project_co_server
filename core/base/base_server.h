@@ -14,8 +14,6 @@ class ServletDispatchRange;
 
 class BaseServer {
 public:
-    using ptr = std::shared_ptr<BaseServer>;
-
     virtual ~BaseServer() {}
 
     int type() const { return m_type; }
@@ -52,11 +50,6 @@ private:
     std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
 
     std::unordered_map<int, std::shared_ptr<BaseRoutine> > m_baseRoutines;
-};
-
-class Test : public BaseServer {
-public:
-    using ptr = std::shared_ptr<Test>;
 };
 
 }

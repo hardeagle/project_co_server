@@ -21,11 +21,6 @@ void RpcServerSession::operator<<(std::string& buffer) {
 
 }
 
-void RpcServerSession::setBaseServer(BaseServer::ptr base_server) {
-    m_baseServer = base_server;
-}
-
-
 void RpcServerSession::sync_read() {
     while (true) {
         const int head_len = 4;

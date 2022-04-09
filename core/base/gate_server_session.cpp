@@ -21,10 +21,6 @@ void GateServerSession::run() {
     };
 }
 
-void GateServerSession::setBaseServer(BaseServer::ptr base_server) {
-    m_baseServer = base_server;
-}
-
 void GateServerSession::sync_read() {
     for (;;) {
         const int head_len = 4;

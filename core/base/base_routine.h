@@ -7,11 +7,13 @@
 
 namespace Eayew {
 
-class Servlet;
+class BaseServer;
 
 class BaseRoutine {
 public:
     using ptr = std::shared_ptr<BaseRoutine>;
+
+    BaseRoutine(BaseServer& server);
 
     int id() const { return m_id; }
 
@@ -25,7 +27,7 @@ private:
     int m_id;
     int m_fd;
 
-    std::shared_ptr<Servlet> m_servlet;
+    BaseServer& m_server;
 
     co_chan<std::string> m_rChannel;
 };

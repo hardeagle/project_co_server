@@ -25,8 +25,6 @@ public:
 
     void operator<<(std::string& buffer);
 
-    void setBaseServer(std::shared_ptr<BaseServer> base_server);
-
 private:
     void sync_read();
     void sync_write();

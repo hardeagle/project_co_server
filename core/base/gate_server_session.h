@@ -21,8 +21,6 @@ public:
 
     void run();
 
-    void setBaseServer(std::shared_ptr<BaseServer> base_server);
-
     void sync_read();
     void sync_write();
 
