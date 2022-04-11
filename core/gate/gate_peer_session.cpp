@@ -14,9 +14,10 @@
 
 namespace Eayew {
 
-GatePeerSession::GatePeerSession(const std::string& ip, int port)
+GatePeerSession::GatePeerSession(const std::string& ip, int port, GateServer& server)
     : m_ip(ip)
-    , m_port(port) {
+    , m_port(port)
+    , m_gateServer(server) {
 }
 
 void GatePeerSession::run() {
@@ -50,6 +51,7 @@ void GatePeerSession::sync_connect() {
     LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
 
     Message msg;
+    LOG(INFO) << "sender type " << senderType() << " receiver type " << receiverType();
     msg.setSender(senderType());
     msg.setReceiver(receiverType());
     msg.writeData("");
@@ -75,7 +77,7 @@ void GatePeerSession::sync_read() {
         }
         // parse
         std::string body;
-        m_gateServer->dispatch(body);
+        m_gateServer.dispatch(body);
     }
 }
 

@@ -52,6 +52,8 @@ void BaseServer::run() {
         LOG(ERROR) << "listen fail";
         return;
     }
+    int opt = 1;
+    setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     LOG(INFO) << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
 
@@ -73,8 +75,11 @@ void BaseServer::run() {
                 LOG(ERROR) << "Invalid rpc connect, rlen " << rlen;
                 continue;
             }
-            int sender_type = *((int*)&buf[4]);
-            int receiver_type = *((int*)&buf[8]);
+            int body_size = *((int*)buf);
+            LOG(INFO) << "rlen " << rlen;
+            LOG(INFO) << "size " << body_size;
+            uint16_t sender_type = *((uint16_t*)&buf[4]);
+            uint16_t receiver_type = *((uint16_t*)&buf[6]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
                 continue;

@@ -225,6 +225,10 @@ public:
         return std::addressof(*begin());
     }
 
+    pointer wdata() noexcept {
+        return std::addressof(*end());
+    }
+
     size_t size() const noexcept {
         return m_writePos - m_readPos;
     }

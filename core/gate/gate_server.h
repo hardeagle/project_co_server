@@ -15,6 +15,10 @@ public:
 
     int type() const { return m_type; }
 
+    std::shared_ptr<GatePeerSession> getPeerSession(int type);
+
+    std::shared_ptr<GateSession> getSession(int id);
+
     void run();
 
     void dispatch(std::string& buf);

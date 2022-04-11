@@ -9,12 +9,13 @@
 namespace Eayew {
 
 class GateServer;
+class Message;
 
 class GateSession : public std::enable_shared_from_this<GateSession> {
 public:
     using ptr = std::shared_ptr<GateSession>;
 
-    GateSession(int fd);
+    GateSession(int fd, GateServer& server);
 
     int id() const { return m_id; }
 
@@ -32,9 +33,11 @@ private:
     int m_id;
     int m_fd;
 
-    std::shared_ptr<GateServer> m_gateServer;
+    GateServer& m_gateServer;
 
     co_chan<std::string> m_rChannel;
+
+    std::shared_ptr<Message> m_rMessage;
 
     static std::atomic<int> s_id;
 };

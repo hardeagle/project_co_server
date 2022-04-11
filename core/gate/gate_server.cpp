@@ -18,6 +18,16 @@
 
 namespace Eayew {
 
+GatePeerSession::ptr GateServer::getPeerSession(int type) {
+    std::unordered_map<int, GatePeerSession::ptr>::iterator it = m_peerSessions.find(type);
+    return it != m_peerSessions.end() ? it->second : nullptr;
+}
+
+GateSession::ptr GateServer::getSession(int id) {
+    std::unordered_map<int, GateSession::ptr>::iterator it = m_sessions.find(id);
+    return it != m_sessions.end() ? it->second : nullptr;
+}
+
 void GateServer::run() {
     init();
 
@@ -51,7 +61,7 @@ void GateServer::run() {
 
             LOG(INFO) << "accept success, fd " << fd;
 
-            auto session = std::make_shared<GateSession>(fd);
+            auto session = std::make_shared<GateSession>(fd, *this);
             m_sessions[session->id()] = session;
             session->run();
         }
@@ -61,7 +71,13 @@ void GateServer::run() {
 }
 
 void GateServer::dispatch(std::string& buf) {
-
+    int id;
+    auto session = getSession(id);
+    if (!session) {
+        LOG(ERROR) << "Invalid session " << id;
+        return;
+    }
+    (*session) << buf;
 }
 
 void GateServer::init() {
@@ -82,7 +98,8 @@ void GateServer::init() {
         auto num = node.second.get<int>("num");
         num = 1;
         for (int i = 0; i < num; ++i) {
-            auto gps = std::make_shared<GatePeerSession>(ip, port);
+            auto gps = std::make_shared<GatePeerSession>(ip, port, *this);
+            LOG(INFO) << "config self type " << this->type() << " rpc type " << type;
             gps->senderType(this->type());
             gps->receiverType(type);
             gps->run();

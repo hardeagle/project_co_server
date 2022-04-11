@@ -11,17 +11,17 @@ namespace Eayew {
 
 constexpr int BuFFER_HEAD_RESERVED = 14;
 
-// length(4) + sender_id(4) + receiver_id(4) + role_id(4) + session_id(4)
+// length(4) + sender_id(2) + receiver_id(2) + session_id(4) + role_id(4) + mgs_id(4)
 
 class Message final {
 public:
     using ptr = std::shared_ptr<Message>;
 
-    static const int HEAD_LEN = 16;
+    static const int HEAD_LEN = 20;
 
-    static buffer_ptr createBuffer(size_t capacity = 64, uint32_t head_reserved = BuFFER_HEAD_RESERVED) {
-        return std::make_shared<buffer>();
-    }
+    // static buffer_ptr createBuffer(size_t capacity = 64, uint32_t head_reserved = BuFFER_HEAD_RESERVED) {
+    //     return std::make_shared<buffer>();
+    // }
 
     Message() {
         m_data = std::make_shared<buffer>();
@@ -49,6 +49,7 @@ public:
         m_data->writeBack(&m_senderId, 1);
         m_data->writeBack(&m_receiverId, 1);
         m_data->writeBack(&m_sessionId, 1);
+        m_data->writeBack(&m_roleId, 1);
         m_data->writeBack(&m_msgId, 1);
         m_data->writeBack(sv.data(), sv.size());
     }
@@ -59,6 +60,14 @@ public:
 
     const char* data() const {
         return m_data ? m_data->data() : nullptr;
+    }
+
+    char* wbuffer() {
+        return m_data ? m_data->wdata() : nullptr;
+    }
+
+    void commit(size_t n) {
+        m_data->commit(n);
     }
 
     size_t size() const {
@@ -76,6 +85,10 @@ public:
         return true;
     }
 
+    uint32_t length() {
+        return *((uint32_t*)(m_data->data() + 0));
+    }
+
     uint16_t senderId() {
         return *((uint32_t*)(m_data->data() + 4));
     }
@@ -88,8 +101,12 @@ public:
         return *((uint32_t*)(m_data->data() + 8));
     }
 
-    uint16_t msgId() {
+    uint32_t roleId() {
         return *((uint32_t*)(m_data->data() + 12));
+    }
+
+    uint32_t msgId() {
+        return *((uint32_t*)(m_data->data() + 16));
     }
 
     void consumeHead() {
@@ -100,6 +117,7 @@ public:
         m_senderId = 0;
         m_receiverId = 0;
         m_sessionId = 0;
+        m_roleId = 0;
         m_msgId = 0;
         if (m_data) {
             m_data->clear();
@@ -110,6 +128,7 @@ private:
     uint16_t m_senderId = 0;
     uint16_t m_receiverId = 0;
     uint32_t m_sessionId = 0;
+    uint32_t m_roleId = 0;
     uint32_t m_msgId = 0;
     buffer_ptr m_data;
 };

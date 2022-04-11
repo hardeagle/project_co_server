@@ -13,7 +13,7 @@ class GatePeerSession : public std::enable_shared_from_this<GatePeerSession> {
 public:
     using ptr = std::shared_ptr<GatePeerSession>;
 
-    GatePeerSession(const std::string& ip, int port);
+    GatePeerSession(const std::string& ip, int port, GateServer& server);
 
     int fd() const { return m_fd; }
 
@@ -21,7 +21,7 @@ public:
     void senderType(int v) { m_senderType = v; }
 
     int receiverType() const { return m_receiverType; }
-    void receiverType(int v) { m_senderType = v; }
+    void receiverType(int v) { m_receiverType = v; }
 
     void run();
 
@@ -40,7 +40,7 @@ private:
     std::string m_ip;
     int m_port;
 
-    std::shared_ptr<GateServer> m_gateServer;
+    GateServer& m_gateServer;
 };
 
 }
