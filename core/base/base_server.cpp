@@ -6,6 +6,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/servlet.h"
 #include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
@@ -15,6 +16,10 @@
 #include "rpc_server_session.h"
 
 namespace Eayew {
+
+BaseServer::BaseServer() {
+    m_servlet = std::make_shared<ServletDispatchRange>();
+}
 
 void BaseServer::run() {
 
@@ -82,7 +87,7 @@ void BaseServer::run() {
             uint16_t receiver_type = *((uint16_t*)&buf[6]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
-                continue;
+                continue;                                                                             
             }
 
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;

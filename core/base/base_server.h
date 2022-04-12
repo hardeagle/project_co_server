@@ -14,6 +14,8 @@ class ServletDispatchRange;
 
 class BaseServer {
 public:
+    BaseServer();
+
     virtual ~BaseServer() {}
 
     int type() const { return m_type; }
