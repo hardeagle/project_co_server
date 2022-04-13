@@ -48,14 +48,15 @@ void GateSession::sync_read() {
         //     return;
         // }
 
-        m_rMessage.reset();
+        m_rMessage->clear();
         const int head_len = 4;
         int rlen = read(m_fd, m_rMessage->wbuffer(), head_len);
         if (rlen != head_len) {
             LOG(ERROR) << "Invalid head length, rlen " << rlen;
             return;
         }
-        int body_len = m_rMessage->length();
+        m_rMessage->commit(head_len);
+        int body_len = m_rMessage->length() - head_len;
         rlen = read(m_fd, m_rMessage->wbuffer(), body_len);
         if (rlen != body_len) {
             LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;

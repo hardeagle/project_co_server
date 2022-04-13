@@ -113,7 +113,7 @@ void BaseServer::run() {
 }
 
 void BaseServer::gateDispatch(std::string& msg) {
-    
+    LOG(INFO) << "gateDispatch size " << msg.size();
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {

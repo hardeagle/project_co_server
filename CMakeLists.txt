@@ -33,6 +33,9 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank RANK_SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/task TASK_SRC_LIST)
 
 
+# test
+aux_source_directory(${PROJECT_SOURCE_DIR}/test TEST_SRC_LIST)
+
 
 #set(CMAKE_CXX_FLAGS "-std=c++2a -g -O0 ${CMAKE_CXX_FLAGS}")
 set(CMAKE_CXX_FLAGS "-std=c++17 -g -O0 ${CMAKE_CXX_FLAGS}")
@@ -44,9 +47,10 @@ add_executable(game_server main_game.cpp ${SRC_LIST} ${GAME_SRC_LIST})
 add_executable(login_server main_login.cpp ${SRC_LIST} ${LOGIN_SRC_LIST})
 add_executable(gate_server main_gate.cpp ${SRC_LIST})
 add_executable(rank_server main_rank.cpp ${SRC_LIST} ${RANK_SRC_LIST})
+add_executable(test main_test.cpp ${SRC_LIST} ${TEST_SRC_LIST})
 
 
-set(exes co_server chat_server game_server login_server gate_server rank_server)
+set(exes co_server chat_server game_server login_server gate_server rank_server test)
 FOREACH(exe ${exes})
     target_link_libraries(${exe} -ldl)
     target_link_libraries(${exe} -lglog)

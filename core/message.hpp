@@ -113,7 +113,7 @@ public:
         m_data->consume(HEAD_LEN);
     }
 
-    void reset() {
+    void clear() {
         m_senderId = 0;
         m_receiverId = 0;
         m_sessionId = 0;
