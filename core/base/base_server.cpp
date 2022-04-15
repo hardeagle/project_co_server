@@ -6,6 +6,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.hpp"
 #include "core/servlet.h"
 #include "core/rpc/rpc_manager.h"
 
@@ -73,18 +74,18 @@ void BaseServer::run() {
                 return;
             }
 
-            const int len = 20;
+            const int len = Message::HEAD_LEN;
             char buf[len];
             int rlen = read(fd, buf, len);
             if (rlen != len) {
                 LOG(ERROR) << "Invalid rpc connect, rlen " << rlen;
                 continue;
             }
-            int body_size = *((int*)buf);
+            uint16_t body_size = *((uint16_t*)buf);
             LOG(INFO) << "rlen " << rlen;
             LOG(INFO) << "size " << body_size;
-            uint16_t sender_type = *((uint16_t*)&buf[4]);
-            uint16_t receiver_type = *((uint16_t*)&buf[6]);
+            uint16_t sender_type = *((uint16_t*)&buf[2]);
+            uint16_t receiver_type = *((uint16_t*)&buf[4]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
                 continue;                                                                             
@@ -93,7 +94,7 @@ void BaseServer::run() {
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
             if (1 == sender_type) {
-                auto ss = std::make_shared<GateServerSession>(fd);
+                auto ss = std::make_shared<GateServerSession>(fd, *this);
                 ss->senderType(sender_type);
                 ss->receiverType(receiver_type);
                 m_gateSessions[sender_type] = ss;
@@ -113,7 +114,7 @@ void BaseServer::run() {
 }
 
 void BaseServer::gateDispatch(std::string& msg) {
-    LOG(INFO) << "gateDispatch size " << msg.size();
+    LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {

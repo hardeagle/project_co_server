@@ -7,6 +7,7 @@
 
 namespace Eayew {
 
+class Message;
 class GateServer;
 
 class GatePeerSession : public std::enable_shared_from_this<GatePeerSession> {
@@ -25,7 +26,7 @@ public:
 
     void run();
 
-    void sync_write(std::string& buffer);
+    void sync_write(std::shared_ptr<Message> msg);
 
 private:
     void sync_connect();
@@ -39,6 +40,8 @@ private:
 
     std::string m_ip;
     int m_port;
+
+    std::shared_ptr<Message> m_rMessage;
 
     GateServer& m_gateServer;
 };

@@ -13,8 +13,9 @@
 
 namespace Eayew {
 
-GateServerSession::GateServerSession(int fd)
-    : m_fd(fd) {
+GateServerSession::GateServerSession(int fd, BaseServer& server)
+    : m_fd(fd)
+    , m_baseServer(server) {
 }
 
 void GateServerSession::run() {
@@ -25,9 +26,9 @@ void GateServerSession::run() {
 
 void GateServerSession::sync_read() {
     for (;;) {
-        const int head_len = 4;
+        auto head_len = Message::LEN_SIZE;
         Message msg;
-        int rlen = read(m_fd, msg.wbuffer(), head_len);
+        auto rlen = read(m_fd, msg.wbuffer(), head_len);
         if (rlen != head_len) {
             LOG(ERROR) << "Invalid head length, rlen " << rlen;
             return;
@@ -41,25 +42,12 @@ void GateServerSession::sync_read() {
         }
         msg.commit(body_len);
         std::string data(msg.data(), msg.size());
-        m_baseServer->gateDispatch(data);
+        m_baseServer.gateDispatch(data);
 
-        // const int head_len = 4;
-        // char head_buf[head_len];
-        // int rlen = read(m_fd, head_buf, head_len);
-        // if (rlen != head_len) {
-        //     LOG(ERROR) << "Invalid head length";
-        //     return; // 异常待处理
-        // }
-        // int body_len = 0;
-        // char body_buf[2048];
-        // rlen = read(m_fd, body_buf, body_len);
-        // if (rlen != body_len) {
-        //     LOG(ERROR) << "Invalid body length";
-        //     return;
-        // }
-        // // parse
-        // std::string msg;
-        // m_baseServer->gateDispatch(msg);
+        {
+            std::string res(msg.data(), msg.size());
+            write(m_fd, res.data(), res.size());
+        }
     }
 }
 

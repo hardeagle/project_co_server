@@ -18,7 +18,7 @@ public:
 
     virtual ~BaseServer() {}
 
-    int type() const { return m_type; }
+    uint16_t type() const { return m_type; }
 
     void run();
 

@@ -8,6 +8,7 @@ namespace Eayew {
 
 class GateSession;
 class GatePeerSession;
+class Message;
 
 class GateServer {
 public:
@@ -21,7 +22,7 @@ public:
 
     void run();
 
-    void dispatch(std::string& buf);
+    void dispatch(std::shared_ptr<Message> msg);
 
 private:
     void init();

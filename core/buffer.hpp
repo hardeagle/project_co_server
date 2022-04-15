@@ -178,7 +178,7 @@ public:
 
     void clear() noexcept {
         m_flag = 0;
-        m_writePos = m_readPos = m_headRerved;
+        m_writePos = m_readPos = m_headRerved = 0;
     }
 
     pointer prepare(size_t need) {
@@ -230,6 +230,7 @@ public:
     }
 
     size_t size() const noexcept {
+        LOG(INFO) << " m_writePos " << m_writePos << " m_readPos " << m_readPos;
         return m_writePos - m_readPos;
     }
 

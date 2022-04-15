@@ -23,7 +23,7 @@ void RpcServerSession::operator<<(std::string& buffer) {
 
 void RpcServerSession::sync_read() {
     while (true) {
-        const int head_len = 4;
+        auto head_len = 4;
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
         if (rlen != head_len) {

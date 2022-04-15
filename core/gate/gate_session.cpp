@@ -33,35 +33,23 @@ void GateSession::operator<<(std::string& buffer) {
 
 void GateSession::sync_read() {
     for(;;) {
-        // const int head_len = 4;
-        // char head_buf[head_len];
-        // int rlen = read(m_fd, head_buf, head_len);
-        // if (rlen != head_len) {
-        //     LOG(ERROR) << "invalid head length";
-        //     return;
-        // }
-        // int body_len = 0;
-        // char body_buf[2048];
-        // rlen = read(m_fd, body_buf, body_len);
-        // if (rlen != body_len) {
-        //     LOG(ERROR) << "invalid body length";
-        //     return;
-        // }
-
         m_rMessage->clear();
-        const int head_len = 4;
-        int rlen = read(m_fd, m_rMessage->wbuffer(), head_len);
+        auto head_len = Message::LEN_SIZE;
+        auto rlen = read(m_fd, m_rMessage->wbuffer(), head_len);
         if (rlen != head_len) {
             LOG(ERROR) << "Invalid head length, rlen " << rlen;
             return;
         }
         m_rMessage->commit(head_len);
-        int body_len = m_rMessage->length() - head_len;
+        uint16_t body_len = m_rMessage->length() - head_len;
+        m_rMessage->prepare(body_len);
         rlen = read(m_fd, m_rMessage->wbuffer(), body_len);
         if (rlen != body_len) {
             LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;
             return;
         }
+        m_rMessage->commit(body_len);
+        m_rMessage->forceSetSessionId(id());
 
         uint16_t receiver_id = m_rMessage->receiverId();
         auto session = m_gateServer.getPeerSession(receiver_id);
@@ -69,8 +57,7 @@ void GateSession::sync_read() {
             LOG(ERROR) << "Invalid receiver " << receiver_id;
             continue;
         }
-        std::string buf = std::string(m_rMessage->data(), m_rMessage->size());
-        session->sync_write(buf);
+        session->sync_write(m_rMessage);
     }
 }
 

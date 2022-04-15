@@ -9,6 +9,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.hpp"
 #include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
@@ -70,14 +71,18 @@ void GateServer::run() {
     co_sched.Start();
 }
 
-void GateServer::dispatch(std::string& buf) {
-    int id;
+void GateServer::dispatch(Message::ptr msg) {
+    auto id = msg->sessionId();
     auto session = getSession(id);
+    msg->debugString();
+    LOG(INFO) << "dispatche id " << id;
     if (!session) {
         LOG(ERROR) << "Invalid session " << id;
         return;
     }
-    (*session) << buf;
+    LOG(INFO) << "dispatch id " << id;
+    std::string data(msg->data(), msg->size());
+    (*session) << data;
 }
 
 void GateServer::init() {

@@ -17,7 +17,7 @@ public:
 
     void run();
 
-    void sync_write(uint32_t msg_id, uint16_t receiver_id, std::string& buffer);
+    void sync_write(uint16_t msg_id, uint16_t receiver_id, std::string& buffer);
 
 private:
     void sync_connect();

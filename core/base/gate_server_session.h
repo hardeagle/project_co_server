@@ -11,7 +11,7 @@ class GateServerSession : public std::enable_shared_from_this<GateServerSession>
 public:
     using ptr = std::shared_ptr<GateServerSession>;
 
-    GateServerSession(int fd);
+    GateServerSession(int fd, BaseServer& server);
 
     void senderType(int v) { m_senderType = v; }
     int senderType() const { return m_senderType; }
@@ -31,7 +31,7 @@ private:
     int m_id;
     int m_fd;
 
-    std::shared_ptr<BaseServer> m_baseServer;
+    BaseServer& m_baseServer;
 };
 
 }
