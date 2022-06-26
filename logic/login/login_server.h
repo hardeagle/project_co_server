@@ -7,7 +7,10 @@ class LoginServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<LoginServer>;
 
+protected:
     virtual void beforeRun() override;
+
+    virtual void regAndDiscServer() override;
 
 private:
     void initServlet();

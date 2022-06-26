@@ -18,7 +18,15 @@ public:
 
     virtual ~BaseServer() {}
 
-    uint16_t type() const { return m_type; }
+    int type() const { return m_type; }
+
+    int id() const { return m_id; }
+
+    uint16_t port() const { return m_port; }
+
+    const std::string& ip() { return m_ip; }
+
+    const std::string& name() { return m_name; }
 
     void run();
 
@@ -30,6 +38,8 @@ public:
 
     virtual void beforeRun() {}
 
+    virtual void regAndDiscServer() {}
+
     std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 
     std::shared_ptr<ServletDispatchRange> servlet() { return m_servlet; }
@@ -37,7 +47,7 @@ public:
 private:
     int m_type;
     int m_id;
-    int m_port;
+    uint16_t m_port;
     std::string m_ip;
     std::string m_name;
 

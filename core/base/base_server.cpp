@@ -110,6 +110,8 @@ void BaseServer::run() {
         }
     };
 
+    regAndDiscServer();
+
     co_sched.Start();
 }
 
