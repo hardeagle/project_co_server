@@ -13,6 +13,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/core SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/core/base SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/core/gate SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/core/rpc SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/core/util SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/log SRC_LIST)
 
 # chat server

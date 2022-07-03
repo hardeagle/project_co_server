@@ -28,9 +28,9 @@ private:
     void init();
 
 private:
-    int m_type;
-    int m_id;
-    int m_port;
+    uint16_t m_type;
+    uint16_t m_id;
+    uint16_t m_port;
     std::string m_ip;
     std::string m_name;
 

@@ -15,9 +15,9 @@ class GateSession : public std::enable_shared_from_this<GateSession> {
 public:
     using ptr = std::shared_ptr<GateSession>;
 
-    GateSession(int fd, GateServer& server);
+    GateSession(uint16_t server_id, int fd, GateServer& server);
 
-    int id() const { return m_id; }
+    uint64_t id() const { return m_id; }
 
     void setGateServer(std::shared_ptr<GateServer> gate_server);
 
@@ -30,8 +30,8 @@ private:
     void sync_write();
 
 private:
-    int m_id;
     int m_fd;
+    uint64_t m_id;
 
     GateServer& m_gateServer;
 
@@ -39,7 +39,6 @@ private:
 
     std::shared_ptr<Message> m_rMessage;
 
-    static std::atomic<int> s_id;
 };
 
 }

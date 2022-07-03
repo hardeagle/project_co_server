@@ -5,6 +5,7 @@
 
 #include "core/message.hpp"
 #include "core/rpc/rpc_manager.h"
+#include "core/util/util.h"
 
 #include "log/glog.h"
 
@@ -13,13 +14,13 @@
 
 namespace Eayew {
 
-std::atomic<int> GateSession::s_id = 1;
 
-GateSession::GateSession(int fd, GateServer& server)
+GateSession::GateSession(uint16_t server_id, int fd, GateServer& server)
     : m_fd(fd)
     , m_gateServer(server) {
-    m_id = ++s_id;
+    m_id = (uint64_t(server_id) << 48) + (uint64_t(getCurSecond()) << 16) + (fd & 0xFFFF);
     m_rMessage = std::make_shared<Message>();
+    LOG(INFO) << "Construct GateSession, id " << m_id;
 }
 
 void GateSession::run() {

@@ -50,10 +50,11 @@ namespace LoginProtocol {
 
 enum ID {
   ZERO = 0,
-  C2S_LOGIN_BASE = 1000,
-  C2S_LOGIN_LOAD = 1001,
-  S2C_LOGIN_LOAD = 1002,
-  C2S_LOGIN_TOP = 1099,
+  LOGIN_ID_BASE = 131072,
+  C2S_LOGIN_BASE = 132072,
+  C2S_LOGIN_LOAD = 132073,
+  S2C_LOGIN_LOAD = 132074,
+  C2S_LOGIN_TOP = 133071,
   ID_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   ID_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };

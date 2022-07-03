@@ -62,7 +62,7 @@ void GateServer::run() {
 
             LOG(INFO) << "accept success, fd " << fd;
 
-            auto session = std::make_shared<GateSession>(fd, *this);
+            auto session = std::make_shared<GateSession>(m_id, fd, *this);
             m_sessions[session->id()] = session;
             session->run();
         }

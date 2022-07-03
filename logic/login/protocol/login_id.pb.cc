@@ -50,13 +50,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016login_id.proto\022\rLoginProtocol*a\n\002ID\022\010\n"
-      "\004ZERO\020\000\022\023\n\016C2S_LOGIN_BASE\020\350\007\022\023\n\016C2S_LOGI"
-      "N_LOAD\020\351\007\022\023\n\016S2C_LOGIN_LOAD\020\352\007\022\022\n\rC2S_LO"
-      "GIN_TOP\020\313\010b\006proto3"
+      "\n\016login_id.proto\022\rLoginProtocol*z\n\002ID\022\010\n"
+      "\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOGI"
+      "N_BASE\020\350\207\010\022\024\n\016C2S_LOGIN_LOAD\020\351\207\010\022\024\n\016S2C_"
+      "LOGIN_LOAD\020\352\207\010\022\023\n\rC2S_LOGIN_TOP\020\317\217\010b\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 138);
+      descriptor, 163);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "login_id.proto", &protobuf_RegisterTypes);
 }
@@ -80,10 +81,11 @@ const ::google::protobuf::EnumDescriptor* ID_descriptor() {
 bool ID_IsValid(int value) {
   switch (value) {
     case 0:
-    case 1000:
-    case 1001:
-    case 1002:
-    case 1099:
+    case 131072:
+    case 132072:
+    case 132073:
+    case 132074:
+    case 133071:
       return true;
     default:
       return false;
