@@ -17,7 +17,7 @@ public:
 
     GateSession(uint16_t server_id, int fd, GateServer& server);
 
-    uint64_t id() const { return m_id; }
+    uint32_t id() const { return m_fd; }
 
     void setGateServer(std::shared_ptr<GateServer> gate_server);
 
@@ -31,7 +31,7 @@ private:
 
 private:
     int m_fd;
-    uint64_t m_id;
+    uint32_t m_id;
 
     GateServer& m_gateServer;
 

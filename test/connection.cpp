@@ -27,6 +27,7 @@ void Connection::sync_write(uint16_t msg_id, uint16_t receiver_id, std::string& 
     msg.setSender(1);
     msg.setReceiver(receiver_id);
     msg.setSessionId(0);
+    msg.setMsgId(msg_id);
     msg.writeData(buffer);
     LOG(INFO) << "receiver id " << msg.receiverId();
     write(m_fd, msg.data(), msg.size());

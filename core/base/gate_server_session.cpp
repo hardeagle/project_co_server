@@ -41,8 +41,11 @@ void GateServerSession::sync_read() {
             return;
         }
         msg.commit(body_len);
+
+        msg.debugString();
+
         std::string data(msg.data(), msg.size());
-        m_baseServer.gateDispatch(data);
+        m_baseServer.gateDispatch(std::move(data));
 
         {
             std::string res(msg.data(), msg.size());

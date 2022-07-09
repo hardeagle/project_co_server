@@ -2,6 +2,8 @@
 
 #include "log/glog.h"
 
+#include "message.hpp"
+
 static int count = 0;
 
 namespace Eayew {

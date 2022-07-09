@@ -17,6 +17,7 @@ namespace Eayew {
 
 GateSession::GateSession(uint16_t server_id, int fd, GateServer& server)
     : m_fd(fd)
+    , m_rChannel(1024)
     , m_gateServer(server) {
     m_id = (uint64_t(server_id) << 48) + (uint64_t(getCurSecond()) << 16) + (fd & 0xFFFF);
     m_rMessage = std::make_shared<Message>();

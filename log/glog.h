@@ -6,6 +6,8 @@
 
 #include <glog/logging.h>
 
+#include <jemalloc/jemalloc.h>
+
 static void SignalHandle(const char *data, size_t size) {
 	//std::ofstreamfs("glog_dump.log", std::ios::app);
 	std::string str = std::string(data, size);

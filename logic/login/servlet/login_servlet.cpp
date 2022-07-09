@@ -17,6 +17,6 @@ bool LoginServlet::doRequest(std::string& buffer) {
 }
 
 void LoginServlet::doLoad(std::string& buffer) {
-
+    LOG(INFO) << "doLoad, buffer " << buffer;
 }
 

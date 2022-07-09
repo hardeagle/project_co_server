@@ -4,6 +4,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
+#include <jemalloc/jemalloc.h>
+
 #include <libgo/libgo.h>
 
 #include "log/glog.h"
@@ -12,6 +14,8 @@
 
 #include <core/util/util.h>
 
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
 int main(int argc, char* argv[]) {
     GLog glog(argv[0]);
@@ -40,12 +44,60 @@ int main(int argc, char* argv[]) {
     //     LOG(ERROR) << "num: " << num;
     // }
 
-    time_t t = time(NULL);
-    LOG(WARNING) << "t " << t;
+    // time_t t = time(NULL);
+    // LOG(WARNING) << "t " << t;
 
-    LOG(INFO) << "cur time " << Eayew::getCurSecond();
+    // LOG(INFO) << "cur time " << Eayew::getCurSecond();
 
-    co_sched.Start();
+    std::string m_ip = "127.0.0.1";
+    auto m_port = 9001;
+
+    int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    int opt = 1;
+    setsockopt(accept_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(m_port);
+    addr.sin_addr.s_addr = inet_addr(m_ip.data());
+    socklen_t len = sizeof(addr);
+    if (-1 == bind(accept_fd, (sockaddr*)&addr, len)) {
+        LOG(ERROR) << "bind error, port " << m_port;
+        return 0;
+    }
+    if (-1 == listen(accept_fd, 2048)) {
+        LOG(ERROR) << "listen error";
+        return 0;
+    }
+
+    //std::list<int> fds;
+
+    //co_opt.debug = 32;
+
+    go [&] {
+        for(;;) {
+            int fd = accept(accept_fd, (sockaddr*)&addr, &len);
+            if (-1 == fd) {
+                if (EAGAIN == errno || EINTR == errno) {
+                    continue;
+                }
+                LOG(ERROR) << "accept error";
+                return;
+            }
+
+            LOG(INFO) << "accept success, fd " << fd;
+            //fds.push_back(fd);
+
+            // auto session = std::make_shared<GateSession>(m_id, fd, *this);
+            // m_sessions[session->id()] = session;
+            // session->run();
+
+            //co::CoDebugger::getInstance().GetAllInfo().c_str();
+        }
+    };
+
+    co_sched.Start(8, 8);
 
     LOG(INFO) << "---end---";
 

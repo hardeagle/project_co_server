@@ -30,7 +30,7 @@ public:
 
     void run();
 
-    void gateDispatch(std::string& msg);
+    void gateDispatch(std::string&& msg);
 
     void rpcDispatch(std::string& msg);
 

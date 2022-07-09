@@ -15,7 +15,7 @@ public:
 
     Nats(std::string& ip, uint16_t port);
 
-    void init();
+    bool init();
 
     void publish();
 

@@ -33,6 +33,10 @@ void GateServer::run() {
     init();
 
     int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    int opt = 1;
+    setsockopt(accept_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(m_port);
@@ -42,7 +46,7 @@ void GateServer::run() {
         LOG(ERROR) << "bind error, port " << m_port;
         return;
     }
-    if (-1 == listen(accept_fd, 5)) {
+    if (-1 == listen(accept_fd, 2048)) {
         LOG(ERROR) << "listen error";
         return;
     }

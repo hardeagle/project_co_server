@@ -45,6 +45,10 @@ void BaseServer::run() {
     beforeRun();
 
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    int opt = 1;
+    setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(m_port);
@@ -54,12 +58,10 @@ void BaseServer::run() {
         LOG(ERROR) << "bind fail, port " << m_port;
         return;
     }
-    if (-1 == listen(m_fd, 5)) {
+    if (-1 == listen(m_fd, 2048)) {
         LOG(ERROR) << "listen fail";
         return;
     }
-    int opt = 1;
-    setsockopt(m_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     LOG(INFO) << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
 
@@ -78,7 +80,7 @@ void BaseServer::run() {
             char buf[len];
             int rlen = read(fd, buf, len);
             if (rlen != len) {
-                LOG(ERROR) << "Invalid rpc connect, rlen " << rlen;
+                LOG(ERROR) << "Invalid rpc connect, rlen " << rlen << " ,fd " << fd;
                 continue;
             }
             uint16_t body_size = *((uint16_t*)buf);
@@ -115,8 +117,11 @@ void BaseServer::run() {
     co_sched.Start();
 }
 
-void BaseServer::gateDispatch(std::string& msg) {
+void BaseServer::gateDispatch(std::string&& msg) {
     LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
+    go [&, msg] {
+        m_servlet->doRequest(msg);
+    };
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {
