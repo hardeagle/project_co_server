@@ -36,7 +36,7 @@ void GatePeerSession::sync_write(Message::ptr msg) {
     // msg.setSessionId(0);
     // msg.writeData(buffer);
 
-    msg->debugString();
+    LOG(WARNING) << msg->strInfo();
 
     write(m_fd, msg->data(), msg->size());
 }

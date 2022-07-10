@@ -4,6 +4,9 @@
 #include <memory>
 #include <set>
 
+#include "core/message.hpp"
+#include "core/session.hpp"
+
 namespace Eayew {
 
 class Message;
@@ -14,7 +17,7 @@ public:
 
     virtual ~Servlet() {}
 
-    virtual bool doRequest(const std::string& buf) {
+    virtual bool doRequest(Session::ptr session, Message&& msg) {
         return true;
     }
 };
@@ -49,7 +52,7 @@ public:
         m_servlets.insert(element);
     }
 
-    bool doRequest(const std::string& buf);
+    bool doRequest(Session::ptr session, Message&& msg);
 
 private:
     std::set<Element> m_servlets;

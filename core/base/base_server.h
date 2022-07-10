@@ -4,6 +4,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include "core/message.hpp"
+
 namespace Eayew {
 
 class BaseRoutine;
@@ -30,7 +32,7 @@ public:
 
     void run();
 
-    void gateDispatch(std::string&& msg);
+    void gateDispatch(Message&& msg);
 
     void rpcDispatch(std::string& msg);
 

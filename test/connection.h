@@ -1,6 +1,8 @@
 #ifndef __TEST_CONNECTION_H__
 #define __TEST_CONNECTION_H__
 
+#include <atomic>
+
 #include <memory>
 
 namespace {
@@ -30,6 +32,7 @@ private:
     std::string m_ip;
     int m_port;
 
+    std::atomic_int32_t m_count;
 };
 
 #endif

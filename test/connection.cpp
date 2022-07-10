@@ -12,6 +12,7 @@
 
 Connection::Connection(const std::string& ip, int port)
     : m_ip(ip)
+    , m_count(0)
     , m_port(port) {
 }
 
@@ -57,6 +58,7 @@ void Connection::sync_read() {
         }
         msg.commit(head_len);
         int body_len = msg.length() - head_len;
+        msg.prepare(body_len);
         rlen = read(m_fd, msg.wbuffer(), body_len);
         if (rlen != body_len) {
             LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;
@@ -64,7 +66,7 @@ void Connection::sync_read() {
         }
         msg.commit(body_len);
 
-        msg.debugString();
-        LOG(INFO) << "---read end---";
+        LOG(WARNING) << msg.strInfo();
+        LOG(INFO) << "---read end---,  " << ++m_count;
     }
 }

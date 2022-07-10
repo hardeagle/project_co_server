@@ -49,6 +49,7 @@ void LoginServer::initServlet() {
     Eayew::Servlet::ptr tmp_servlet;
     tmp_servlet.reset(new LoginServlet);
     servlet()->addServlet(LoginProtocol::ID::C2S_LOGIN_BASE, LoginProtocol::ID::C2S_LOGIN_TOP, tmp_servlet);
+
 }
 
 void LoginServer::regAndDiscServer() {

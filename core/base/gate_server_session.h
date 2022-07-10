@@ -3,11 +3,13 @@
 
 #include <memory>
 
+#include "core/session.hpp"
+
 namespace Eayew {
 
 class  BaseServer;
 
-class GateServerSession : public std::enable_shared_from_this<GateServerSession> {
+class GateServerSession : public std::enable_shared_from_this<GateServerSession>, public Session {
 public:
     using ptr = std::shared_ptr<GateServerSession>;
 
@@ -24,12 +26,16 @@ public:
     void sync_read();
     void sync_write();
 
+    virtual void send(Message&& msg) override;
+
 private:
     int m_senderType;
     int m_receiverType;
 
     int m_id;
     int m_fd;
+
+
 
     BaseServer& m_baseServer;
 };

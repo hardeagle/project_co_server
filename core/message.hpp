@@ -13,14 +13,14 @@ namespace Eayew {
 
 constexpr int BuFFER_HEAD_RESERVED = 14;
 
-// length(2) + sender_id(2) + receiver_id(2) + mgs_id(2) + session_id(4) + role_id(4)
+// length(2) + sender_id(2) + receiver_id(2) + mgs_id(2) + session_id(4) + role_id/checksum(8)
 
 class Message final {
 public:
     using ptr = std::shared_ptr<Message>;
 
     static const int LEN_SIZE = 2;
-    static const int HEAD_LEN = 12;
+    static const int HEAD_LEN = 20;
 
     // static buffer_ptr createBuffer(size_t capacity = 64, uint32_t head_reserved = BuFFER_HEAD_RESERVED) {
     //     return std::make_shared<buffer>();
@@ -51,6 +51,11 @@ public:
         *p = session_id;
     }
 
+    void forceSetRoleId(uint64_t role_id) {
+        uint64_t* p = (uint64_t*)(m_data->data() + 12);
+        *p = role_id;
+    }
+
     void writeData(std::string_view sv) {
         uint16_t length = HEAD_LEN + sv.size();
         m_data->writeBack(&length, 1);
@@ -58,6 +63,7 @@ public:
         m_data->writeBack(&m_receiverId, 1);
         m_data->writeBack(&m_msgId, 1);
         m_data->writeBack(&m_sessionId, 1);
+        m_data->writeBack(&m_roleId, 1);
         m_data->writeBack(sv.data(), sv.size());
     }
 
@@ -67,6 +73,10 @@ public:
 
     const char* data() const {
         return m_data ? m_data->data() : nullptr;
+    }
+
+    const char* realData() const {
+        return m_data ? m_data->data() + HEAD_LEN : nullptr;
     }
 
     char* wbuffer() {
@@ -83,6 +93,10 @@ public:
 
     size_t size() const {
         return m_data ? m_data->size() : 0;
+    }
+
+    size_t realSize() const {
+        return m_data ? m_data->size() - HEAD_LEN : 0;
     }
 
     bool isValid() {
@@ -112,8 +126,19 @@ public:
         return *((uint16_t*)(m_data->data() + 6));
     }
 
+    uint32_t realMsgId() {
+        auto rid = receiverId();
+        auto mid = msgId();
+        LOG(ERROR) << "rid " << rid << " ,mid " << mid << " ,id " << (uint32_t(rid) << 16) + mid;
+        return (uint32_t(rid) << 16) + mid;
+    }
+
     uint32_t sessionId() {
         return *((uint32_t*)(m_data->data() + 8));
+    }
+
+    uint64_t roleId() {
+        return *((uint64_t*)(m_data->data() + 12));
     }
 
     void clear() {
@@ -128,7 +153,16 @@ public:
 
     void debugString() {
         LOG(INFO) << "message size " << size() << " length " << length() << " sender " << senderId()
-                    << " receiver " << receiverId() << " session id " << sessionId() << " msg id " << msgId();
+                    << " receiver " << receiverId() << " session id " << sessionId() << " msg id " << msgId()
+                    << " ,role id " << roleId();
+    }
+
+    std::string strInfo() {
+        std::stringstream ss;
+        ss << "message size " << size() << " length " << length() << " sender " << senderId()
+                    << " receiver " << receiverId() << " session id " << sessionId() << " msg id " << msgId()
+                    << " ,role id " << roleId();
+        return ss.str();
     }
 
 private:
@@ -136,6 +170,7 @@ private:
     uint16_t m_receiverId = 0;
     uint16_t m_msgId = 0;
     uint32_t m_sessionId = 0;
+    uint64_t m_roleId = 0;
     buffer_ptr m_data;
 };
 

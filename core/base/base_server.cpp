@@ -117,10 +117,14 @@ void BaseServer::run() {
     co_sched.Start();
 }
 
-void BaseServer::gateDispatch(std::string&& msg) {
+void BaseServer::gateDispatch(Message&& msg) {
     LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
-    go [&, msg] {
-        m_servlet->doRequest(msg);
+
+    go [this, cmsg = std::move(msg)] () mutable {
+
+        LOG(WARNING) << cmsg.strInfo();
+
+        m_servlet->doRequest(m_gateSessions[cmsg.senderId()], std::move(cmsg));
     };
 }
 

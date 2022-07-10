@@ -2,14 +2,18 @@
 
 //#include <boost/lexical_cast.hpp>
 
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
 #include <libgo/libgo.h>
 
 #include <jemalloc/jemalloc.h>
 
+#include "core/util/util.h"
+
 #include "log/glog.h"
 
-#include <sys/socket.h>
-#include <arpa/inet.h>
+#include "logic/login/protocol/login.pb.h"
 
 
 int main(int argc, char* argv[]) {
@@ -61,14 +65,63 @@ int main(int argc, char* argv[]) {
     auto con = std::make_shared<Connection>(ip, port);
     con->run();
 
-    std::string msg("123");
-    con->sync_write(1001, 2, msg);
+    // {
+    //     std::string msg("1");
+    //     for (int i = 0; i < 6000; ++i) {
+    //         msg += "1";
+    //     }
+    //     LOG(WARNING) << "msg " << msg;
 
-    con->sync_write(1002, 3, msg);
+    //     LoginProtocol::C2S_LoginLoad req;
+    //     req.set_loginname(msg);
+    //     std::string data;
+    //     req.SerializeToString(&data);
+    //     con->sync_write(1001, 2, data);
+    // }
 
-    con->sync_write(1003, 2, msg);
+    // {
+    //     std::string msg("1");
+    //     for (int i = 0; i < 60; ++i) {
+    //         msg += "1";
+    //     }
+    //     LOG(WARNING) << "msg " << msg;
 
-    con->sync_write(1004, 3, msg);
+    //     LoginProtocol::C2S_LoginLoad req;
+    //     req.set_loginname(msg);
+    //     std::string data;
+    //     req.SerializeToString(&data);
+    //     con->sync_write(1001, 2, data);
+    // }
+
+    for (int i = 0; i < 1000; ++i) {
+        std::string msg("1");
+        for (int i = 0; i < 100; ++i) {
+            msg += "1";
+        }
+        //LOG(WARNING) << "msg " << msg;
+
+        LoginProtocol::C2S_LoginLoad req;
+        req.set_loginname(msg);
+        std::string data;
+        req.SerializeToString(&data);
+        con->sync_write(1001, 2, data);
+
+        LOG(WARNING) << "send, i " << i;
+    }
+
+    // {
+    //     std::string msg("1");
+    //     for (int i = 0; i < 1024000; ++i) {
+    //         msg += "1";
+    //     }
+    //     LOG(WARNING) << "msg " << msg;
+
+    //     LoginProtocol::C2S_LoginLoad req;
+    //     req.set_loginname(msg);
+    //     std::string data;
+    //     req.SerializeToString(&data);
+    //     con->sync_write(1001, 2, data);
+    // }
 
     co_sched.Start();
 

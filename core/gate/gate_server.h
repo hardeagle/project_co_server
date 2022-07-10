@@ -34,6 +34,7 @@ private:
     std::string m_ip;
     std::string m_name;
 
+    std::unordered_map<int, uint64_t> m_sessionToRoleIds;
     std::unordered_map<int, std::shared_ptr<GateSession> > m_sessions;
     std::unordered_map<int, std::shared_ptr<GatePeerSession> > m_peerSessions;
 };

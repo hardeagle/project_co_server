@@ -1,14 +1,17 @@
 #ifndef __LOGIC_LOGIN_SERVLET_LOGIN_SERVLET_H__
 #define __LOGIC_LOGIN_SERVLET_LOGIN_SERVLET_H__
 
+#include "core/message.hpp"
 #include "core/servlet.h"
+#include "core/session.hpp"
+
 
 class LoginServlet : public Eayew::Servlet {
 public:
-    virtual bool doRequest(std::string& buffer);
+    virtual bool doRequest(Eayew::Session::ptr session, Eayew::Message&& msg);
 
 private:
-    void doLoad(std::string& buffer);
+    bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
 };
 
 #endif
