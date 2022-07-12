@@ -5,78 +5,55 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
+
+namespace _pb = ::PROTOBUF_NAMESPACE_ID;
+namespace _pbi = _pb::internal;
 
 namespace LoginProtocol {
 }  // namespace LoginProtocol
-namespace protobuf_login_5fid_2eproto {
-void InitDefaults() {
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_login_5fid_2eproto[1];
+static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_login_5fid_2eproto = nullptr;
+const uint32_t TableStruct_login_5fid_2eproto::offsets[1] = {};
+static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
+static constexpr ::_pb::Message* const* file_default_instances = nullptr;
+
+const char descriptor_table_protodef_login_5fid_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\016login_id.proto\022\rLoginProtocol*z\n\002ID\022\010\n"
+  "\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOGI"
+  "N_BASE\020\350\207\010\022\024\n\016C2S_LOGIN_LOAD\020\351\207\010\022\024\n\016S2C_"
+  "LOGIN_LOAD\020\352\207\010\022\023\n\rC2S_LOGIN_TOP\020\317\217\010b\006pro"
+  "to3"
+  ;
+static ::_pbi::once_flag descriptor_table_login_5fid_2eproto_once;
+const ::_pbi::DescriptorTable descriptor_table_login_5fid_2eproto = {
+    false, false, 163, descriptor_table_protodef_login_5fid_2eproto,
+    "login_id.proto",
+    &descriptor_table_login_5fid_2eproto_once, nullptr, 0, 0,
+    schemas, file_default_instances, TableStruct_login_5fid_2eproto::offsets,
+    nullptr, file_level_enum_descriptors_login_5fid_2eproto,
+    file_level_service_descriptors_login_5fid_2eproto,
+};
+PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_login_5fid_2eproto_getter() {
+  return &descriptor_table_login_5fid_2eproto;
 }
 
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
-const ::google::protobuf::uint32 TableStruct::offsets[1] = {};
-static const ::google::protobuf::internal::MigrationSchema* schemas = NULL;
-static const ::google::protobuf::Message* const* file_default_instances = NULL;
-
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "login_id.proto", schemas, file_default_instances, TableStruct::offsets,
-      NULL, file_level_enum_descriptors, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016login_id.proto\022\rLoginProtocol*z\n\002ID\022\010\n"
-      "\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOGI"
-      "N_BASE\020\350\207\010\022\024\n\016C2S_LOGIN_LOAD\020\351\207\010\022\024\n\016S2C_"
-      "LOGIN_LOAD\020\352\207\010\022\023\n\rC2S_LOGIN_TOP\020\317\217\010b\006pro"
-      "to3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 163);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "login_id.proto", &protobuf_RegisterTypes);
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_login_5fid_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_login_5fid_2eproto(&descriptor_table_login_5fid_2eproto);
 namespace LoginProtocol {
-const ::google::protobuf::EnumDescriptor* ID_descriptor() {
-  protobuf_login_5fid_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_login_5fid_2eproto::file_level_enum_descriptors[0];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ID_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_login_5fid_2eproto);
+  return file_level_enum_descriptors_login_5fid_2eproto[0];
 }
 bool ID_IsValid(int value) {
   switch (value) {
@@ -95,9 +72,8 @@ bool ID_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace LoginProtocol
-namespace google {
-namespace protobuf {
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_OPEN
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>
