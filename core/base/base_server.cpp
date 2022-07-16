@@ -12,6 +12,7 @@
 
 #include "log/glog.h"
 
+#include "routine.h"
 #include "base_routine.h"
 #include "gate_server_session.h"
 #include "rpc_server_session.h"
@@ -120,12 +121,21 @@ void BaseServer::run() {
 void BaseServer::gateDispatch(Message&& msg) {
     LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
 
-    go [this, cmsg = std::move(msg)] () mutable {
+    auto id = msg.sessionId();
+    auto it = m_routines.find(id);
+    if (it == m_routines.end()) {
+        auto routine = std::make_shared<Routine>(id, m_servlet, m_gateSessions[msg.senderId()]);
+        routine->run();
+        m_routines[id] = routine;
+    }
+    m_routines[id]->push(std::move(msg));
 
-        LOG(WARNING) << cmsg.strInfo();
+    // go [this, cmsg = std::move(msg)] () mutable {
 
-        m_servlet->doRequest(m_gateSessions[cmsg.senderId()], std::move(cmsg));
-    };
+    //     LOG(WARNING) << cmsg.strInfo();
+
+    //     m_servlet->doRequest(m_gateSessions[cmsg.senderId()], std::move(cmsg));
+    // };
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {

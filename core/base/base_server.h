@@ -8,6 +8,7 @@
 
 namespace Eayew {
 
+class Routine;
 class BaseRoutine;
 class GateServerSession;
 class RpcServerSession;
@@ -64,6 +65,8 @@ private:
     std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
 
     std::unordered_map<int, std::shared_ptr<BaseRoutine> > m_baseRoutines;
+
+    std::unordered_map<int, std::shared_ptr<Routine> > m_routines;
 };
 
 }
