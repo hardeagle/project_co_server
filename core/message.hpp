@@ -129,7 +129,6 @@ public:
     uint32_t realMsgId() {
         auto rid = receiverId();
         auto mid = msgId();
-        LOG(ERROR) << "rid " << rid << " ,mid " << mid << " ,id " << (uint32_t(rid) << 16) + mid;
         return (uint32_t(rid) << 16) + mid;
     }
 

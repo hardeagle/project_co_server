@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "core/session.hpp"
+#include "core/session.h"
 
 namespace Eayew {
 

@@ -5,7 +5,7 @@
 #include <set>
 
 #include "core/message.hpp"
-#include "core/session.hpp"
+#include "core/session.h"
 
 namespace Eayew {
 

@@ -6,6 +6,7 @@
 #include <libgo/libgo.h>
 
 #include "core/message.hpp"
+#include "core/session.h"
 
 #include "log/glog.h"
 
@@ -28,17 +29,15 @@ void GateServerSession::sync_read() {
     for (;;) {
         auto head_len = Message::LEN_SIZE;
         Message msg;
-        auto rlen = read(m_fd, msg.wbuffer(), head_len);
-        if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length, rlen " << rlen;
+        if (!eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         msg.commit(head_len);
         int body_len = msg.length() - head_len;
         msg.prepare(body_len);
-        rlen = read(m_fd, msg.wbuffer(), body_len);
-        if (rlen != body_len) {
-            LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;
+        if (!eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         msg.commit(body_len);

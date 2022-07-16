@@ -93,21 +93,23 @@ int main(int argc, char* argv[]) {
     //     con->sync_write(1001, 2, data);
     // }
 
-    for (int i = 0; i < 1000; ++i) {
-        std::string msg("1");
-        for (int i = 0; i < 100; ++i) {
-            msg += "1";
+    go [&] {
+        for (int i = 0; i < 10000; ++i) {
+            std::string msg("1");
+            for (int i = 0; i < 60000; ++i) {
+                msg += "1";
+            }
+            //LOG(WARNING) << "msg " << msg;
+
+            LoginProtocol::C2S_LoginLoad req;
+            req.set_loginname(msg);
+            std::string data;
+            req.SerializeToString(&data);
+            con->sync_write(1001, 2, data);
+
+            LOG(WARNING) << "send, i " << i;
         }
-        //LOG(WARNING) << "msg " << msg;
-
-        LoginProtocol::C2S_LoginLoad req;
-        req.set_loginname(msg);
-        std::string data;
-        req.SerializeToString(&data);
-        con->sync_write(1001, 2, data);
-
-        LOG(WARNING) << "send, i " << i;
-    }
+    };
 
     // {
     //     std::string msg("1");
@@ -123,7 +125,7 @@ int main(int argc, char* argv[]) {
     //     con->sync_write(1001, 2, data);
     // }
 
-    co_sched.Start();
+    co_sched.Start(2);
 
     return 0;
 }

@@ -9,6 +9,7 @@
 #include "log/glog.h"
 
 #include "core/message.hpp"
+#include "core/session.h"
 
 Connection::Connection(const std::string& ip, int port)
     : m_ip(ip)
@@ -51,17 +52,15 @@ void Connection::sync_read() {
         LOG(INFO) << "---read begin---";
         auto head_len = Eayew::Message::LEN_SIZE;
         Eayew::Message msg;
-        auto rlen = read(m_fd, msg.wbuffer(), head_len);
-        if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length, rlen " << rlen;
+        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         msg.commit(head_len);
         int body_len = msg.length() - head_len;
         msg.prepare(body_len);
-        rlen = read(m_fd, msg.wbuffer(), body_len);
-        if (rlen != body_len) {
-            LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;
+        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         msg.commit(body_len);

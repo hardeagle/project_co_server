@@ -1,10 +1,14 @@
 #include "gate_session.h"
 
+#include<sys/types.h>
+#include<sys/socket.h>
+
 #include <functional>
 #include <string>
 
 #include "core/message.hpp"
 #include "core/rpc/rpc_manager.h"
+#include "core/session.h"
 #include "core/util/util.h"
 
 #include "log/glog.h"
@@ -37,17 +41,15 @@ void GateSession::sync_read() {
     for(;;) {
         m_rMessage->clear();
         auto head_len = Message::LEN_SIZE;
-        auto rlen = read(m_fd, m_rMessage->wbuffer(), head_len);
-        if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length, rlen " << rlen;
+        if (!eio(recv, m_fd, m_rMessage->wbuffer(), head_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         m_rMessage->commit(head_len);
         uint16_t body_len = m_rMessage->length() - head_len;
         m_rMessage->prepare(body_len);
-        rlen = read(m_fd, m_rMessage->wbuffer(), body_len);
-        if (rlen != body_len) {
-            LOG(ERROR) << "Invalid body length " << body_len << " real " << rlen;
+        if (!eio(recv, m_fd, m_rMessage->wbuffer(), body_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         m_rMessage->commit(body_len);

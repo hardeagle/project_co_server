@@ -9,6 +9,7 @@
 #include "log/glog.h"
 
 #include "core/message.hpp"
+#include "core/session.h"
 
 #include "gate_server.h"
 
@@ -65,37 +66,17 @@ void GatePeerSession::sync_connect() {
 
 void GatePeerSession::sync_read() {
     for (;;) {
-        // const int head_len = 4;
-        // char head_buf[head_len];
-        // int rlen = read(m_fd, head_buf, head_len);
-        // if (rlen != head_len) {
-        //     LOG(ERROR) << "Invalid head length";
-        //     return;
-        // }
-        // int body_len = 0;
-        // char body_buf[2048];
-        // rlen = read(m_fd, body_buf, body_len);
-        // if (rlen != body_len) {
-        //     LOG(ERROR) << "Invalid body length";
-        //     return;
-        // }
-        // // parse
-        // std::string body;
-        // m_gateServer.dispatch(body);
-
         m_rMessage->clear();
         auto head_len = Message::LEN_SIZE;
-        auto rlen = read(m_fd, m_rMessage->wbuffer(), head_len);
-        if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length, rlen " << rlen;
+        if (!Eayew::eio(recv, m_fd, m_rMessage->wbuffer(), head_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         m_rMessage->commit(head_len);
         auto body_len = m_rMessage->length() - head_len;
         m_rMessage->prepare(body_len);
-        rlen = read(m_fd, m_rMessage->wbuffer(), body_len);
-        if (rlen != body_len) {
-            LOG(ERROR) << "Invalid body length, body_len " << body_len << " real " << rlen;
+        if (!Eayew::eio(recv, m_fd, m_rMessage->wbuffer(), body_len, MSG_WAITALL)) {
+            LOG(ERROR) << "eio fail, close or error ";
             return;
         }
         m_rMessage->commit(body_len);
