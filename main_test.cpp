@@ -60,10 +60,10 @@ int main(int argc, char* argv[]) {
     //     co_sleep(100);
     // }
 
-    std::string ip = "127.0.0.1";
-    int port = 9101;
-    auto con = std::make_shared<Connection>(ip, port);
-    con->run();
+    // std::string ip = "127.0.0.1";
+    // int port = 9101;
+    // auto con = std::make_shared<Connection>(ip, port);
+    // con->run();
 
     // {
     //     std::string msg("1");
@@ -93,23 +93,35 @@ int main(int argc, char* argv[]) {
     //     con->sync_write(1001, 2, data);
     // }
 
-    go [&] {
-        for (int i = 0; i < 10000; ++i) {
-            std::string msg("1");
-            for (int i = 0; i < 60000; ++i) {
-                msg += "1";
+    std::list<Connection::ptr> cons;
+
+    for (int i = 0; i < 1000; ++i) {
+
+        go [&] {
+
+            std::string ip = "127.0.0.1";
+            int port = 9101;
+            auto con = std::make_shared<Connection>(ip, port);
+            con->run();
+            cons.push_back(con);
+
+            for (int i = 0; i < 10000; ++i) {
+                std::string msg("1");
+                for (int i = 0; i < 1000; ++i) {
+                    msg += "1";
+                }
+                //LOG(WARNING) << "msg " << msg;
+
+                LoginProtocol::C2S_LoginLoad req;
+                req.set_loginname(msg);
+                std::string data;
+                req.SerializeToString(&data);
+                con->sync_write(1001, 2, data);
+
+                LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i;
             }
-            //LOG(WARNING) << "msg " << msg;
-
-            LoginProtocol::C2S_LoginLoad req;
-            req.set_loginname(msg);
-            std::string data;
-            req.SerializeToString(&data);
-            con->sync_write(1001, 2, data);
-
-            LOG(WARNING) << "send, i " << i;
-        }
-    };
+        };
+    }
 
     // {
     //     std::string msg("1");
@@ -125,7 +137,7 @@ int main(int argc, char* argv[]) {
     //     con->sync_write(1001, 2, data);
     // }
 
-    co_sched.Start(2);
+    co_sched.Start(4);
 
     return 0;
 }
