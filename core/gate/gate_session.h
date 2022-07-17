@@ -6,6 +6,8 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.hpp"
+
 namespace Eayew {
 
 class GateServer;
@@ -23,7 +25,7 @@ public:
 
     void run();
 
-    void operator<<(std::string& buffer);
+    void push(Message&& msg);
 
 private:
     void sync_read();
@@ -35,10 +37,7 @@ private:
 
     GateServer& m_gateServer;
 
-    co_chan<std::string> m_rChannel;
-
-    std::shared_ptr<Message> m_rMessage;
-
+    co_chan<Message> m_wMsgs;
 };
 
 }

@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < 1000; ++i) {
 
-        go [&] {
+        go [&, i] {
 
             std::string ip = "127.0.0.1";
             int port = 9101;
@@ -105,9 +105,9 @@ int main(int argc, char* argv[]) {
             con->run();
             cons.push_back(con);
 
-            for (int i = 0; i < 10000; ++i) {
+            for (int j = 0; j < 10000; ++j) {
                 std::string msg("1");
-                for (int i = 0; i < 1000; ++i) {
+                for (int k = 0; k < 100; ++k) {
                     msg += "1";
                 }
                 //LOG(WARNING) << "msg " << msg;
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
                 req.SerializeToString(&data);
                 con->sync_write(1001, 2, data);
 
-                LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i;
+                //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;
             }
         };
     }
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]) {
     //     con->sync_write(1001, 2, data);
     // }
 
-    co_sched.Start(4);
+    co_sched.Start(6);
 
     return 0;
 }

@@ -13,13 +13,15 @@
 
 #include "gate_server.h"
 
+const static uint32_t s_limit = 40960;
+
 namespace Eayew {
 
 GatePeerSession::GatePeerSession(const std::string& ip, int port, GateServer& server)
     : m_ip(ip)
     , m_port(port)
-    , m_gateServer(server) {
-    m_rMessage = std::make_shared<Message>();
+    , m_gateServer(server)
+    , m_wMsgs(s_limit) {
 }
 
 void GatePeerSession::run() {
@@ -28,18 +30,18 @@ void GatePeerSession::run() {
     go [this, self = shared_from_this()] {
         sync_read();
     };
+
+    go [this, self = shared_from_this()] {
+        sync_write();
+    };
 }
 
-void GatePeerSession::sync_write(Message::ptr msg) {
-    // Message msg;
-    // msg.setSender(senderType());
-    // msg.setReceiver(receiverType());
-    // msg.setSessionId(0);
-    // msg.writeData(buffer);
+void GatePeerSession::push(Message&& msg) {
+    if (m_wMsgs.size() == s_limit) {
+        LOG(WARNING) << "gate peer session full";
+    }
 
-    LOG(WARNING) << msg->strInfo();
-
-    write(m_fd, msg->data(), msg->size());
+    m_wMsgs << msg;
 }
 
 void GatePeerSession::sync_connect() {
@@ -66,21 +68,33 @@ void GatePeerSession::sync_connect() {
 
 void GatePeerSession::sync_read() {
     for (;;) {
-        m_rMessage->clear();
+        Message msg;
         auto head_len = Message::LEN_SIZE;
-        if (!Eayew::eio(recv, m_fd, m_rMessage->wbuffer(), head_len, MSG_WAITALL)) {
+        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
             LOG(ERROR) << "eio fail, close or error ";
             return;
         }
-        m_rMessage->commit(head_len);
-        auto body_len = m_rMessage->length() - head_len;
-        m_rMessage->prepare(body_len);
-        if (!Eayew::eio(recv, m_fd, m_rMessage->wbuffer(), body_len, MSG_WAITALL)) {
+        msg.commit(head_len);
+        auto body_len = msg.length() - head_len;
+        msg.prepare(body_len);
+        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
             LOG(ERROR) << "eio fail, close or error ";
             return;
         }
-        m_rMessage->commit(body_len);
-        m_gateServer.dispatch(m_rMessage);
+        msg.commit(body_len);
+        m_gateServer.dispatch(std::move(msg));
+    }
+}
+
+void GatePeerSession::sync_write() {
+    for (;;) {
+        if (m_wMsgs.size() == 0) {
+            LOG(WARNING) << "gate peer session empty";
+        }
+
+        Message msg;
+        m_wMsgs >> msg;
+        write(m_fd, msg.data(), msg.size());
     }
 }
 

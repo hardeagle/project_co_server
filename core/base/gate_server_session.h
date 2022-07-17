@@ -3,6 +3,9 @@
 
 #include <memory>
 
+#include <libgo/libgo.h>
+
+#include "core/message.hpp"
 #include "core/session.h"
 
 namespace Eayew {
@@ -35,7 +38,7 @@ private:
     int m_id;
     int m_fd;
 
-
+    co_chan<Message> m_wMsgs;
 
     BaseServer& m_baseServer;
 };

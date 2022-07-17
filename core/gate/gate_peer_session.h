@@ -5,6 +5,8 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.hpp"
+
 namespace Eayew {
 
 class Message;
@@ -24,14 +26,16 @@ public:
     int receiverType() const { return m_receiverType; }
     void receiverType(int v) { m_receiverType = v; }
 
-    void run();
+    void push(Message&& msg);
 
-    void sync_write(std::shared_ptr<Message> msg);
+    void run();
 
 private:
     void sync_connect();
 
     void sync_read();
+
+    void sync_write();
 
 private:
     int m_fd;
@@ -41,7 +45,7 @@ private:
     std::string m_ip;
     int m_port;
 
-    std::shared_ptr<Message> m_rMessage;
+    co_chan<Message> m_wMsgs;
 
     GateServer& m_gateServer;
 };

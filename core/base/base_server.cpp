@@ -12,8 +12,8 @@
 
 #include "log/glog.h"
 
-#include "routine.h"
 #include "base_routine.h"
+#include "work_routine.h"
 #include "gate_server_session.h"
 #include "rpc_server_session.h"
 
@@ -21,28 +21,10 @@ namespace Eayew {
 
 BaseServer::BaseServer() {
     m_servlet = std::make_shared<ServletDispatchRange>();
+    m_workScheduler = co::Scheduler::Create();
 }
 
 void BaseServer::run() {
-
-    // std::thread t([] { 
-    //     co_sched.Start();
-    // });
-    // t.detach();
-
-    // go [&] {
-    //     while (true) {
-    //         int id;
-    //         std::string buffer;
-    //         std::unordered_map<int, GameSession::ptr>::iterator it = m_sessions.find(id);
-    //         if (it == m_sessions.end()) {
-    //             m_sessions[id] = std::make_shared<
-    //             m_sessions[id]->run();
-    //         }
-    //         *(m_sessions[id]) << buffer;
-    //     }
-    // };
-
     beforeRun();
 
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -91,7 +73,7 @@ void BaseServer::run() {
             uint16_t receiver_type = *((uint16_t*)&buf[4]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
-                continue;                                                                             
+                continue;
             }
 
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
@@ -115,20 +97,31 @@ void BaseServer::run() {
 
     regAndDiscServer();
 
-    co_sched.Start();
+    m_workThreads.emplace_back([this, self = shared_from_this()] {
+        m_workScheduler->Start(); 
+    });
+
+    // for (auto& t : m_workThreads) {
+    //     t.detach();
+    // }
+
+    co_sched.Start(2);
 }
 
 void BaseServer::gateDispatch(Message&& msg) {
     LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
 
     auto id = msg.sessionId();
-    auto it = m_routines.find(id);
-    if (it == m_routines.end()) {
-        auto routine = std::make_shared<Routine>(id, m_servlet, m_gateSessions[msg.senderId()]);
-        routine->run();
-        m_routines[id] = routine;
+    auto it = m_workRoutines.find(id);
+    if (it == m_workRoutines.end()) {
+        auto routine = std::make_shared<WorkRoutine>(id, m_servlet, m_gateSessions[msg.senderId()]);
+        m_workRoutines[id] = routine;
+        go co_scheduler(m_workScheduler) [this, self = shared_from_this(), id] {
+            m_workRoutines[id]->run();
+        };
+
     }
-    m_routines[id]->push(std::move(msg));
+    m_workRoutines[id]->push(std::move(msg));
 
     // go [this, cmsg = std::move(msg)] () mutable {
 

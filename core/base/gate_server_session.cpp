@@ -12,16 +12,23 @@
 
 #include "base_server.h"
 
+const static uint32_t s_limit = 40960;
+
 namespace Eayew {
 
 GateServerSession::GateServerSession(int fd, BaseServer& server)
     : m_fd(fd)
-    , m_baseServer(server) {
+    , m_baseServer(server)
+    , m_wMsgs(s_limit) {
 }
 
 void GateServerSession::run() {
     go [this, self = shared_from_this()] {
         sync_read();
+    };
+
+    go [this, self = shared_from_this()] {
+        sync_write();
     };
 }
 
@@ -42,25 +49,29 @@ void GateServerSession::sync_read() {
         }
         msg.commit(body_len);
 
-        LOG(WARNING) << msg.strInfo();
-
+        LOG(WARNING) << "gate dispatch" << msg.strInfo();
         m_baseServer.gateDispatch(std::move(msg));
-
-        // {
-        //     LOG(WARNING) << msg.strInfo();
-        //     std::string res(msg.data(), msg.size());
-        //     write(m_fd, res.data(), res.size());
-        // }
     }
 }
 
 void GateServerSession::sync_write() {
-    std::string buffer;
-    write(m_fd, buffer.data(), buffer.size());
+    for (;;) {
+        if (m_wMsgs.size() == 0) {
+            LOG(WARNING) << "gate server session empty";
+        }
+
+        Message msg;
+        m_wMsgs >> msg;
+        write(m_fd, msg.data(), msg.size());
+    }
 }
 
 void GateServerSession::send(Message&& msg) {
-    write(m_fd, msg.data(), msg.size());
+    if (m_wMsgs.size() == s_limit) {
+        LOG(WARNING) << "gate server session full";
+    }
+
+    m_wMsgs << msg;
 }
 
 }

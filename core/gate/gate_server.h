@@ -4,6 +4,8 @@
 #include <memory>
 #include <unordered_map>
 
+#include "core/message.hpp"
+
 namespace Eayew {
 
 class GateSession;
@@ -22,7 +24,7 @@ public:
 
     void run();
 
-    void dispatch(std::shared_ptr<Message> msg);
+    void dispatch(Message&& msg);
 
 private:
     void init();

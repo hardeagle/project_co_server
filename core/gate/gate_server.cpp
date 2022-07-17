@@ -72,30 +72,29 @@ void GateServer::run() {
         }
     };
 
-    co_sched.Start();
+    co_sched.Start(6);
 }
 
-void GateServer::dispatch(Message::ptr msg) {
-    auto session_id = msg->sessionId();
+void GateServer::dispatch(Message&& msg) {
+    auto session_id = msg.sessionId();
     auto session = getSession(session_id);
-    LOG(WARNING) << msg->strInfo();
+    LOG(WARNING) << msg.strInfo();
     LOG(INFO) << "dispatche id " << session_id;
     if (!session) {
         LOG(ERROR) << "Invalid session " << session_id;
         return;
     }
-    LOG(INFO) << "---dispatch id " << session_id << " ,msg id " << msg->msgId() << " ,role id " << msg->roleId()
-                << " ,real msg id " << msg->realMsgId();
-    if (msg->msgId() == 1001 || msg->msgId() == 1002) {
-        if (msg->roleId() != 0) {
-            m_sessionToRoleIds[session_id] = msg->roleId();
+    LOG(INFO) << "---dispatch id " << session_id << " ,msg id " << msg.msgId() << " ,role id " << msg.roleId()
+                << " ,real msg id " << msg.realMsgId();
+    if (msg.msgId() == 1001 || msg.msgId() == 1002) {
+        if (msg.roleId() != 0) {
+            m_sessionToRoleIds[session_id] = msg.roleId();
         }
     } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
         LOG(ERROR) << "dispatch error, session id " << session_id;
     }
 
-    std::string data(msg->data(), msg->size());
-    (*session) << data;
+    session->push(std::move(msg));
 }
 
 void GateServer::init() {

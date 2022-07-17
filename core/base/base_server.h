@@ -4,18 +4,20 @@
 #include <memory>
 #include <unordered_map>
 
+#include <libgo/libgo.h>
+
 #include "core/message.hpp"
 
 namespace Eayew {
 
-class Routine;
 class BaseRoutine;
+class WorkRoutine;
 class GateServerSession;
 class RpcServerSession;
 class RpcManager;
 class ServletDispatchRange;
 
-class BaseServer {
+class BaseServer : public std::enable_shared_from_this<BaseServer> {
 public:
     BaseServer();
 
@@ -66,7 +68,9 @@ private:
 
     std::unordered_map<int, std::shared_ptr<BaseRoutine> > m_baseRoutines;
 
-    std::unordered_map<int, std::shared_ptr<Routine> > m_routines;
+    co::Scheduler* m_workScheduler;
+    std::vector<std::thread> m_workThreads;     // one thread
+    std::unordered_map<int, std::shared_ptr<WorkRoutine> > m_workRoutines;
 };
 
 }
