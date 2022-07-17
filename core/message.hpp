@@ -20,7 +20,7 @@ public:
     using ptr = std::shared_ptr<Message>;
 
     static const int LEN_SIZE = 2;
-    static const int HEAD_LEN = 20;
+    static const int HEAD_LEN = 24;
 
     // static buffer_ptr createBuffer(size_t capacity = 64, uint32_t head_reserved = BuFFER_HEAD_RESERVED) {
     //     return std::make_shared<buffer>();
@@ -74,17 +74,17 @@ public:
         m_msgId = msg_id;
     }
 
-    void setSessionId(uint32_t session_id) {
+    void setSessionId(uint64_t session_id) {
         m_sessionId = session_id;
     }
 
-    void forceSetSessionId(uint32_t session_id) {
-        uint32_t* p = (uint32_t*)(m_data->data() + 8);
+    void forceSetSessionId(uint64_t session_id) {
+        uint64_t* p = (uint64_t*)(m_data->data() + 8);
         *p = session_id;
     }
 
     void forceSetRoleId(uint64_t role_id) {
-        uint64_t* p = (uint64_t*)(m_data->data() + 12);
+        uint64_t* p = (uint64_t*)(m_data->data() + 16);
         *p = role_id;
     }
 
@@ -164,12 +164,12 @@ public:
         return (uint32_t(rid) << 16) + mid;
     }
 
-    uint32_t sessionId() {
-        return *((uint32_t*)(m_data->data() + 8));
+    uint64_t sessionId() {
+        return *((uint64_t*)(m_data->data() + 8));
     }
 
     uint64_t roleId() {
-        return *((uint64_t*)(m_data->data() + 12));
+        return *((uint64_t*)(m_data->data() + 16));
     }
 
     void clear() {
@@ -200,7 +200,7 @@ private:
     uint16_t m_senderId = 0;
     uint16_t m_receiverId = 0;
     uint16_t m_msgId = 0;
-    uint32_t m_sessionId = 0;
+    uint64_t m_sessionId = 0;
     uint64_t m_roleId = 0;
     buffer_ptr m_data;
 };

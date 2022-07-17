@@ -20,7 +20,7 @@ public:
 
     std::shared_ptr<GatePeerSession> getPeerSession(int type);
 
-    std::shared_ptr<GateSession> getSession(int id);
+    std::shared_ptr<GateSession> getSession(uint64_t id);
 
     void run();
 
@@ -37,7 +37,7 @@ private:
     std::string m_name;
 
     std::unordered_map<int, uint64_t> m_sessionToRoleIds;
-    std::unordered_map<int, std::shared_ptr<GateSession> > m_sessions;
+    std::unordered_map<uint64_t, std::shared_ptr<GateSession> > m_sessions;
     std::unordered_map<int, std::shared_ptr<GatePeerSession> > m_peerSessions;
 };
 

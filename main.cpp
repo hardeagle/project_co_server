@@ -19,7 +19,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-static int s_limit = 20480;
+const static int s_limit = 20480;
 
 // class Test : public std::enable_shared_from_this<Test> {
 // public:
@@ -91,12 +91,36 @@ static int s_limit = 20480;
 class Point {
 public:
     Point() {
+        LOG(WARNING) << "无参构造函数";
     }
 
     Point(int x, int y, int z)
         : m_x(x)
         , m_y(y)
         , m_z(z) {
+        LOG(WARNING) << "有参构造函数";
+    }
+
+    Point(const Point& other) {
+        LOG(WARNING) << "拷贝构造函数";
+        m_x = other.m_x;
+        m_y = other.m_y;
+        m_z = other.m_z;
+    }
+
+    Point(const Point&& other) {
+        LOG(WARNING) << "移动构造函数";
+        m_x = other.m_x;
+        m_y = other.m_y;
+        m_z = other.m_z;
+    }
+
+    Point& operator=(const Point& other) {
+        LOG(WARNING) << "赋值构造函数";
+        m_x = other.m_x;
+        m_y = other.m_y;
+        m_z = other.m_z;
+        return *this;
     }
 
     int m_x;
@@ -109,6 +133,23 @@ public:
         return ss.str();
     }
 };
+
+
+void funTest(Point const& p) {
+    LOG(WARNING) << "std::is_rvalue_reference<decltype(p)>::value " << std::is_rvalue_reference<decltype(p)>::value;
+
+    //p.m_y = 122;
+
+    LOG(WARNING) << "&p " << &p;
+    //LOG(INFO) << "funTest " << p.strInfo();
+    // auto ptmp = std::forward<Point>(p);
+    // LOG(INFO) << "funTest ptemp" << ptmp.strInfo();
+
+    LOG(WARNING) << "1111";
+    std::deque<Point> points;
+    points.push_back(std::move(p));
+    LOG(WARNING) << "222";
+}
 
 
 template<typename T>
@@ -132,29 +173,31 @@ public:
         return m_chan.size();
     }
 
-    void push(T val) {
+    void push(T&& val) {
         LOG(WARNING) << "---produce begin " << m_chan.size();
+        LOG(WARNING) << "std::is_rvalue_reference<decltype(val)>::value " << std::is_rvalue_reference<decltype(val)>::value;
+
         if (m_chan.size() == s_limit) {
             LOG(ERROR) << "------------------------full";
         }
-        m_chan << val;
+        m_chan << std::forward<Point>(val);
         LOG(WARNING) << "---produce end " << m_chan.size();
     }
 
     void run() {
-        go co_scheduler(m_sched) [this, self = this->template shared_from_this()] {
-            for (;;) {
-                LOG(WARNING) << "+++consume begin... " << m_chan.size();
-                if (m_chan.size() == 0) {
-                    LOG(ERROR) << "------------------------empty";
-                }
-                T val;
-                m_chan >> val;
-                LOG(INFO) << "val " << val.strInfo();
+        // go co_scheduler(m_sched) [this, self = this->template shared_from_this()] {
+        //     for (;;) {
+        //         LOG(WARNING) << "+++consume begin... " << m_chan.size();
+        //         if (m_chan.size() == 0) {
+        //             LOG(ERROR) << "------------------------empty";
+        //         }
+        //         T val;
+        //         m_chan >> val;
+        //         LOG(INFO) << "val " << val.strInfo();
 
-                LOG(WARNING) << "+++consume end... " << m_chan.size();
-            }
-        };
+        //         LOG(WARNING) << "+++consume end... " << m_chan.size();
+        //     }
+        // };
     }
 
 private:
@@ -169,21 +212,52 @@ int main(int argc, char* argv[]) {
 
     LOG(INFO) << "---begin---";
 
-    Test<Point>::ptr test = std::make_shared<Test<Point>>();
-    test->init();
-    test->run();
+    co_opt.debug = co::dbg_all;
 
-    for (int i = 0; i < 1000; ++i) {
-        go [=] {
-            for (int j = 0; j < 1000; ++j) {
-                test->push(Point(i, j, i+j));
-            }
-            LOG(INFO) << "---produce m_msgs size " << test->size();
-        };
+    // Test<Point>::ptr test = std::make_shared<Test<Point>>();
+    // test->init();
+    // test->run();
+
+    // for (int i = 0; i < 1; ++i) {
+    //     go [=] {
+    //         for (int j = 0; j < 1; ++j) {
+    //             auto point = Point(i, j, i+j);
+    //             test->push(std::move(point));
+    //         }
+    //         LOG(INFO) << "---produce m_msgs size " << test->size();
+    //     };
+    // }
+
+    // Point p1(1, 2, 3);
+    // LOG(INFO)<< "p1 " << p1.strInfo();
+    // //auto p2 = p1;
+    // Point p2;
+    // p2 = p1;
+    // LOG(INFO)<< "p2 " << p2.strInfo();
+
+    // auto& p3 = p1;
+    // LOG(INFO)<< "p3 " << p3.strInfo();
+
+    Point p1(1, 2, 3);
+    LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
+    auto tmp = std::move(p1);
+    LOG(WARNING) << "11";
+    funTest(std::forward<Point>(tmp));
+    LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
+
+    std::deque<Point> points;
+    points.push_back(std::forward<Point>(p1));
+
+    LOG(WARNING) << "&tmp " << &tmp << " data " << tmp.strInfo();;
+
+
+    for (auto& v : points) {
+        LOG(WARNING) << "&v " << &v << " data " << v.strInfo();;
     }
 
+    // auto p2 = std::forward<Point>(p1);
 
-    co_sched.Start(4);
+    co_sched.Start(1);
 
     // for (int i = 0; i < 10; ++i) {
     //     go [=] {

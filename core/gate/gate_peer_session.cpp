@@ -21,6 +21,7 @@ GatePeerSession::GatePeerSession(const std::string& ip, int port, GateServer& se
     : m_ip(ip)
     , m_port(port)
     , m_gateServer(server)
+    , m_rMsgs(s_limit)
     , m_wMsgs(s_limit) {
 }
 
@@ -33,6 +34,10 @@ void GatePeerSession::run() {
 
     go [this, self = shared_from_this()] {
         sync_write();
+    };
+
+    go [this, self = shared_from_this()] {
+        dispatch();
     };
 }
 
@@ -82,7 +87,8 @@ void GatePeerSession::sync_read() {
             return;
         }
         msg.commit(body_len);
-        m_gateServer.dispatch(std::move(msg));
+
+        m_rMsgs << msg;
     }
 }
 
@@ -95,6 +101,14 @@ void GatePeerSession::sync_write() {
         Message msg;
         m_wMsgs >> msg;
         write(m_fd, msg.data(), msg.size());
+    }
+}
+
+void GatePeerSession::dispatch() {
+    for(;;) {
+        Message msg;
+        m_rMsgs >> msg;
+        m_gateServer.dispatch(std::move(msg));
     }
 }
 

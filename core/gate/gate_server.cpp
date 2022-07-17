@@ -24,8 +24,8 @@ GatePeerSession::ptr GateServer::getPeerSession(int type) {
     return it != m_peerSessions.end() ? it->second : nullptr;
 }
 
-GateSession::ptr GateServer::getSession(int id) {
-    std::unordered_map<int, GateSession::ptr>::iterator it = m_sessions.find(id);
+GateSession::ptr GateServer::getSession(uint64_t id) {
+    std::unordered_map<uint64_t, GateSession::ptr>::iterator it = m_sessions.find(id);
     return it != m_sessions.end() ? it->second : nullptr;
 }
 

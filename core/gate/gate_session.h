@@ -19,7 +19,7 @@ public:
 
     GateSession(uint16_t server_id, int fd, GateServer& server);
 
-    uint32_t id() const { return m_fd; }
+    uint64_t id() const { return m_id; }
 
     void setGateServer(std::shared_ptr<GateServer> gate_server);
 
@@ -30,13 +30,15 @@ public:
 private:
     void sync_read();
     void sync_write();
+    void dispatch();
 
 private:
     int m_fd;
-    uint32_t m_id;
+    uint64_t m_id;
 
     GateServer& m_gateServer;
 
+    co_chan<Message> m_rMsgs;
     co_chan<Message> m_wMsgs;
 };
 

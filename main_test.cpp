@@ -118,6 +118,7 @@ int main(int argc, char* argv[]) {
                 req.SerializeToString(&data);
                 con->sync_write(1001, 2, data);
 
+                co_sleep(200);
                 //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;
             }
         };

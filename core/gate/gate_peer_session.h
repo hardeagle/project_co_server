@@ -37,6 +37,8 @@ private:
 
     void sync_write();
 
+    void dispatch();
+
 private:
     int m_fd;
     int m_senderType;
@@ -45,6 +47,7 @@ private:
     std::string m_ip;
     int m_port;
 
+    co_chan<Message> m_rMsgs;
     co_chan<Message> m_wMsgs;
 
     GateServer& m_gateServer;
