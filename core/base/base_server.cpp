@@ -116,8 +116,8 @@ void BaseServer::gateDispatch(Message&& msg) {
     if (it == m_workRoutines.end()) {
         auto routine = std::make_shared<WorkRoutine>(id, m_servlet, m_gateSessions[msg.senderId()]);
         m_workRoutines[id] = routine;
-        go co_scheduler(m_workScheduler) [this, self = shared_from_this(), id] {
-            m_workRoutines[id]->run();
+        go co_scheduler(m_workScheduler) [routine] {
+            routine->run();
         };
 
     }
