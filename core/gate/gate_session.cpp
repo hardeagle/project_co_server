@@ -80,7 +80,7 @@ void GateSession::dispatch() {
         Message msg;
         m_rMsgs >> msg;
         uint16_t receiver_id = msg.receiverId();
-        auto session = m_gateServer.getPeerSession(receiver_id);
+        auto session = m_gateServer.getGatePeerSession(receiver_id);
         if (!session) {
             LOG(ERROR) << "Invalid receiver " << receiver_id;
             continue;

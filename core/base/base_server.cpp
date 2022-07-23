@@ -9,6 +9,7 @@
 #include "core/message.hpp"
 #include "core/servlet.h"
 #include "core/rpc/rpc_manager.h"
+#include "core/util/util.h"
 
 #include "log/glog.h"
 
@@ -19,7 +20,9 @@
 
 namespace Eayew {
 
-BaseServer::BaseServer() {
+BaseServer::BaseServer()
+    : m_agent(m_consul)
+    , m_kv(m_consul) {
     m_servlet = std::make_shared<ServletDispatchRange>();
     m_workScheduler = co::Scheduler::Create();
 }
@@ -95,11 +98,12 @@ void BaseServer::run() {
         }
     };
 
-    regAndDiscServer();
 
     m_workThreads.emplace_back([this, self = shared_from_this()] {
         m_workScheduler->Start(); 
     });
+
+    consulServer();
 
     // for (auto& t : m_workThreads) {
     //     t.detach();
@@ -149,9 +153,53 @@ void BaseServer::initByConfig(const std::string& file) {
     m_type = root.get<int>("type");
     m_ip = root.get<std::string>("ip");
     m_port = root.get<int>("port");
+    m_serverId = serverId(m_name, m_type, m_ip, m_port);
 
     m_rpcManager = std::make_shared<RpcManager>(m_type);
     m_rpcManager->init(file);
+}
+
+void BaseServer::consulServer() {
+    m_agent.registerService(std::to_string(m_type),
+        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(10), std::chrono::milliseconds(1)},
+        ppconsul::agent::kw::deregisterCriticalServiceAfter = std::chrono::minutes(1),
+        ppconsul::agent::kw::address = m_ip,
+        ppconsul::agent::kw::port = m_port,
+        ppconsul::agent::kw::id = m_serverId
+    );
+
+    // m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
+    //     discoverServer();
+    // });
+}
+
+void BaseServer::discoverServer() {
+    // auto servers = m_agent.services();
+    // for (auto [id, si] : servers) {
+    //     LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+    //     if (id == m_serverId) {
+    //         continue;
+    //     }
+    //     uint16_t st = std::atoi(si.name.data());
+    //     auto it = m_gpSessions.find(st);
+    //     if (it != m_gpSessions.end()) {
+    //         auto it1 = it->second.find(id);
+    //         if (it1 != it->second.end()) {
+    //             LOG(INFO) << "exist,  id " << si.id;
+    //             continue;
+    //         }
+    //     }
+    //     auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
+    //     LOG(INFO) << "config self type " << type() << " rpc type " << st;
+    //     gps->senderType(type());
+    //     gps->receiverType(st);
+    //     gps->run();
+    //     m_gpSessions[st][si.id] = gps;
+    // }
+
+    // m_timer.ExpireAt(std::chrono::seconds(60), [this, self = shared_from_this()] {
+    //     discoverServer();
+    // });
 }
 
 }

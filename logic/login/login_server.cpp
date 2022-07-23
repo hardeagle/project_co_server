@@ -51,21 +51,3 @@ void LoginServer::initServlet() {
     servlet()->addServlet(LoginProtocol::ID::C2S_LOGIN_BASE, LoginProtocol::ID::C2S_LOGIN_TOP, tmp_servlet);
 
 }
-
-void LoginServer::regAndDiscServer() {
-    auto consul = ppconsul::Consul();
-    auto agent = ppconsul::agent::Agent(consul);
-
-    // register
-    std::string server_name = name();
-    server_name += type();
-    agent.registerService(
-        server_name,
-        ppconsul::agent::TcpCheck{ip(), port(), std::chrono::seconds(10), std::chrono::milliseconds(1)},
-        ppconsul::agent::kw::deregisterCriticalServiceAfter = std::chrono::minutes(1),
-        ppconsul::agent::kw::address = ip(),
-        ppconsul::agent::kw::port = port()
-    );
-
-    // discover
-}

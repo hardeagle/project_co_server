@@ -6,6 +6,10 @@
 
 #include <libgo/libgo.h>
 
+#include <ppconsul/agent.h>
+#include <ppconsul/consul.h>
+#include <ppconsul/kv.h>
+
 #include "core/message.hpp"
 
 namespace Eayew {
@@ -43,11 +47,14 @@ public:
 
     virtual void beforeRun() {}
 
-    virtual void regAndDiscServer() {}
-
     std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 
     std::shared_ptr<ServletDispatchRange> servlet() { return m_servlet; }
+
+private:
+    void consulServer();
+
+    void discoverServer();
 
 private:
     int m_type;
@@ -57,6 +64,13 @@ private:
     std::string m_name;
 
     int m_fd;
+
+    std::string m_serverId;
+    ppconsul::Consul m_consul;
+    ppconsul::agent::Agent m_agent;
+    ppconsul::kv::Kv m_kv;
+
+    co_timer m_timer;
 
     std::shared_ptr<RpcManager> m_rpcManager;
 

@@ -13,11 +13,42 @@
 #include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
+#include "core/util/util.h"
 
 #include "gate_session.h"
 #include "gate_peer_session.h"
 
 namespace Eayew {
+
+GateServer::GateServer()
+    : m_agent(m_consul)
+    , m_kv(m_consul)
+    , m_timer(std::chrono::milliseconds(1), &co_sched) {    
+}
+
+GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
+    auto it = m_gpSessions.find(type);
+    if (it != m_gpSessions.end()) {
+        return it->second.begin()->second;
+    }
+
+    auto servers = m_agent.services();
+    for (auto [id, si] : servers) {
+        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+        uint16_t st = std::atoi(si.name.data());
+        if (st == type) {
+            auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
+            LOG(INFO) << "config self type " << this->type() << " rpc type " << st;
+            gps->senderType(this->type());
+            gps->receiverType(st);
+            gps->run();
+            m_gpSessions[st][id] = gps;
+            return gps;
+        }
+    }
+    return nullptr;
+}
+
 
 GatePeerSession::ptr GateServer::getPeerSession(int type) {
     std::unordered_map<int, GatePeerSession::ptr>::iterator it = m_peerSessions.find(type);
@@ -72,6 +103,8 @@ void GateServer::run() {
         }
     };
 
+    consulServer();
+
     co_sched.Start(6);
 }
 
@@ -102,27 +135,72 @@ void GateServer::init() {
     boost::property_tree::ptree root;
     boost::property_tree::read_json(file, root);
     m_name = root.get<std::string>("name");
-    m_type = root.get<int>("type");
+    m_type = root.get<uint16_t>("type");
     m_ip = root.get<std::string>("ip");
-    m_port = root.get<int>("port");
+    m_port = root.get<uint16_t>("port");
+    m_serverId = serverId(m_name, m_type, m_ip, m_port);
 
-    boost::property_tree::ptree servers = root.get_child("servers");
-    BOOST_FOREACH (boost::property_tree::ptree::value_type& node, servers) {
-        auto name = node.second.get<std::string>("name");
-        auto type = node.second.get<int>("type");
-        auto ip = node.second.get<std::string>("ip");
-        auto port = node.second.get<int>("port");
-        auto num = node.second.get<int>("num");
-        num = 1;
-        for (int i = 0; i < num; ++i) {
-            auto gps = std::make_shared<GatePeerSession>(ip, port, *this);
-            LOG(INFO) << "config self type " << this->type() << " rpc type " << type;
-            gps->senderType(this->type());
-            gps->receiverType(type);
-            gps->run();
-            m_peerSessions[type] = gps;
+    // boost::property_tree::ptree servers = root.get_child("servers");
+    // BOOST_FOREACH (boost::property_tree::ptree::value_type& node, servers) {
+    //     auto name = node.second.get<std::string>("name");
+    //     auto type = node.second.get<uint16_t>("type");
+    //     auto ip = node.second.get<std::string>("ip");
+    //     auto port = node.second.get<uint16_t>("port");
+
+    //     auto num = node.second.get<int>("num");
+    //     num = 1;
+    //     for (int i = 0; i < num; ++i) {
+    //         auto gps = std::make_shared<GatePeerSession>(ip, port, *this);
+    //         LOG(INFO) << "config self type " << this->type() << " rpc type " << type;
+    //         gps->senderType(this->type());
+    //         gps->receiverType(type);
+    //         gps->run();
+    //         m_peerSessions[type] = gps;
+    //     }
+    // }
+}
+
+void GateServer::consulServer() {
+    m_agent.registerService(std::to_string(m_type),
+        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(10), std::chrono::milliseconds(1)},
+        ppconsul::agent::kw::deregisterCriticalServiceAfter = std::chrono::minutes(1),
+        ppconsul::agent::kw::address = m_ip,
+        ppconsul::agent::kw::port = m_port,
+        ppconsul::agent::kw::id = m_serverId
+    );
+
+    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
+        discoverServer();
+    });
+}
+
+void GateServer::discoverServer() {
+    auto servers = m_agent.services();
+    for (auto [id, si] : servers) {
+        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+        if (id == m_serverId) {
+            continue;
         }
+        uint16_t st = std::atoi(si.name.data());
+        auto it = m_gpSessions.find(st);
+        if (it != m_gpSessions.end()) {
+            auto it1 = it->second.find(id);
+            if (it1 != it->second.end()) {
+                LOG(INFO) << "exist,  id " << si.id;
+                continue;
+            }
+        }
+        auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
+        LOG(INFO) << "config self type " << type() << " rpc type " << st;
+        gps->senderType(type());
+        gps->receiverType(st);
+        gps->run();
+        m_gpSessions[st][si.id] = gps;
     }
+
+    m_timer.ExpireAt(std::chrono::seconds(60), [this, self = shared_from_this()] {
+        discoverServer();
+    });
 }
 
 }

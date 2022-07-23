@@ -10,8 +10,6 @@ public:
 protected:
     virtual void beforeRun() override;
 
-    virtual void regAndDiscServer() override;
-
 private:
     void initServlet();
 };
