@@ -207,12 +207,52 @@ private:
     co_chan<T> m_chan;
 };
 
+
+template<typename T, typename ...Args>
+void sum(std::vector<T>& vecs,  Args... args){
+    (..., vecs.push_back(args));
+	//std::cout << ... << vecs.push_back(args);
+}
+
+std::vector<Point> testCon() {
+    std::vector<Point> vecs;
+    vecs.push_back(Point(1, 1, 1));
+    //vecs.push_back(Point(2, 2, 2));
+    //vecs.push_back(Point(3, 3, 3));
+    LOG(ERROR) << "&vecs " << &vecs;
+    return vecs;
+}
+
+std::list<Point> testList() {
+    std::list<Point> vecs;
+    vecs.push_back(Point(1, 1, 1));
+    vecs.push_back(Point(2, 2, 2));
+    vecs.push_back(Point(3, 3, 3));
+    LOG(ERROR) << "&vecs " << &vecs;
+    //return vecs;
+    return {};
+}
+
 int main(int argc, char* argv[]) {
     GLog glog(argv[0]);
 
     LOG(INFO) << "---begin---";
 
     co_opt.debug = co::dbg_all;
+
+    //auto vs = testCon();
+    std::vector<Point> vs;
+    vs = testCon();
+    LOG(ERROR) << "&vs " << &vs;
+
+    {
+        //std::list<Point> vs;
+        auto vs = testList();
+        LOG(ERROR) << "&vs " << &vs << " ,vs size " << vs.size();
+        for (auto k : vs) {
+            LOG(ERROR) << "info " << k.strInfo();
+        }
+    }
 
     // Test<Point>::ptr test = std::make_shared<Test<Point>>();
     // test->init();
@@ -238,24 +278,30 @@ int main(int argc, char* argv[]) {
     // auto& p3 = p1;
     // LOG(INFO)<< "p3 " << p3.strInfo();
 
-    Point p1(1, 2, 3);
-    LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
-    auto tmp = std::move(p1);
-    LOG(WARNING) << "11";
-    funTest(std::forward<Point>(tmp));
-    LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
+    // Point p1(1, 2, 3);
+    // LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
+    // auto tmp = std::move(p1);
+    // LOG(WARNING) << "11";
+    // funTest(std::forward<Point>(tmp));
+    // LOG(WARNING) << "&p1 " << &p1 << " data " << p1.strInfo();;
 
-    std::deque<Point> points;
-    points.push_back(std::forward<Point>(p1));
+    // std::deque<Point> points;
+    // points.push_back(std::forward<Point>(p1));
 
-    LOG(WARNING) << "&tmp " << &tmp << " data " << tmp.strInfo();;
+    // LOG(WARNING) << "&tmp " << &tmp << " data " << tmp.strInfo();;
 
 
-    for (auto& v : points) {
-        LOG(WARNING) << "&v " << &v << " data " << v.strInfo();;
-    }
+    // for (auto& v : points) {
+    //     LOG(WARNING) << "&v " << &v << " data " << v.strInfo();;
+    // }
 
     // auto p2 = std::forward<Point>(p1);
+
+    std::vector<int> vecs;
+    sum(vecs, 1, 2, 3, 4, 5, 6);
+    for (auto v : vecs) {
+        LOG(ERROR) << "v " << v;
+    }
 
     co_sched.Start(1);
 
