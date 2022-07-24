@@ -29,15 +29,17 @@ static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
 static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_login_5fid_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016login_id.proto\022\rLoginProtocol*z\n\002ID\022\010\n"
-  "\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOGI"
-  "N_BASE\020\350\207\010\022\024\n\016C2S_LOGIN_LOAD\020\351\207\010\022\024\n\016S2C_"
-  "LOGIN_LOAD\020\352\207\010\022\023\n\rC2S_LOGIN_TOP\020\317\217\010b\006pro"
-  "to3"
+  "\n\016login_id.proto\022\rLoginProtocol*\330\001\n\002ID\022\010"
+  "\n\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOG"
+  "IN_BASE\020\350\207\010\022\025\n\017C2S_LOGIN_LOGIN\020\351\207\010\022\025\n\017S2"
+  "C_LOGIN_LOGIN\020\352\207\010\022\026\n\020C2S_LOGIN_CREATE\020\353\207"
+  "\010\022\026\n\020S2C_LOGIN_CREATE\020\354\207\010\022\024\n\016C2S_LOGIN_L"
+  "OAD\020\355\207\010\022\024\n\016S2C_LOGIN_LOAD\020\356\207\010\022\023\n\rC2S_LOG"
+  "IN_TOP\020\317\217\010b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_login_5fid_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_login_5fid_2eproto = {
-    false, false, 163, descriptor_table_protodef_login_5fid_2eproto,
+    false, false, 258, descriptor_table_protodef_login_5fid_2eproto,
     "login_id.proto",
     &descriptor_table_login_5fid_2eproto_once, nullptr, 0, 0,
     schemas, file_default_instances, TableStruct_login_5fid_2eproto::offsets,
@@ -62,6 +64,10 @@ bool ID_IsValid(int value) {
     case 132072:
     case 132073:
     case 132074:
+    case 132075:
+    case 132076:
+    case 132077:
+    case 132078:
     case 133071:
       return true;
     default:

@@ -4,11 +4,29 @@ syntax = "proto3";
 
 package LoginProtocol;
 
-message C2S_LoginLoad {
+message C2S_LoginLogin {
     bytes loginname = 1;
+}
+
+message S2C_LoginLogin {
+    int32 ret = 1;
+    int64 role_id = 2;
+}
+
+message C2S_LoginCreate {
+    bytes loginname = 1;
+    bytes role_name = 2;
+}
+
+message S2C_LoginCreate {
+    int32 ret = 1;
+    int64 role_id = 2;
+}
+
+message C2S_LoginLoad {
+    int64 role_id = 1;
 }
 
 message S2C_LoginLoad {
     int32 ret = 1;
-    int32 role_id = 2;
 }

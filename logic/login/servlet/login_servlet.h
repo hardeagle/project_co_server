@@ -11,6 +11,8 @@ public:
     virtual bool doRequest(Eayew::Session::ptr session, Eayew::Message&& msg);
 
 private:
+    bool doLogin(Eayew::Session::ptr session, Eayew::Message&& msg);
+    bool doCreate(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
 };
 

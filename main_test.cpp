@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
                 }
                 //LOG(WARNING) << "msg " << msg;
 
-                LoginProtocol::C2S_LoginLoad req;
+                LoginProtocol::C2S_LoginLogin req;
                 req.set_loginname(msg);
                 std::string data;
                 req.SerializeToString(&data);

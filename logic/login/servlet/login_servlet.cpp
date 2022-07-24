@@ -8,16 +8,30 @@
 bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     auto id = msg.realMsgId();
     switch (id) {
+        case LoginProtocol::ID::C2S_LOGIN_LOGIN:
+            return doLogin(session, std::move(msg));
+        case LoginProtocol::ID::C2S_LOGIN_CREATE:
+            return doCreate(session, std::move(msg));
         case LoginProtocol::ID::C2S_LOGIN_LOAD:
             return doLoad(session, std::move(msg));
-            break;
+        default:
+            LOG(ERROR) << "invalid id " << id;
+            return true;
     }
 
     return true;
 }
 
+bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    return true;
+}
+
+bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    return true;
+}
+
 bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
-    LOG(INFO) << "doLoad";
+    LOG(INFO) << "doLoad begin...";
     LOG(WARNING) << msg.strInfo();
 
     auto sessionId = msg.sessionId();
@@ -38,6 +52,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     session->send(std::move(msg));
 
+    LOG(ERROR) << "doLoad end...";
     return true;
 }
 

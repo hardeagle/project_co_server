@@ -8,7 +8,11 @@ enum ID {
     LOGIN_ID_BASE           = 131072;   // 2 << 16
 
     C2S_LOGIN_BASE          = 132072;   // ID_BASE + 1000
-    C2S_LOGIN_LOAD          = 132073;
-    S2C_LOGIN_LOAD          = 132074;
+    C2S_LOGIN_LOGIN         = 132073;
+    S2C_LOGIN_LOGIN         = 132074;
+    C2S_LOGIN_CREATE        = 132075;
+    S2C_LOGIN_CREATE        = 132076;
+    C2S_LOGIN_LOAD          = 132077;
+    S2C_LOGIN_LOAD          = 132078;
     C2S_LOGIN_TOP           = 133071;
 }
