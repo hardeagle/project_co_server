@@ -14,6 +14,7 @@
 
 #include <time.h>
 
+#include "core/redis/redis_manager.h"
 #include "core/util/util.h"
 
 #include <sys/socket.h>
@@ -238,7 +239,7 @@ int main(int argc, char* argv[]) {
 
     LOG(INFO) << "---begin---";
 
-    co_opt.debug = co::dbg_all;
+    //co_opt.debug = co::dbg_all;
 
     //auto vs = testCon();
     std::vector<Point> vs;
@@ -301,6 +302,24 @@ int main(int argc, char* argv[]) {
     sum(vecs, 1, 2, 3, 4, 5, 6);
     for (auto v : vecs) {
         LOG(ERROR) << "v " << v;
+    }
+
+    Eayew::RedisManager redisMgr("127.0.0.1", 6379);
+    { // string
+        auto key = "string_test";
+        redisMgr.set(key, "111");
+        std::string val = redisMgr.get<std::string>(key);
+        LOG(WARNING) << "string val " << val;
+    }
+    { // sorted set
+        auto key = "sorted_set_test";
+        redisMgr.zadd(key, 100, "test_100");
+        redisMgr.zadd(key, 200, "test_200");
+        redisMgr.zadd(key, 300, "test_300");
+        auto vals = redisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
+        for (auto [k, v] : vals) {
+            LOG(ERROR) << "k " << k << " ,v " << v;
+        }
     }
 
     co_sched.Start(1);
