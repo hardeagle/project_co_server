@@ -322,6 +322,24 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    Eayew::RedisManager tendisMgr("127.0.0.1", 51002);
+    { // string
+        auto key = "string_test_tendis";
+        tendisMgr.set(key, "111");
+        std::string val = redisMgr.get<std::string>(key);
+        LOG(WARNING) << "string val " << val;
+    }
+    { // sorted set
+        auto key = "sorted_set_test_tendis";
+        tendisMgr.zadd(key, 100, "test_100");
+        tendisMgr.zadd(key, 200, "test_200");
+        tendisMgr.zadd(key, 300, "test_300");
+        auto vals = tendisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
+        for (auto [k, v] : vals) {
+            LOG(ERROR) << "k " << k << " ,v " << v;
+        }
+    }
+
     co_sched.Start(1);
 
     // for (int i = 0; i < 10; ++i) {

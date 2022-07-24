@@ -32,10 +32,17 @@ public:
         return m_pikaMgr;
     }
 
+    std::shared_ptr<Eayew::RedisManager> tendisMgr() {
+        return m_tendisMgr;
+    }
+
 private:
     std::shared_ptr<AccountManager> m_accountMgr;
+
     std::shared_ptr<Eayew::RedisManager> m_redisMgr;
     std::shared_ptr<Eayew::RedisManager> m_pikaMgr;
+    std::shared_ptr<Eayew::RedisManager> m_tendisMgr;
+
 };
 
 #endif
