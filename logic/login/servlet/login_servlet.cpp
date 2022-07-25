@@ -2,8 +2,14 @@
 
 #include "log/glog.h"
 
+#include "core/redis/redis_manager.h"
+
+#include "logic/common/redis_key.h"
+#include "logic/protocol/public.pb.h"
+
 #include "logic/login/protocol/login_id.pb.h"
 #include "logic/login/protocol/login.pb.h"
+#include "logic/login/server_resource.h"
 
 bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     auto id = msg.realMsgId();
@@ -23,10 +29,31 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) 
 }
 
 bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    LOG(INFO) << "doLogin begin...";
+    LoginProtocol::C2S_LoginLogin req;
+    if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
+        LOG(ERROR) << "ParseFromArray fail";
+        return false;
+    }
+
+    LoginProtocol::S2C_LoginLogin resp;
+    auto redis_mgr = ServerResource::get()->redisMgr();
+    auto role_id = redis_mgr->get<uint64_t>(LoginNameToRoleIdKey(req.loginname()));
+    if (role_id == 0) {
+        LOG(INFO) << "new role";
+        resp.set_ret(1);
+        goto End;
+    }
+    resp.set_role_id(role_id);
+
+End:
+    session->send(std::move(msg));
+    LOG(INFO) << "doLogin end...";
     return true;
 }
 
 bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    LOG(INFO) << "doCreate begin...";
     return true;
 }
 
