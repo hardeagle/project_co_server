@@ -7,3 +7,9 @@ std::string LoginNameToRoleIdKey(const std::string& loginname) {
     key += loginname;
     return key;
 }
+
+std::string RoleIdIncrementKey() {
+    static std::string key;
+    key = PREFIX + "role_id_increment";
+    return key;
+}

@@ -10,6 +10,7 @@
 #include "logic/login/protocol/login_id.pb.h"
 #include "logic/login/protocol/login.pb.h"
 #include "logic/login/server_resource.h"
+#include "logic/login/id_manager.h"
 
 bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     auto id = msg.realMsgId();
@@ -54,6 +55,20 @@ End:
 
 bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "doCreate begin...";
+    LoginProtocol::C2S_LoginCreate req;
+    if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
+        LOG(ERROR) << "ParseFromArray fail";
+        return false;
+    }
+
+    auto role_id = ServerResource::get()->idMgr()->generateId(IdManager::EID_ROLE_ID);
+    if (role_id <= 0) {
+        LOG(ERROR) << "general id fail, role id " << role_id;
+    }
+    // auto bri = PublicProtocol::BaseRoleInfo{
+    //     role_id, req.role_name()
+    // };
+
     return true;
 }
 

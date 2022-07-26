@@ -295,6 +295,16 @@ public:
     }
 
     // hash-----------------------------------------------------------------------------------
+    template<typename T>
+    uint64_t hincrby(const std::string& key, const T& field, uint32_t increment) {
+        auto rc = get();
+        if (!rc) {
+            LOG(ERROR) << "get fail";
+            return 0;
+        }
+        return rc->exec("hincrby", key, field, increment).template get<uint64_t>();
+    }
+
     template<typename T, typename U>
     void hset(const std::string& key, const T& field, const U& val) {
         auto rc = get();

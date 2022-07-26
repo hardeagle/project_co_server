@@ -8,6 +8,7 @@ namespace Eayew {
 }
 
 class AccountManager;
+class IdManager;
 
 class ServerResource {
 public:
@@ -19,10 +20,6 @@ public:
     }
 
     void init();
-
-    std::shared_ptr<AccountManager> accountMgr() {
-        return m_accountMgr;
-    }
 
     std::shared_ptr<Eayew::RedisManager> redisMgr() {
         return m_redisMgr;
@@ -36,12 +33,21 @@ public:
         return m_tendisMgr;
     }
 
-private:
-    std::shared_ptr<AccountManager> m_accountMgr;
+    std::shared_ptr<AccountManager> accountMgr() {
+        return m_accountMgr;
+    }
 
+    std::shared_ptr<IdManager> idMgr() {
+        return m_idMgr;
+    }
+
+private:
     std::shared_ptr<Eayew::RedisManager> m_redisMgr;
     std::shared_ptr<Eayew::RedisManager> m_pikaMgr;
     std::shared_ptr<Eayew::RedisManager> m_tendisMgr;
+
+    std::shared_ptr<AccountManager> m_accountMgr;
+    std::shared_ptr<IdManager> m_idMgr;
 
 };
 

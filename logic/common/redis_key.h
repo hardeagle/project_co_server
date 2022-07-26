@@ -5,4 +5,6 @@
 
 std::string LoginNameToRoleIdKey(const std::string& loginname);
 
+std::string RoleIdIncrementKey();
+
 #endif
