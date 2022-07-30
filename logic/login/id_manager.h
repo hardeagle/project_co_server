@@ -19,6 +19,8 @@ public:
 
     uint64_t generateId(int eid);
 
+    uint64_t generateId();
+
 private:
     std::vector<uint32_t> m_stepIds;
     std::vector<uint64_t> m_maxIds;

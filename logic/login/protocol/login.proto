@@ -16,6 +16,7 @@ message S2C_LoginLogin {
 message C2S_LoginCreate {
     bytes loginname = 1;
     bytes role_name = 2;
+    bytes avatarurl = 3;
 }
 
 message S2C_LoginCreate {

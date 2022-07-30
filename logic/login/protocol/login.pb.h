@@ -511,6 +511,7 @@ class C2S_LoginCreate final :
   enum : int {
     kLoginnameFieldNumber = 1,
     kRoleNameFieldNumber = 2,
+    kAvatarurlFieldNumber = 3,
   };
   // bytes loginname = 1;
   void clear_loginname();
@@ -540,6 +541,20 @@ class C2S_LoginCreate final :
   std::string* _internal_mutable_role_name();
   public:
 
+  // bytes avatarurl = 3;
+  void clear_avatarurl();
+  const std::string& avatarurl() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_avatarurl(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_avatarurl();
+  PROTOBUF_NODISCARD std::string* release_avatarurl();
+  void set_allocated_avatarurl(std::string* avatarurl);
+  private:
+  const std::string& _internal_avatarurl() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_avatarurl(const std::string& value);
+  std::string* _internal_mutable_avatarurl();
+  public:
+
   // @@protoc_insertion_point(class_scope:LoginProtocol.C2S_LoginCreate)
  private:
   class _Internal;
@@ -550,6 +565,7 @@ class C2S_LoginCreate final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loginname_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr role_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatarurl_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1217,6 +1233,56 @@ inline void C2S_LoginCreate::set_allocated_role_name(std::string* role_name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.role_name)
+}
+
+// bytes avatarurl = 3;
+inline void C2S_LoginCreate::clear_avatarurl() {
+  _impl_.avatarurl_.ClearToEmpty();
+}
+inline const std::string& C2S_LoginCreate::avatarurl() const {
+  // @@protoc_insertion_point(field_get:LoginProtocol.C2S_LoginCreate.avatarurl)
+  return _internal_avatarurl();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2S_LoginCreate::set_avatarurl(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.avatarurl_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginCreate.avatarurl)
+}
+inline std::string* C2S_LoginCreate::mutable_avatarurl() {
+  std::string* _s = _internal_mutable_avatarurl();
+  // @@protoc_insertion_point(field_mutable:LoginProtocol.C2S_LoginCreate.avatarurl)
+  return _s;
+}
+inline const std::string& C2S_LoginCreate::_internal_avatarurl() const {
+  return _impl_.avatarurl_.Get();
+}
+inline void C2S_LoginCreate::_internal_set_avatarurl(const std::string& value) {
+  
+  _impl_.avatarurl_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2S_LoginCreate::_internal_mutable_avatarurl() {
+  
+  return _impl_.avatarurl_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2S_LoginCreate::release_avatarurl() {
+  // @@protoc_insertion_point(field_release:LoginProtocol.C2S_LoginCreate.avatarurl)
+  return _impl_.avatarurl_.Release();
+}
+inline void C2S_LoginCreate::set_allocated_avatarurl(std::string* avatarurl) {
+  if (avatarurl != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.avatarurl_.SetAllocated(avatarurl, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.avatarurl_.IsDefault()) {
+    _impl_.avatarurl_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.avatarurl)
 }
 
 // -------------------------------------------------------------------

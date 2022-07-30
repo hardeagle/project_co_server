@@ -38,16 +38,17 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
     }
 
     LoginProtocol::S2C_LoginLogin resp;
-    auto redis_mgr = ServerResource::get()->redisMgr();
-    auto role_id = redis_mgr->get<uint64_t>(LoginNameToRoleIdKey(req.loginname()));
-    if (role_id == 0) {
-        LOG(INFO) << "new role";
-        resp.set_ret(1);
-        goto End;
-    }
-    resp.set_role_id(role_id);
-
-End:
+    do {
+        auto redis_mgr = ServerResource::get()->redisMgr();
+        auto role_id = redis_mgr->get<uint64_t>(LoginNameToRoleIdKey(req.loginname()));
+        if (role_id == 0) {
+            LOG(INFO) << "new role";
+            resp.set_ret(1);
+            break;
+        }
+        resp.set_role_id(role_id);
+    } while (false);
+    
     session->send(std::move(msg));
     LOG(INFO) << "doLogin end...";
     return true;
@@ -61,14 +62,27 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         return false;
     }
 
-    auto role_id = ServerResource::get()->idMgr()->generateId(IdManager::EID_ROLE_ID);
-    if (role_id <= 0) {
-        LOG(ERROR) << "general id fail, role id " << role_id;
-    }
-    // auto bri = PublicProtocol::BaseRoleInfo{
-    //     role_id, req.role_name()
-    // };
+    LoginProtocol::S2C_LoginCreate resp;
+    do {
+        auto role_id = ServerResource::get()->idMgr()->generateId();
+        if (role_id <= 0) {
+            LOG(ERROR) << "general id fail, role id " << role_id;
+            resp.set_ret(1);
+            break;
+        }
+        resp.set_role_id(role_id);
 
+        PublicProtocol::BaseRoleInfo bri;
+        bri.set_role_id(role_id);
+        bri.set_name(req.role_name());
+        bri.set_avatarurl(req.avatarurl());
+        std::string serial;
+        bri.SerializeToString(&serial);
+        ServerResource::get()->redisMgr()->set("base_role_info", serial);
+    } while(false);
+
+    session->send(std::move(msg));
+    LOG(INFO) << "doLogin end...";
     return true;
 }
 
