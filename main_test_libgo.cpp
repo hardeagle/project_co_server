@@ -57,9 +57,8 @@ public:
 int main(int argc, char* argv[]) {
     GLog glog(argv[0]);
 
-    LOG(INFO) << "libgo_test begin...";
-
-    auto total_num = 1000000;
+    auto thread_num = 8;
+    auto total_num = 100000;
     auto pnum = 10;
     auto cnum = 1;
     auto pcount = total_num / pnum;
@@ -71,7 +70,7 @@ int main(int argc, char* argv[]) {
     co_chan<void> cw(pnum + cnum);
 
     auto start_ts = getCurMs();
-    LOG(WARNING) << "start ts " << start_ts;
+    LOG(WARNING) << "start ts " << start_ts << " thread_num " << thread_num << " total num " << total_num;
 
     //auto p = std::make_shared<Point>(1, 1);
     //auto p = Point(1, 1);
@@ -83,7 +82,7 @@ int main(int argc, char* argv[]) {
             }
             cw << nullptr;
             auto end_ts = getCurMs();
-            LOG(WARNING) << "produce index " << i << " end ts " << end_ts << " dur(ms) " << end_ts - start_ts;
+            LOG(WARNING) << "produce index " << i << " end ts " << end_ts << " dur(ms) " << end_ts - start_ts << " size " << points.size();
         };
     }
 
@@ -101,7 +100,7 @@ int main(int argc, char* argv[]) {
             }
             cw << nullptr;
             auto end_ts = getCurMs();
-            LOG(WARNING) << "consume index " << i << " end ts " << end_ts << " dur(ms) " << end_ts - start_ts << " sum " << sum;
+            LOG(WARNING) << "consume index " << i << " end ts " << end_ts << " dur(ms) " << end_ts - start_ts << " sum " << sum << " size " << points.size();
         };
     }
 
@@ -110,10 +109,10 @@ int main(int argc, char* argv[]) {
             cw >> nullptr;
         }
         auto end_ts = getCurMs();
-        LOG(WARNING) << "produce & consume end ts " << end_ts << " dur(ms) " << end_ts - start_ts << " sum " << sum;
+        LOG(WARNING) << "produce & consume end ts " << end_ts << " dur(ms) " << end_ts - start_ts << " sum " << sum << " size " << points.size();
     };
 
-    co_sched.Start(1);
+    co_sched.Start(thread_num);
 
     return 0;
 }

@@ -104,13 +104,12 @@ public:
         LOG(INFO) << "有参构造函数";
     }
 
-    Point(const Point& other) = delete;
-    // Point(const Point& other)
-    //     : m_x(other.m_x)
-    //     , m_y(other.m_y)
-    //     , m_z(other.m_z) {
-    //     LOG(INFO) << "拷贝构造函数";
-    // }
+    Point(const Point& other)
+        : m_x(other.m_x)
+        , m_y(other.m_y)
+        , m_z(other.m_z) {
+        LOG(INFO) << "拷贝构造函数";
+    }
 
     Point(Point&& other) {
         LOG(INFO) << "移动构造函数";
@@ -119,14 +118,13 @@ public:
         m_z = std::exchange(other.m_z, 0);
     }
 
-    Point& operator=(const Point& other) = delete;
-    // Point& operator=(const Point& other) {
-    //     LOG(INFO) << "赋值构造函数";
-    //     m_x = other.m_x;
-    //     m_y = other.m_y;
-    //     m_z = other.m_z;
-    //     return *this;
-    // }
+    Point& operator=(const Point& other) {
+        LOG(INFO) << "赋值构造函数";
+        m_x = other.m_x;
+        m_y = other.m_y;
+        m_z = other.m_z;
+        return *this;
+    }
 
     Point& operator=(Point&& other) {
         LOG(INFO) << "移动构造函数";
