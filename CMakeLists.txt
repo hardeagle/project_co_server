@@ -57,8 +57,11 @@ add_executable(gate_server main_gate.cpp ${SRC_LIST})
 add_executable(rank_server main_rank.cpp ${SRC_LIST} ${RANK_SRC_LIST})
 add_executable(test main_test.cpp ${SRC_LIST} ${TEST_SRC_LIST})
 
+add_executable(libgo_test main_test_libgo.cpp ${SRC_LIST})
 
-set(exes co_server chat_server game_server login_server gate_server rank_server test)
+
+
+set(exes co_server chat_server game_server login_server gate_server rank_server test libgo_test)
 FOREACH(exe ${exes})
     target_link_libraries(${exe} -ldl)
     target_link_libraries(${exe} -lglog)
