@@ -91,36 +91,48 @@ const static int s_limit = 20480;
 
 class Point {
 public:
+    using ptr = std::shared_ptr<Point>;
+
     Point() {
-        LOG(WARNING) << "无参构造函数";
+        LOG(INFO) << "无参构造函数";
     }
 
     Point(int x, int y, int z)
         : m_x(x)
         , m_y(y)
         , m_z(z) {
-        LOG(WARNING) << "有参构造函数";
+        LOG(INFO) << "有参构造函数";
     }
 
-    Point(const Point& other) {
-        LOG(WARNING) << "拷贝构造函数";
-        m_x = other.m_x;
-        m_y = other.m_y;
-        m_z = other.m_z;
+    Point(const Point& other) = delete;
+    // Point(const Point& other)
+    //     : m_x(other.m_x)
+    //     , m_y(other.m_y)
+    //     , m_z(other.m_z) {
+    //     LOG(INFO) << "拷贝构造函数";
+    // }
+
+    Point(Point&& other) {
+        LOG(INFO) << "移动构造函数";
+        m_x = std::exchange(other.m_x, 0);
+        m_y = std::exchange(other.m_y, 0);
+        m_z = std::exchange(other.m_z, 0);
     }
 
-    Point(const Point&& other) {
-        LOG(WARNING) << "移动构造函数";
-        m_x = other.m_x;
-        m_y = other.m_y;
-        m_z = other.m_z;
-    }
+    Point& operator=(const Point& other) = delete;
+    // Point& operator=(const Point& other) {
+    //     LOG(INFO) << "赋值构造函数";
+    //     m_x = other.m_x;
+    //     m_y = other.m_y;
+    //     m_z = other.m_z;
+    //     return *this;
+    // }
 
-    Point& operator=(const Point& other) {
-        LOG(WARNING) << "赋值构造函数";
-        m_x = other.m_x;
-        m_y = other.m_y;
-        m_z = other.m_z;
+    Point& operator=(Point&& other) {
+        LOG(INFO) << "移动构造函数";
+        m_x = std::exchange(other.m_x, 0);
+        m_x = std::exchange(other.m_y, 0);
+        m_x = std::exchange(other.m_z, 0);
         return *this;
     }
 
@@ -136,102 +148,114 @@ public:
 };
 
 
-void funTest(Point const& p) {
-    LOG(WARNING) << "std::is_rvalue_reference<decltype(p)>::value " << std::is_rvalue_reference<decltype(p)>::value;
+// void funTest(Point const& p) {
+//     LOG(WARNING) << "std::is_rvalue_reference<decltype(p)>::value " << std::is_rvalue_reference<decltype(p)>::value;
 
-    //p.m_y = 122;
+//     //p.m_y = 122;
 
-    LOG(WARNING) << "&p " << &p;
-    //LOG(INFO) << "funTest " << p.strInfo();
-    // auto ptmp = std::forward<Point>(p);
-    // LOG(INFO) << "funTest ptemp" << ptmp.strInfo();
+//     LOG(WARNING) << "&p " << &p;
+//     //LOG(INFO) << "funTest " << p.strInfo();
+//     // auto ptmp = std::forward<Point>(p);
+//     // LOG(INFO) << "funTest ptemp" << ptmp.strInfo();
 
-    LOG(WARNING) << "1111";
-    std::deque<Point> points;
-    points.push_back(std::move(p));
-    LOG(WARNING) << "222";
-}
+//     LOG(WARNING) << "1111";
+//     std::deque<Point> points;
+//     points.push_back(std::move(p));
+//     LOG(WARNING) << "222";
+// }
 
+
+// template<typename T>
+// class Test : public std::enable_shared_from_this<Test<T>> {
+// public:
+//     using ptr = std::shared_ptr<Test>;
+
+//     Test()
+//         : m_chan(s_limit) {
+//     }
+
+//     void init() {
+//         m_sched = co::Scheduler::Create();
+//         // std::thread t2([this, self = shared_from_this()]{ m_sched->Start(4); });
+//         // t2.detach();
+//         m_threads.emplace_back([this, self = this->template shared_from_this()]{ m_sched->Start(1); });
+//         m_threads[0].detach();
+//     }
+
+//     int size() {
+//         return m_chan.size();
+//     }
+
+//     void push(T&& val) {
+//         LOG(WARNING) << "---produce begin " << m_chan.size();
+//         LOG(WARNING) << "std::is_rvalue_reference<decltype(val)>::value " << std::is_rvalue_reference<decltype(val)>::value;
+
+//         if (m_chan.size() == s_limit) {
+//             LOG(ERROR) << "------------------------full";
+//         }
+//         m_chan << std::forward<Point>(val);
+//         LOG(WARNING) << "---produce end " << m_chan.size();
+//     }
+
+//     void run() {
+//         // go co_scheduler(m_sched) [this, self = this->template shared_from_this()] {
+//         //     for (;;) {
+//         //         LOG(WARNING) << "+++consume begin... " << m_chan.size();
+//         //         if (m_chan.size() == 0) {
+//         //             LOG(ERROR) << "------------------------empty";
+//         //         }
+//         //         T val;
+//         //         m_chan >> val;
+//         //         LOG(INFO) << "val " << val.strInfo();
+
+//         //         LOG(WARNING) << "+++consume end... " << m_chan.size();
+//         //     }
+//         // };
+//     }
+
+// private:
+//     co::Scheduler* m_sched;
+//     std::vector<std::thread> m_threads;
+
+//     co_chan<T> m_chan;
+// };
+
+
+// template<typename T, typename ...Args>
+// void sum(std::vector<T>& vecs,  Args... args){
+//     (..., vecs.push_back(args));
+// 	//std::cout << ... << vecs.push_back(args);
+// }
+
+// std::vector<Point> testCon() {
+//     std::vector<Point> vecs;
+//     vecs.push_back(Point(1, 1, 1));
+//     //vecs.push_back(Point(2, 2, 2));
+//     //vecs.push_back(Point(3, 3, 3));
+//     LOG(ERROR) << "&vecs " << &vecs;
+//     return vecs;
+// }
+
+// std::list<Point> testList() {
+//     std::list<Point> vecs;
+//     vecs.push_back(Point(1, 1, 1));
+//     vecs.push_back(Point(2, 2, 2));
+//     vecs.push_back(Point(3, 3, 3));
+//     LOG(ERROR) << "&vecs " << &vecs;
+//     //return vecs;
+//     return {};
+// }
 
 template<typename T>
-class Test : public std::enable_shared_from_this<Test<T>> {
+class chanel : public co_chan<T> {
 public:
-    using ptr = std::shared_ptr<Test>;
-
-    Test()
-        : m_chan(s_limit) {
+    explicit chanel(std::size_t capacity = 0)
+        : co_chan<T>(capacity) {
     }
-
-    void init() {
-        m_sched = co::Scheduler::Create();
-        // std::thread t2([this, self = shared_from_this()]{ m_sched->Start(4); });
-        // t2.detach();
-        m_threads.emplace_back([this, self = this->template shared_from_this()]{ m_sched->Start(1); });
-        m_threads[0].detach();
-    }
-
-    int size() {
-        return m_chan.size();
-    }
-
-    void push(T&& val) {
-        LOG(WARNING) << "---produce begin " << m_chan.size();
-        LOG(WARNING) << "std::is_rvalue_reference<decltype(val)>::value " << std::is_rvalue_reference<decltype(val)>::value;
-
-        if (m_chan.size() == s_limit) {
-            LOG(ERROR) << "------------------------full";
-        }
-        m_chan << std::forward<Point>(val);
-        LOG(WARNING) << "---produce end " << m_chan.size();
-    }
-
-    void run() {
-        // go co_scheduler(m_sched) [this, self = this->template shared_from_this()] {
-        //     for (;;) {
-        //         LOG(WARNING) << "+++consume begin... " << m_chan.size();
-        //         if (m_chan.size() == 0) {
-        //             LOG(ERROR) << "------------------------empty";
-        //         }
-        //         T val;
-        //         m_chan >> val;
-        //         LOG(INFO) << "val " << val.strInfo();
-
-        //         LOG(WARNING) << "+++consume end... " << m_chan.size();
-        //     }
-        // };
-    }
-
-private:
-    co::Scheduler* m_sched;
-    std::vector<std::thread> m_threads;
-
-    co_chan<T> m_chan;
 };
 
-
-template<typename T, typename ...Args>
-void sum(std::vector<T>& vecs,  Args... args){
-    (..., vecs.push_back(args));
-	//std::cout << ... << vecs.push_back(args);
-}
-
-std::vector<Point> testCon() {
-    std::vector<Point> vecs;
-    vecs.push_back(Point(1, 1, 1));
-    //vecs.push_back(Point(2, 2, 2));
-    //vecs.push_back(Point(3, 3, 3));
-    LOG(ERROR) << "&vecs " << &vecs;
-    return vecs;
-}
-
-std::list<Point> testList() {
-    std::list<Point> vecs;
-    vecs.push_back(Point(1, 1, 1));
-    vecs.push_back(Point(2, 2, 2));
-    vecs.push_back(Point(3, 3, 3));
-    LOG(ERROR) << "&vecs " << &vecs;
-    //return vecs;
-    return {};
+int64_t getCurMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 int main(int argc, char* argv[]) {
@@ -242,18 +266,18 @@ int main(int argc, char* argv[]) {
     //co_opt.debug = co::dbg_all;
 
     //auto vs = testCon();
-    std::vector<Point> vs;
-    vs = testCon();
-    LOG(ERROR) << "&vs " << &vs;
+    // std::vector<Point> vs;
+    // vs = testCon();
+    // LOG(ERROR) << "&vs " << &vs;
 
-    {
-        //std::list<Point> vs;
-        auto vs = testList();
-        LOG(ERROR) << "&vs " << &vs << " ,vs size " << vs.size();
-        for (auto k : vs) {
-            LOG(ERROR) << "info " << k.strInfo();
-        }
-    }
+    // {
+    //     //std::list<Point> vs;
+    //     auto vs = testList();
+    //     LOG(ERROR) << "&vs " << &vs << " ,vs size " << vs.size();
+    //     for (auto k : vs) {
+    //         LOG(ERROR) << "info " << k.strInfo();
+    //     }
+    // }
 
     // Test<Point>::ptr test = std::make_shared<Test<Point>>();
     // test->init();
@@ -298,50 +322,121 @@ int main(int argc, char* argv[]) {
 
     // auto p2 = std::forward<Point>(p1);
 
-    std::vector<int> vecs;
-    sum(vecs, 1, 2, 3, 4, 5, 6);
-    for (auto v : vecs) {
-        LOG(ERROR) << "v " << v;
+    // std::vector<int> vecs;
+    // sum(vecs, 1, 2, 3, 4, 5, 6);
+    // for (auto v : vecs) {
+    //     LOG(ERROR) << "v " << v;
+    // }
+
+    // Eayew::RedisManager redisMgr("127.0.0.1", 6379);
+    // { // string
+    //     auto key = "string_test";
+    //     redisMgr.set(key, "111");
+    //     std::string val = redisMgr.get<std::string>(key);
+    //     LOG(WARNING) << "string val " << val;
+    // }
+    // { // sorted set
+    //     auto key = "sorted_set_test";
+    //     redisMgr.zadd(key, 100, "test_100");
+    //     redisMgr.zadd(key, 200, "test_200");
+    //     redisMgr.zadd(key, 300, "test_300");
+    //     auto vals = redisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
+    //     for (auto [k, v] : vals) {
+    //         LOG(ERROR) << "k " << k << " ,v " << v;
+    //     }
+    // }
+
+    // Eayew::RedisManager tendisMgr("127.0.0.1", 51002);
+    // { // string
+    //     auto key = "string_test_tendis";
+    //     tendisMgr.set(key, "111");
+    //     std::string val = redisMgr.get<std::string>(key);
+    //     LOG(WARNING) << "string val " << val;
+    // }
+    // { // sorted set
+    //     auto key = "sorted_set_test_tendis";
+    //     tendisMgr.zadd(key, 100, "test_100");
+    //     tendisMgr.zadd(key, 200, "test_200");
+    //     tendisMgr.zadd(key, 300, "test_300");
+    //     auto vals = tendisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
+    //     for (auto [k, v] : vals) {
+    //         LOG(ERROR) << "k " << k << " ,v " << v;
+    //     }
+    // }
+
+    // points << std::move(p1);
+    // points >> p1;
+
+    LOG(INFO) << "-------------------------------------------------";
+
+    //chanel<Point::ptr> points(1024000);
+    chanel<Point> points(1024000);
+    auto total_num = 100000;
+    auto pnum = 5;
+    auto cnum = 1;
+    auto pcnum = pnum + cnum;
+    auto pcount = total_num / pnum;
+    auto ccount = total_num / cnum;
+    chanel<void> wg(pcnum);
+
+    auto begin = getCurMs();
+    LOG(WARNING) << "begin... begin ts " << begin << " total num " << total_num << " p_routine num " << pnum << " c_routine num " << cnum;
+
+    //Point::ptr p(new Point(1, 1, 1));
+    Point p(1, 1, 1);
+    for (auto i = 0; i < pnum; ++i) {
+        go [&, i] {
+            for (int j = 0; j < pcount; ++j) {
+                //Point p(j, j, j);
+                //Point::ptr p(new Point(1, 1, 1));
+                points << std::move(p);
+                //LOG(INFO) << "produce size " << points.size();
+            }
+            wg << nullptr;
+            LOG(WARNING) << "produce i " << i << " points.size() " << points.size();
+        };
     }
 
-    Eayew::RedisManager redisMgr("127.0.0.1", 6379);
-    { // string
-        auto key = "string_test";
-        redisMgr.set(key, "111");
-        std::string val = redisMgr.get<std::string>(key);
-        LOG(WARNING) << "string val " << val;
-    }
-    { // sorted set
-        auto key = "sorted_set_test";
-        redisMgr.zadd(key, 100, "test_100");
-        redisMgr.zadd(key, 200, "test_200");
-        redisMgr.zadd(key, 300, "test_300");
-        auto vals = redisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
-        for (auto [k, v] : vals) {
-            LOG(ERROR) << "k " << k << " ,v " << v;
+    {
+        co::Scheduler* sched = co::Scheduler::Create();
+        std::thread t2([sched]{ sched->Start(1); });
+        t2.detach();
+
+        for (auto i = 0; i < cnum; ++i) {
+            go co_scheduler(sched) [&, i] {
+                for (auto j = 0; j < ccount; ++j) {
+                    //Point p;
+                    //Point::ptr p(new Point(1, 1, 1));
+                    points >> p;
+                    //LOG(INFO) << "consume size " << points.size();
+                }
+                wg << nullptr;
+                LOG(WARNING) << "consume i " << i << " points.size() " << points.size();
+            };
         }
     }
 
-    Eayew::RedisManager tendisMgr("127.0.0.1", 51002);
-    { // string
-        auto key = "string_test_tendis";
-        tendisMgr.set(key, "111");
-        std::string val = redisMgr.get<std::string>(key);
-        LOG(WARNING) << "string val " << val;
-    }
-    { // sorted set
-        auto key = "sorted_set_test_tendis";
-        tendisMgr.zadd(key, 100, "test_100");
-        tendisMgr.zadd(key, 200, "test_200");
-        tendisMgr.zadd(key, 300, "test_300");
-        auto vals = tendisMgr.zrevrange<std::string, uint32_t>(key, 0 , -1);
-        for (auto [k, v] : vals) {
-            LOG(ERROR) << "k " << k << " ,v " << v;
-        }
+    {
+        co::Scheduler* sched = co::Scheduler::Create();
+        std::thread t2([sched]{ sched->Start(1); });
+        t2.detach();
+        go co_scheduler(sched) [&] {
+            for (auto i = 0; i < pcnum; ++i) {
+                wg >> nullptr;
+
+                if (i == pnum - 1) {
+                    auto end = getCurMs();
+                    LOG(WARNING) << "produce end... end ts " << end << " dur(ms) " << end - begin;
+                }
+            }
+            auto end = getCurMs();
+            LOG(WARNING) << "produce & consume end...  " << " end ts " << end << " dur(ms) " << end - begin;
+        };
     }
 
-    co_sched.Start(1);
 
+
+    co_sched.Start(6);
     // for (int i = 0; i < 10; ++i) {
     //     go [=] {
     //         LOG(ERROR) << i;
