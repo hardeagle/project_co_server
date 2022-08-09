@@ -30,37 +30,54 @@ public:
         m_data = std::make_shared<buffer>();
     }
 
-    ~Message()
-    {
+    ~Message() {
     }
 
-    //Message(const Message&) = delete;
+    Message(const Message& other) noexcept
+        : m_senderId(other.m_senderId)
+        , m_receiverId(other.m_receiverId)
+        , m_msgId(other.m_msgId)
+        , m_sessionId(other.m_sessionId)
+        , m_roleId(other.m_roleId)
+        , m_data(other.m_data) {
+        LOG(ERROR) << "copy";
+    }
 
-    //Message& operator=(const Message&) = delete;
+    Message& operator=(const Message& other) noexcept {
+        if (this != std::addressof(other)) {
+            m_senderId = other.m_senderId;
+            m_receiverId = other.m_receiverId;
+            m_msgId = other.m_msgId;
+            m_sessionId = other.m_sessionId;
+            m_roleId = other.m_roleId;
+            m_data = other.m_data;
+            LOG(ERROR) << "assign";
+        }
+        return *this;
+    }
 
-    // Message(Message&& other) noexcept
-    //     : m_senderId(std::exchange(other.m_senderId, 0))
-    //     , m_receiverId (std::exchange(other.m_receiverId, 0))
-    //     , m_msgId(std::exchange(other.m_msgId, 0))
-    //     , m_sessionId(std::exchange(other.m_sessionId, 0))
-    //     , m_roleId(std::exchange(other.m_roleId, 0))
-    //     , m_data(std::move(other.m_data)) {
-    //     LOG(ERROR) << "move000000";
-    // }
+    Message(Message&& other) noexcept
+        : m_senderId(std::exchange(other.m_senderId, 0))
+        , m_receiverId (std::exchange(other.m_receiverId, 0))
+        , m_msgId(std::exchange(other.m_msgId, 0))
+        , m_sessionId(std::exchange(other.m_sessionId, 0))
+        , m_roleId(std::exchange(other.m_roleId, 0))
+        , m_data(std::move(other.m_data)) {
+        //LOG(ERROR) << "move000000";
+    }
 
-    // Message& operator=(Message&& other) noexcept
-    // {
-    //     if (this != std::addressof(other)) {
-    //         m_senderId = std::exchange(other.m_senderId, 0);
-    //         m_receiverId = std::exchange(other.m_receiverId, 0);
-    //         m_msgId = std::exchange(other.m_msgId, 0);
-    //         m_sessionId = std::exchange(other.m_sessionId, 0);
-    //         m_roleId = std::exchange(other.m_roleId, 0);
-    //         m_data = std::move(other.m_data);
-    //         LOG(ERROR) << "move1111";
-    //     }
-    //     return *this;
-    // }
+    Message& operator=(Message&& other) noexcept {
+        if (this != std::addressof(other)) {
+            m_senderId = std::exchange(other.m_senderId, 0);
+            m_receiverId = std::exchange(other.m_receiverId, 0);
+            m_msgId = std::exchange(other.m_msgId, 0);
+            m_sessionId = std::exchange(other.m_sessionId, 0);
+            m_roleId = std::exchange(other.m_roleId, 0);
+            m_data = std::move(other.m_data);
+            //LOG(ERROR) << "move1111";
+        }
+        return *this;
+    }
 
     void setSender(uint16_t sender_id) {
         m_senderId = sender_id;

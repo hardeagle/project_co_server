@@ -4,6 +4,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.hpp"
 #include "log/glog.h"
 
 uint64_t getCurMs() {
@@ -66,7 +67,8 @@ int main(int argc, char* argv[]) {
     uint64_t sum = 0;
 
     //co_chan<Point::ptr> points(total_num * 2);
-    co_chan<Point> points(total_num * 2);
+    ///co_chan<Point> points(total_num * 2);
+    co_chan<Eayew::Message> points(total_num * 2);
     co_chan<void> cw(pnum + cnum);
 
     auto start_ts = getCurMs();
@@ -78,7 +80,9 @@ int main(int argc, char* argv[]) {
         go [&, i] {
             for (auto j = 0; j < pcount; ++j) {
                 auto val = i * pcount + j;
-                points << std::move(Point(val, val));
+                Eayew::Message msg;
+                //msg.writeData("123");
+                points << std::move(msg);
             }
             cw << nullptr;
             auto end_ts = getCurMs();
@@ -94,9 +98,9 @@ int main(int argc, char* argv[]) {
         //go co_scheduler(sched) [&] {
         go [&, i] {
             for (auto j = 0; j < ccount; ++j) {
-                Point p;
+                Eayew::Message p;
                 points >> p;
-                sum += p.m_x;
+                //sum += p.m_x;
             }
             cw << nullptr;
             auto end_ts = getCurMs();
