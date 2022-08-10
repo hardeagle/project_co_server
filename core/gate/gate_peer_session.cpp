@@ -46,7 +46,7 @@ void GatePeerSession::push(Message&& msg) {
         LOG(WARNING) << "gate peer session full";
     }
 
-    m_wMsgs << msg;
+    m_wMsgs << std::move(msg);
 }
 
 void GatePeerSession::sync_connect() {
@@ -88,7 +88,7 @@ void GatePeerSession::sync_read() {
         }
         msg.commit(body_len);
 
-        m_rMsgs << msg;
+        m_rMsgs << std::move(msg);
     }
 }
 

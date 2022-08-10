@@ -39,7 +39,7 @@ void GateSession::push(Message&& msg) {
     if (m_wMsgs.size() == s_limit) {
         LOG(WARNING) << "gate session full";
     }
-    m_wMsgs << msg;
+    m_wMsgs << std::move(msg);
 }
 
 void GateSession::sync_read() {
@@ -60,7 +60,7 @@ void GateSession::sync_read() {
         msg.commit(body_len);
         msg.forceSetSessionId(id());
 
-        m_rMsgs << msg;
+        m_rMsgs << std::move(msg);
     }
 }
 

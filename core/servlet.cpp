@@ -14,8 +14,8 @@ bool ServletDispatchRange::Element::operator < (const Element& element) const {
 
 bool ServletDispatchRange::doRequest(Session::ptr session, Message&& msg) {
     auto id = msg.realMsgId();
-    LOG(INFO) << "ServletDispatchRange doRequest id: " << id;
-    LOG(WARNING) << msg.strInfo();
+    //LOG(INFO) << "ServletDispatchRange doRequest id: " << id;
+    //LOG(WARNING) << msg.strInfo();
 
     auto it = m_servlets.lower_bound(Element(id));
     if (it == m_servlets.end()) {

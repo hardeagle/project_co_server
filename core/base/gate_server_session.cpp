@@ -71,7 +71,7 @@ void GateServerSession::send(Message&& msg) {
         LOG(WARNING) << "gate server session full";
     }
 
-    m_wMsgs << msg;
+    m_wMsgs << std::move(msg);
 }
 
 }

@@ -26,7 +26,7 @@ void WorkRoutine::push(Message&& msg) {
         LOG(WARNING) << "work routine full";
     }
 
-    m_rMsgs << msg;
+    m_rMsgs << std::move(msg);
 }
 
 void WorkRoutine::run() {
