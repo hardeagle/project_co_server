@@ -39,8 +39,6 @@ public:
 
     void run();
 
-    void gateDispatch(Message&& msg);
-
     void rpcDispatch(std::string& msg);
 
     void initByConfig(const std::string& file);

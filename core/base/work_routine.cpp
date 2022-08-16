@@ -14,10 +14,8 @@ const static uint32_t s_limit = 2048;
 
 namespace Eayew {
 
-WorkRoutine::WorkRoutine(uint32_t id, std::shared_ptr<ServletDispatchRange> servlet, std::shared_ptr<Session> session)
+WorkRoutine::WorkRoutine(uint32_t id)
     : m_id(id)
-    , m_servlet(servlet)
-    , m_session(session)
     , m_rMsgs(s_limit) {
 }
 
@@ -37,7 +35,10 @@ void WorkRoutine::run() {
 
         Message msg;
         m_rMsgs >> msg;
-        m_servlet->doRequest(m_session, std::move(msg));
+        if (m_onMessageCB != nullptr) {
+            m_onMessageCB(std::move(msg));
+        }
+        //m_servlet->doRequest(m_session, std::move(msg));
     }
 }
 

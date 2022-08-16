@@ -82,9 +82,28 @@ void BaseServer::run() {
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
             if (1 == sender_type) {
-                auto ss = std::make_shared<GateServerSession>(fd, *this);
+                auto ss = std::make_shared<GateServerSession>(fd);
                 ss->senderType(sender_type);
                 ss->receiverType(receiver_type);
+                ss->setOnMessage([&, ss](Message&& msg) {
+                    LOG(INFO) << "onMessage";
+                    auto id = msg.sessionId();
+                    auto it = m_workRoutines.find(id);
+                    if (it == m_workRoutines.end()) {
+                        auto routine = std::make_shared<WorkRoutine>(id);
+                        routine->setOnMessage([&, ss](Message&& msg) {
+                            m_servlet->doRequest(ss, std::move(msg));
+                        });
+                        m_workRoutines[id] = routine;
+                        go co_scheduler(m_workScheduler) [routine] {
+                            routine->run();
+                        };
+                    }
+                    m_workRoutines[id]->push(std::move(msg));
+                });
+                ss->setOnClose([]() {
+                    LOG(INFO) << "onClose";
+                });
                 m_gateSessions[sender_type] = ss;
                 ss->run();
             } else {
@@ -110,29 +129,6 @@ void BaseServer::run() {
     // }
 
     co_sched.Start(2);
-}
-
-void BaseServer::gateDispatch(Message&& msg) {
-    LOG(INFO) << "gateDispatch type " << m_type << " port " << m_port << " msg size " << msg.size();
-
-    auto id = msg.sessionId();
-    auto it = m_workRoutines.find(id);
-    if (it == m_workRoutines.end()) {
-        auto routine = std::make_shared<WorkRoutine>(id, m_servlet, m_gateSessions[msg.senderId()]);
-        m_workRoutines[id] = routine;
-        go co_scheduler(m_workScheduler) [routine] {
-            routine->run();
-        };
-
-    }
-    m_workRoutines[id]->push(std::move(msg));
-
-    // go [this, cmsg = std::move(msg)] () mutable {
-
-    //     LOG(WARNING) << cmsg.strInfo();
-
-    //     m_servlet->doRequest(m_gateSessions[cmsg.senderId()], std::move(cmsg));
-    // };
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {

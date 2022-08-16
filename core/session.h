@@ -4,6 +4,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#include <functional>
+
 #include "log/glog.h"
 
 #include "core/message.hpp"
@@ -44,6 +46,12 @@ public:
 
     virtual void send(Message&& msg) {}
 
+    void setOnMessage(std::function<void(Message&& msg)>);
+    void setOnClose(std::function<void()>);
+
+protected:
+    std::function<void(Message&& msg)> m_onMessageCB;
+    std::function<void()> m_onCloseCB;
 };
 
 }

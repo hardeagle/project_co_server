@@ -16,9 +16,8 @@ const static uint32_t s_limit = 40960;
 
 namespace Eayew {
 
-GateServerSession::GateServerSession(int fd, BaseServer& server)
+GateServerSession::GateServerSession(int fd)
     : m_fd(fd)
-    , m_baseServer(server)
     , m_wMsgs(s_limit) {
 }
 
@@ -49,8 +48,10 @@ void GateServerSession::sync_read() {
         }
         msg.commit(body_len);
 
-        LOG(WARNING) << "gate dispatch" << msg.strInfo();
-        m_baseServer.gateDispatch(std::move(msg));
+        LOG(INFO) << "onMessageCB";
+        if (m_onMessageCB != nullptr) {
+            m_onMessageCB(std::move(msg));
+        }
     }
 }
 
