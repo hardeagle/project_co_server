@@ -1,4 +1,4 @@
-#include "work_routine.h"
+#include "work_routine_manager.h"
 
 
 #include <unistd.h>
@@ -40,6 +40,34 @@ void WorkRoutine::run() {
         }
         //m_servlet->doRequest(m_session, std::move(msg));
     }
+}
+
+
+WorkRoutineManager::WorkRoutineManager(std::shared_ptr<ServletDispatchRange> servlet)
+    : m_servlet(servlet) {
+    m_scheduler = co::Scheduler::Create();
+}
+
+void WorkRoutineManager::run() {
+    std::thread t([=] {
+        m_scheduler->Start(1); 
+    });
+    t.detach();
+}
+
+void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message&& msg) {
+    auto id = msg.sessionId();
+    if (m_wrs.find(id) == m_wrs.end()) {
+        auto routine = std::make_shared<WorkRoutine>(id);
+        routine->setOnMessage([&, s](Message&& m) {
+            m_servlet->doRequest(s, std::move(m));
+        });
+        m_wrs[id] = routine;
+        go co_scheduler(m_scheduler) [routine] {
+            routine->run();
+        };
+    }
+    m_wrs[id]->push(std::move(msg));
 }
 
 }

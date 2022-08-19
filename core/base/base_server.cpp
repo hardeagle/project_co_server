@@ -13,8 +13,7 @@
 
 #include "log/glog.h"
 
-#include "base_routine.h"
-#include "work_routine.h"
+#include "work_routine_manager.h"
 #include "gate_server_session.h"
 #include "rpc_server_session.h"
 
@@ -24,11 +23,13 @@ BaseServer::BaseServer()
     : m_agent(m_consul)
     , m_kv(m_consul) {
     m_servlet = std::make_shared<ServletDispatchRange>();
-    m_workScheduler = co::Scheduler::Create();
+    m_workRoutineMgr = std::make_shared<WorkRoutineManager>(m_servlet);
 }
 
 void BaseServer::run() {
     beforeRun();
+
+    m_workRoutineMgr->run();
 
     m_fd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -82,30 +83,17 @@ void BaseServer::run() {
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
             if (1 == sender_type) {
-                auto ss = std::make_shared<GateServerSession>(fd);
-                ss->senderType(sender_type);
-                ss->receiverType(receiver_type);
-                ss->setOnMessage([&, ss](Message&& msg) {
-                    LOG(INFO) << "onMessage";
-                    auto id = msg.sessionId();
-                    auto it = m_workRoutines.find(id);
-                    if (it == m_workRoutines.end()) {
-                        auto routine = std::make_shared<WorkRoutine>(id);
-                        routine->setOnMessage([&, ss](Message&& msg) {
-                            m_servlet->doRequest(ss, std::move(msg));
-                        });
-                        m_workRoutines[id] = routine;
-                        go co_scheduler(m_workScheduler) [routine] {
-                            routine->run();
-                        };
-                    }
-                    m_workRoutines[id]->push(std::move(msg));
+                auto gss = std::make_shared<GateServerSession>(fd);
+                gss->senderType(sender_type);
+                gss->receiverType(receiver_type);
+                gss->setOnMessage([=](Message&& msg) {
+                    m_workRoutineMgr->dispatch(gss, std::move(msg));
                 });
-                ss->setOnClose([]() {
+                gss->setOnClose([]() {
                     LOG(INFO) << "onClose";
                 });
-                m_gateSessions[sender_type] = ss;
-                ss->run();
+                m_gateSessions[sender_type] = gss;
+                gss->run();
             } else {
                 auto ss = std::make_shared<RpcServerSession>(fd);
                 ss->senderType(sender_type);
@@ -117,29 +105,21 @@ void BaseServer::run() {
         }
     };
 
-
-    m_workThreads.emplace_back([this, self = shared_from_this()] {
-        m_workScheduler->Start(); 
-    });
-
     consulServer();
 
-    // for (auto& t : m_workThreads) {
-    //     t.detach();
-    // }
-
-    co_sched.Start(2);
+    co_sched.Start(1);
 }
 
 void BaseServer::rpcDispatch(std::string& msg) {
-    int id;
-    std::string buffer;
-    std::unordered_map<int, BaseRoutine::ptr>::iterator it = m_baseRoutines.find(id);
-    if (it == m_baseRoutines.end()) {
-        m_baseRoutines[id] = std::make_shared<BaseRoutine>(*this);
-        m_baseRoutines[id]->run();
-    }
-    *(m_baseRoutines[id]) << buffer;
+    // int id;
+    // std::string buffer;
+    // std::unordered_map<int, BaseRoutine::ptr>::iterator it = m_baseRoutines.find(id);
+    
+    // if (it == m_baseRoutines.end()) {
+    //     m_baseRoutines[id] = std::make_shared<BaseRoutine>(*this);
+    //     m_baseRoutines[id]->run();
+    // }
+    // *(m_baseRoutines[id]) << buffer;
 }
 
 void BaseServer::initByConfig(const std::string& file) {

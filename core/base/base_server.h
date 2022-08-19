@@ -14,12 +14,12 @@
 
 namespace Eayew {
 
-class BaseRoutine;
 class WorkRoutine;
 class GateServerSession;
 class RpcServerSession;
 class RpcManager;
 class ServletDispatchRange;
+class WorkRoutineManager;
 
 class BaseServer : public std::enable_shared_from_this<BaseServer> {
 public:
@@ -78,11 +78,7 @@ private:
 
     std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
 
-    std::unordered_map<int, std::shared_ptr<BaseRoutine> > m_baseRoutines;
-
-    co::Scheduler* m_workScheduler;
-    std::vector<std::thread> m_workThreads;     // one thread
-    std::unordered_map<int, std::shared_ptr<WorkRoutine> > m_workRoutines;
+    std::shared_ptr<WorkRoutineManager> m_workRoutineMgr;
 };
 
 }
