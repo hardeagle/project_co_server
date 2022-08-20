@@ -25,5 +25,5 @@ uint64_t IdManager::generateId(int eid) {
 
 uint64_t IdManager::generateId() {
     auto aid = ServerResource::get()->redisMgr()->hincrby("id_increment", "role_id", 1);
-    return (uint64_t(37) << 32) & aid;
+    return (uint64_t(37) << 32) | aid;
 }

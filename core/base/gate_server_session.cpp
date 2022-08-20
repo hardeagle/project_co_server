@@ -75,4 +75,18 @@ void GateServerSession::send(Message&& msg) {
     m_wMsgs << std::move(msg);
 }
 
+void GateServerSession::send(Message&& msg, const google::protobuf::Message& gpm) {
+    LOG(INFO) << "msg begin " << msg.strInfo();
+    auto nsize = gpm.ByteSizeLong();
+    if (nsize > msg.size()) {
+        msg.prepare(nsize - msg.size());
+    }
+    gpm.SerializeToArray(msg.zdata(), nsize);
+    msg.forceSetLength(Message::HEAD_LEN + nsize);
+    msg.forceSetMsgId(msg.msgId() + 1);
+    LOG(INFO) << "msg end " << msg.strInfo();
+
+    m_wMsgs << std::move(msg); 
+}
+
 }

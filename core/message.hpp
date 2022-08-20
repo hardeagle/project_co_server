@@ -95,13 +95,23 @@ public:
         m_sessionId = session_id;
     }
 
+    void forceSetLength(uint16_t len) {
+        auto* p = (uint16_t*)(m_data->data() + 0);
+        *p = len;
+    }
+
+    void forceSetMsgId(uint16_t msg_id) {
+        auto* p = (uint16_t*)(m_data->data() + 6);
+        *p = msg_id;
+    }
+
     void forceSetSessionId(uint64_t session_id) {
-        uint64_t* p = (uint64_t*)(m_data->data() + 8);
+        auto* p = (uint64_t*)(m_data->data() + 8);
         *p = session_id;
     }
 
     void forceSetRoleId(uint64_t role_id) {
-        uint64_t* p = (uint64_t*)(m_data->data() + 16);
+        auto* p = (uint64_t*)(m_data->data() + 16);
         *p = role_id;
     }
 
@@ -126,6 +136,10 @@ public:
 
     const char* realData() const {
         return m_data ? m_data->data() + HEAD_LEN : nullptr;
+    }
+
+    char* zdata() {
+        return m_data ? m_data->zdata() + HEAD_LEN : nullptr;
     }
 
     char* wbuffer() {

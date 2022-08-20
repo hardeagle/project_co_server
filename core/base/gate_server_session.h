@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include <google/protobuf/message.h>
+
 #include <libgo/libgo.h>
 
 #include "core/message.hpp"
@@ -30,6 +32,7 @@ public:
     void sync_write();
 
     virtual void send(Message&& msg) override;
+    virtual void send(Message&& msg, const google::protobuf::Message& gpm) override;
 
 private:
     int m_senderType;

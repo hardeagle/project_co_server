@@ -6,6 +6,8 @@
 
 #include <functional>
 
+#include <google/protobuf/message.h>
+
 #include "log/glog.h"
 
 #include "core/message.hpp"
@@ -45,6 +47,8 @@ public:
     using ptr = std::shared_ptr<Session>;
 
     virtual void send(Message&& msg) {}
+    virtual void send(Message&& msg, const google::protobuf::Message& gpm) {}
+
 
     void setOnMessage(std::function<void(Message&& msg)>);
     void setOnClose(std::function<void()>);

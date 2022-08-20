@@ -112,11 +112,19 @@ int main(int argc, char* argv[]) {
                 }
                 //LOG(WARNING) << "msg " << msg;
 
-                LoginProtocol::C2S_LoginLogin req;
+                // LoginProtocol::C2S_LoginLogin req;
+                // req.set_loginname(msg);
+                // std::string data;
+                // req.SerializeToString(&data);
+                // con->sync_write(1001, 2, data);
+
+                LoginProtocol::C2S_LoginCreate req;
                 req.set_loginname(msg);
+                req.set_role_name(msg);
+                req.set_avatarurl("123");
                 std::string data;
                 req.SerializeToString(&data);
-                con->sync_write(1001, 2, data);
+                con->sync_write(1003, 2, data);
 
                 co_sleep(200);
                 //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;

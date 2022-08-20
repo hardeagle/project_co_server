@@ -47,9 +47,10 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         resp.set_role_id(role_id);
+        msg.forceSetRoleId(role_id);
     } while (false);
     
-    session->send(std::move(msg));
+    session->send(std::move(msg), resp);
     LOG(INFO) << "doLogin end...";
     return true;
 }
@@ -61,6 +62,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
+    LOG(INFO) << "req " << req.DebugString();
 
     LoginProtocol::S2C_LoginCreate resp;
     do {
@@ -71,6 +73,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         resp.set_role_id(role_id);
+        msg.forceSetRoleId(role_id);
 
         PublicProtocol::BaseRoleInfo bri;
         bri.set_role_id(role_id);
@@ -81,8 +84,8 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         ServerResource::get()->redisMgr()->set("base_role_info", serial);
     } while(false);
 
-    session->send(std::move(msg));
-    LOG(INFO) << "doLogin end...";
+    session->send(std::move(msg), resp);
+    LOG(INFO) << "doCreate end...";
     return true;
 }
 

@@ -105,7 +105,7 @@ void GateServer::run() {
 
     consulServer();
 
-    co_sched.Start(6);
+    co_sched.Start(1);
 }
 
 void GateServer::dispatch(Message&& msg) {

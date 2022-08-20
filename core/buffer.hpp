@@ -225,12 +225,16 @@ public:
         return std::addressof(*begin());
     }
 
+    pointer zdata() noexcept {
+        return std::addressof(*(iterator{ m_data }));
+    }
+
     pointer wdata() noexcept {
         return std::addressof(*end());
     }
 
     size_t size() const noexcept {
-        LOG(INFO) << " m_writePos " << m_writePos << " m_readPos " << m_readPos;
+        //LOG(INFO) << " m_writePos " << m_writePos << " m_readPos " << m_readPos;
         return m_writePos - m_readPos;
     }
 
