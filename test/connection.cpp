@@ -31,7 +31,6 @@ void Connection::sync_write(uint16_t msg_id, uint16_t receiver_id, std::string& 
     msg.setSessionId(0);
     msg.setMsgId(msg_id);
     msg.writeData(buffer);
-    LOG(INFO) << "receiver id " << msg.receiverId();
     write(m_fd, msg.data(), msg.size());
 }
 
@@ -58,6 +57,7 @@ void Connection::sync_read() {
         }
         msg.commit(head_len);
         int body_len = msg.length() - head_len;
+        LOG(INFO) << "body len " << body_len;
         msg.prepare(body_len);
         if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
             LOG(ERROR) << "eio fail, close or error ";

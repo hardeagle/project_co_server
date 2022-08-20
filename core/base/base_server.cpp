@@ -67,7 +67,7 @@ void BaseServer::run() {
             char buf[len];
             int rlen = read(fd, buf, len);
             if (rlen != len) {
-                LOG(ERROR) << "Invalid rpc connect, rlen " << rlen << " ,fd " << fd;
+                //LOG(ERROR) << "Invalid rpc connect, rlen " << rlen << " ,fd " << fd;
                 continue;
             }
             uint16_t body_size = *((uint16_t*)buf);
@@ -84,8 +84,8 @@ void BaseServer::run() {
 
             if (1 == sender_type) {
                 auto gss = std::make_shared<GateServerSession>(fd);
-                gss->senderType(sender_type);
-                gss->receiverType(receiver_type);
+                // gss->senderType(sender_type);
+                // gss->receiverType(receiver_type);
                 gss->setOnMessage([=](Message&& msg) {
                     m_workRoutineMgr->dispatch(gss, std::move(msg));
                 });
@@ -137,7 +137,7 @@ void BaseServer::initByConfig(const std::string& file) {
 
 void BaseServer::consulServer() {
     m_agent.registerService(std::to_string(m_type),
-        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(10), std::chrono::milliseconds(1)},
+        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(1), std::chrono::milliseconds(1)},
         ppconsul::agent::kw::deregisterCriticalServiceAfter = std::chrono::minutes(1),
         ppconsul::agent::kw::address = m_ip,
         ppconsul::agent::kw::port = m_port,

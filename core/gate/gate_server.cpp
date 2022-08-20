@@ -32,20 +32,21 @@ GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
         return it->second.begin()->second;
     }
 
-    auto servers = m_agent.services();
-    for (auto [id, si] : servers) {
-        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
-        uint16_t st = std::atoi(si.name.data());
-        if (st == type) {
-            auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
-            LOG(INFO) << "config self type " << this->type() << " rpc type " << st;
-            gps->senderType(this->type());
-            gps->receiverType(st);
-            gps->run();
-            m_gpSessions[st][id] = gps;
-            return gps;
-        }
-    }
+    // 断线重连
+    // auto servers = m_agent.services();
+    // for (auto [id, si] : servers) {
+    //     LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+    //     uint16_t st = std::atoi(si.name.data());
+    //     if (st == type) {
+    //         auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
+    //         LOG(INFO) << "config self type " << this->type() << " rpc type " << st;
+    //         gps->senderType(this->type());
+    //         gps->receiverType(st);
+    //         gps->run();
+    //         m_gpSessions[st][id] = gps;
+    //         return gps;
+    //     }
+    // }
     return nullptr;
 }
 
@@ -96,10 +97,20 @@ void GateServer::run() {
             }
 
             LOG(INFO) << "accept success, fd " << fd;
-
-            auto session = std::make_shared<GateSession>(m_id, fd, *this);
-            m_sessions[session->id()] = session;
-            session->run();
+            auto gs = std::make_shared<GateSession>(fd);
+            auto gs_id = gs->id();
+            gs->setOnMessage([&, gs_id, self = shared_from_this()](Message&& msg) {
+                uint16_t receiver_id = msg.receiverId();
+                auto gps = getGatePeerSession(receiver_id);
+                if (!gps) {
+                    LOG(ERROR) << "Invalid receiver " << receiver_id;
+                    return;
+                }
+                msg.forceSetSessionId(gs_id);
+                gps->send(std::move(msg));
+            });
+            m_sessions[gs->id()] = gs;
+            gs->run();
         }
     };
 
@@ -108,27 +119,27 @@ void GateServer::run() {
     co_sched.Start(1);
 }
 
-void GateServer::dispatch(Message&& msg) {
-    auto session_id = msg.sessionId();
-    auto session = getSession(session_id);
-    LOG(WARNING) << msg.strInfo();
-    LOG(INFO) << "dispatche id " << session_id;
-    if (!session) {
-        LOG(ERROR) << "Invalid session " << session_id;
-        return;
-    }
-    LOG(INFO) << "---dispatch id " << session_id << " ,msg id " << msg.msgId() << " ,role id " << msg.roleId()
-                << " ,real msg id " << msg.realMsgId();
-    if (msg.msgId() == 1001 || msg.msgId() == 1002) {
-        if (msg.roleId() != 0) {
-            m_sessionToRoleIds[session_id] = msg.roleId();
-        }
-    } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
-        LOG(ERROR) << "dispatch error, session id " << session_id;
-    }
+// void GateServer::dispatch(Message&& msg) {
+//     auto session_id = msg.sessionId();
+//     auto session = getSession(session_id);
+//     LOG(WARNING) << msg.strInfo();
+//     LOG(INFO) << "dispatche id " << session_id;
+//     if (!session) {
+//         LOG(ERROR) << "Invalid session " << session_id;
+//         return;
+//     }
+//     LOG(INFO) << "---dispatch id " << session_id << " ,msg id " << msg.msgId() << " ,role id " << msg.roleId()
+//                 << " ,real msg id " << msg.realMsgId();
+//     if (msg.msgId() == 1001 || msg.msgId() == 1002) {
+//         if (msg.roleId() != 0) {
+//             m_sessionToRoleIds[session_id] = msg.roleId();
+//         }
+//     } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
+//         LOG(ERROR) << "dispatch error, session id " << session_id;
+//     }
 
-    session->push(std::move(msg));
-}
+//     session->push(std::move(msg));
+// }
 
 void GateServer::init() {
     const std::string file = "./json/gate_server.json";
@@ -190,10 +201,27 @@ void GateServer::discoverServer() {
                 continue;
             }
         }
-        auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
         LOG(INFO) << "config self type " << type() << " rpc type " << st;
-        gps->senderType(type());
-        gps->receiverType(st);
+
+        auto gps = std::make_shared<GatePeerSession>();
+        gps->sync_connect(si.address, si.port, type(), st);
+        gps->setOnMessage([&](Message&& msg) {
+            auto session_id = msg.sessionId();
+            auto s = getSession(session_id);
+            if (!s) {
+                LOG(ERROR) << "Invalid session " << session_id;
+                return;
+            }
+            if (msg.msgId() == 1002 || msg.msgId() == 1004) {
+                if (msg.roleId() != 0) {
+                    m_sessionToRoleIds[session_id] = msg.roleId();
+                }
+            } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
+                LOG(ERROR) << "dispatch error, session id " << session_id;
+            }
+            LOG(INFO) << "onMessage " << msg.strInfo();
+            s->send(std::move(msg));
+        });
         gps->run();
         m_gpSessions[st][si.id] = gps;
     }

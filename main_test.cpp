@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
     std::list<Connection::ptr> cons;
 
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 100; ++i) {
 
         go [&, i] {
 
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
                 req.SerializeToString(&data);
                 con->sync_write(1003, 2, data);
 
-                co_sleep(200);
+                //co_sleep(200);
                 //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;
             }
         };

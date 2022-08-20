@@ -155,7 +155,10 @@ public:
     }
 
     size_t size() const {
-        return m_data ? m_data->size() : 0;
+        //return m_data ? m_data->size() : 0;
+        auto* p = (uint16_t*)(m_data->data() + 0);
+        auto len = *p;
+        return len;
     }
 
     size_t realSize() const {

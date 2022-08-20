@@ -3,54 +3,24 @@
 
 #include <memory>
 
-#include <libgo/libgo.h>
-
 #include "core/message.hpp"
+#include "core/session.h"
 
 namespace Eayew {
 
 class Message;
-class GateServer;
 
-class GatePeerSession : public std::enable_shared_from_this<GatePeerSession> {
+class GatePeerSession : public Session {
 public:
     using ptr = std::shared_ptr<GatePeerSession>;
 
-    GatePeerSession(const std::string& ip, int port, GateServer& server);
+    GatePeerSession();
 
-    int fd() const { return m_fd; }
-
-    int senderType() const { return m_senderType; }
-    void senderType(int v) { m_senderType = v; }
-
-    int receiverType() const { return m_receiverType; }
-    void receiverType(int v) { m_receiverType = v; }
-
-    void push(Message&& msg);
-
-    void run();
+    bool sync_connect(const std::string& ip, uint16_t port, uint16_t sender, uint16_t receiver);
 
 private:
-    void sync_connect();
-
-    void sync_read();
-
-    void sync_write();
-
-    void dispatch();
-
-private:
-    int m_fd;
-    int m_senderType;
-    int m_receiverType;
-
-    std::string m_ip;
-    int m_port;
-
-    co_chan<Message> m_rMsgs;
-    co_chan<Message> m_wMsgs;
-
-    GateServer& m_gateServer;
+    uint16_t m_sender;
+    uint16_t m_receiver;
 };
 
 }
