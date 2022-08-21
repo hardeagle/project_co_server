@@ -28,13 +28,9 @@ public:
 
     std::shared_ptr<GatePeerSession> getGatePeerSession(uint16_t type);
 
-    std::shared_ptr<GatePeerSession> getPeerSession(int type);
-
     std::shared_ptr<GateSession> getSession(uint64_t id);
 
     void run();
-
-    void dispatch(Message&& msg);
 
 private:
     void init();
@@ -58,10 +54,8 @@ private:
 
     co_timer m_timer;
 
-
     std::unordered_map<int, uint64_t> m_sessionToRoleIds;
     std::unordered_map<uint64_t, std::shared_ptr<GateSession> > m_sessions;
-    std::unordered_map<int, std::shared_ptr<GatePeerSession> > m_peerSessions;
 
     std::unordered_map<int, std::unordered_map<std::string, std::shared_ptr<GatePeerSession>>> m_gpSessions;
 };

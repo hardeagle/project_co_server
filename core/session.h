@@ -20,7 +20,6 @@ template <typename OriginF, typename... Args>
 bool eio(OriginF fn, int __fd, char* __buf, size_t n_bytes, Args&&... args) {
     for (;;) {
         auto len = fn(__fd, __buf, n_bytes, std::forward<Args>(args)...);
-        //LOG(INFO) << "len " << len << " ,n_tytes " << n_bytes;
         if (len == n_bytes) {
             return true;
         } else if (0 == len) {
@@ -59,8 +58,6 @@ public:
     void run();
 
     void send(Message&& msg);
-
-    virtual void send(Message&& msg, const google::protobuf::Message& gpm) {}
 
 protected:
 

@@ -3,6 +3,7 @@
 #include "log/glog.h"
 
 #include "core/redis/redis_manager.h"
+#include "core/util/util.h"
 
 #include "logic/common/redis_key.h"
 #include "logic/protocol/public.pb.h"
@@ -50,7 +51,7 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
         msg.forceSetRoleId(role_id);
     } while (false);
     
-    session->send(std::move(msg), resp);
+    session->send(std::move(covertRspMsg(msg, resp)));
     LOG(INFO) << "doLogin end...";
     return true;
 }
@@ -84,7 +85,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         ServerResource::get()->redisMgr()->set("base_role_info", serial);
     } while(false);
 
-    session->send(std::move(msg), resp);
+    session->send(std::move(covertRspMsg(msg, resp)));
     LOG(INFO) << "doCreate end...";
     return true;
 }

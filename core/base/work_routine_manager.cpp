@@ -10,7 +10,7 @@
 
 #include "log/glog.h"
 
-const static uint32_t s_limit = 2048;
+const static uint32_t s_limit = 40960;
 
 namespace Eayew {
 

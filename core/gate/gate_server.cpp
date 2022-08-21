@@ -50,12 +50,6 @@ GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
     return nullptr;
 }
 
-
-GatePeerSession::ptr GateServer::getPeerSession(int type) {
-    std::unordered_map<int, GatePeerSession::ptr>::iterator it = m_peerSessions.find(type);
-    return it != m_peerSessions.end() ? it->second : nullptr;
-}
-
 GateSession::ptr GateServer::getSession(uint64_t id) {
     std::unordered_map<uint64_t, GateSession::ptr>::iterator it = m_sessions.find(id);
     return it != m_sessions.end() ? it->second : nullptr;
@@ -119,28 +113,6 @@ void GateServer::run() {
     co_sched.Start(1);
 }
 
-// void GateServer::dispatch(Message&& msg) {
-//     auto session_id = msg.sessionId();
-//     auto session = getSession(session_id);
-//     LOG(WARNING) << msg.strInfo();
-//     LOG(INFO) << "dispatche id " << session_id;
-//     if (!session) {
-//         LOG(ERROR) << "Invalid session " << session_id;
-//         return;
-//     }
-//     LOG(INFO) << "---dispatch id " << session_id << " ,msg id " << msg.msgId() << " ,role id " << msg.roleId()
-//                 << " ,real msg id " << msg.realMsgId();
-//     if (msg.msgId() == 1001 || msg.msgId() == 1002) {
-//         if (msg.roleId() != 0) {
-//             m_sessionToRoleIds[session_id] = msg.roleId();
-//         }
-//     } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
-//         LOG(ERROR) << "dispatch error, session id " << session_id;
-//     }
-
-//     session->push(std::move(msg));
-// }
-
 void GateServer::init() {
     const std::string file = "./json/gate_server.json";
     boost::property_tree::ptree root;
@@ -150,25 +122,6 @@ void GateServer::init() {
     m_ip = root.get<std::string>("ip");
     m_port = root.get<uint16_t>("port");
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
-
-    // boost::property_tree::ptree servers = root.get_child("servers");
-    // BOOST_FOREACH (boost::property_tree::ptree::value_type& node, servers) {
-    //     auto name = node.second.get<std::string>("name");
-    //     auto type = node.second.get<uint16_t>("type");
-    //     auto ip = node.second.get<std::string>("ip");
-    //     auto port = node.second.get<uint16_t>("port");
-
-    //     auto num = node.second.get<int>("num");
-    //     num = 1;
-    //     for (int i = 0; i < num; ++i) {
-    //         auto gps = std::make_shared<GatePeerSession>(ip, port, *this);
-    //         LOG(INFO) << "config self type " << this->type() << " rpc type " << type;
-    //         gps->senderType(this->type());
-    //         gps->receiverType(type);
-    //         gps->run();
-    //         m_peerSessions[type] = gps;
-    //     }
-    // }
 }
 
 void GateServer::consulServer() {

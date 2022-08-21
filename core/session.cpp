@@ -46,14 +46,6 @@ bool Session::sync_connect(const std::string& ip, uint16_t port) {
     m_id = (uint64_t(1) << 48) + (uint64_t(getCurSecond()) << 16) + (m_fd & 0xFFFF);
     LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
     return true;
-    // m_sender = sender;
-    // m_receiver = receiver;
-
-    // Message msg;
-    // msg.setSender(sender);
-    // msg.setReceiver(receiver);
-    // msg.writeData("");
-    // write(m_fd, msg.data(), msg.size());
 }
 
 void Session::run() {

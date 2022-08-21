@@ -20,8 +20,6 @@ public:
 
     GateServerSession(int fd);
 
-    virtual void send(Message&& msg, const google::protobuf::Message& gpm) override;
-
 private:
 };
 
