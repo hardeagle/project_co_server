@@ -33,7 +33,7 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) 
 bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "doLogin begin...";
     LoginProtocol::C2S_LoginLogin req;
-    if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -48,7 +48,7 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         resp.set_role_id(role_id);
-        msg.forceSetRoleId(role_id);
+        msg.roleId(role_id);
     } while (false);
     
     session->send(std::move(covertRspMsg(msg, resp)));
@@ -59,7 +59,7 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
 bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "doCreate begin...";
     LoginProtocol::C2S_LoginCreate req;
-    if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -74,7 +74,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         resp.set_role_id(role_id);
-        msg.forceSetRoleId(role_id);
+        msg.roleId(role_id);
 
         PublicProtocol::BaseRoleInfo bri;
         bri.set_role_id(role_id);
@@ -94,7 +94,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "doLoad begin...";
     LOG(WARNING) << msg.strInfo();
     LoginProtocol::C2S_LoginLoad req;
-    if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }

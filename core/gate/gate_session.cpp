@@ -6,7 +6,7 @@
 #include <functional>
 #include <string>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "core/rpc/rpc_manager.h"
 #include "core/session.h"
 

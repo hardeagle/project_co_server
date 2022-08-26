@@ -9,7 +9,7 @@
 
 #include <libgo/libgo.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
@@ -100,7 +100,7 @@ void GateServer::run() {
                     LOG(ERROR) << "Invalid receiver " << receiver_id;
                     return;
                 }
-                msg.forceSetSessionId(gs_id);
+                msg.sessionId(gs_id);
                 gps->send(std::move(msg));
             });
             m_sessions[gs->id()] = gs;

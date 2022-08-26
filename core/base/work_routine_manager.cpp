@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "core/servlet.h"
 #include "core/session.h"
 

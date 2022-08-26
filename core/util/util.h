@@ -7,7 +7,7 @@
 
 #include <google/protobuf/message.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 
 namespace Eayew {
 

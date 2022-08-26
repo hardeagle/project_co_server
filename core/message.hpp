@@ -1,5 +1,5 @@
-#ifndef __CORE_MESSAGE_H__
-#define __CORE_MESSAGE_H__
+#ifndef __CORE_MESSAGE_HPP__
+#define __CORE_MESSAGE_HPP__
 
 #include <memory>
 #include <string>

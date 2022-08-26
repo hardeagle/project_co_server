@@ -2,7 +2,7 @@
 
 #include "log/glog.h"
 
-#include "message.hpp"
+#include "message.h"
 
 static int count = 0;
 

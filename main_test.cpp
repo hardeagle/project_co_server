@@ -9,6 +9,7 @@
 
 #include <jemalloc/jemalloc.h>
 
+#include "core/message.h"
 #include "core/util/util.h"
 
 #include "log/glog.h"
@@ -95,20 +96,24 @@ int main(int argc, char* argv[]) {
 
     std::list<Connection::ptr> cons;
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 1; ++i) {
 
         go [&, i] {
 
             std::string ip = "127.0.0.1";
             int port = 9101;
-            auto con = std::make_shared<Connection>(ip, port);
+            auto con = std::make_shared<Connection>();
+            con->sync_connect(ip, port, 1, 2);
+            con->setOnMessage([](Eayew::Message&& msg){
+                LOG(INFO) << "msg " << msg.strInfo();
+            });
             con->run();
             cons.push_back(con);
 
-            for (int j = 0; j < 10000; ++j) {
-                std::string msg("1");
+            for (int j = 0; j < 1; ++j) {
+                std::string str("1");
                 for (int k = 0; k < 100; ++k) {
-                    msg += "1";
+                    str += "1";
                 }
                 //LOG(WARNING) << "msg " << msg;
 
@@ -119,12 +124,20 @@ int main(int argc, char* argv[]) {
                 // con->sync_write(1001, 2, data);
 
                 LoginProtocol::C2S_LoginCreate req;
-                req.set_loginname(msg);
-                req.set_role_name(msg);
+                req.set_loginname(str);
+                req.set_role_name(str);
                 req.set_avatarurl("123");
                 std::string data;
                 req.SerializeToString(&data);
-                con->sync_write(1003, 2, data);
+
+                Eayew::Message msg(data.size());
+                msg.senderId(1);
+                msg.receiverId(2);
+                msg.msgId(1003);
+                msg.roleId(0);
+                msg.write(data.data(), data.size());
+                LOG(INFO) << "msg " << msg.strInfo();
+                con->send(std::move(msg));
 
                 //co_sleep(200);
                 //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;

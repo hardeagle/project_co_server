@@ -7,7 +7,7 @@
 
 #include <libgo/libgo.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "core/session.h"
 
 namespace Eayew {

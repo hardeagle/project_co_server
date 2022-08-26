@@ -12,7 +12,7 @@
 
 #include "log/glog.h"
 
-#include "core/message.hpp"
+#include "core/message.h"
 
 namespace Eayew {
 

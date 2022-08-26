@@ -10,7 +10,7 @@
 #include <ppconsul/consul.h>
 #include <ppconsul/kv.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 
 namespace Eayew {
 

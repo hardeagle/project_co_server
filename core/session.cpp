@@ -67,26 +67,65 @@ void Session::send(Message&& msg) {
     m_wMsgs << std::move(msg);
 }
 
-void Session::sync_read() {
-    for (;;) {
-        Message msg;
-        auto head_len = Message::LEN_SIZE;
-        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
-            LOG(ERROR) << "eio fail, close or error ";
-            return;
-        }
-        msg.commit(head_len);
-        auto body_len = msg.length() - head_len;
-        msg.prepare(body_len);
-        if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
-            LOG(ERROR) << "eio fail, close or error ";
-            return;
-        }
-        msg.commit(body_len);
+// // head + body
+// void Session::sync_read() {
+//     for (;;) {
+//         Message msg;
+//         auto head_len = Message::LEN_SIZE;
+//         if (!Eayew::eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
+//             LOG(ERROR) << "eio fail, close or error ";
+//             return;
+//         }
+//         msg.commit(head_len);
+//         auto body_len = msg.length() - head_len;
+//         msg.prepare(body_len);
+//         if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
+//             LOG(ERROR) << "eio fail, close or error ";
+//             return;
+//         }
+//         msg.commit(body_len);
 
-        if (m_onMessageCB != nullptr) {
-            m_onMessageCB(std::move(msg));
+//         if (m_onMessageCB != nullptr) {
+//             m_onMessageCB(std::move(msg));
+//         }
+//     }
+// }
+
+void Session::sync_read() {
+    static const uint32_t MAX_SIZE = 64 * 1024;
+    char buffs[MAX_SIZE];
+    for (;;) {
+        auto len = read(m_fd, buffs, MAX_SIZE);
+        if (0 == len) {
+            LOG(ERROR) << "close";
+            return;
+        } else if (-1 == len) {
+            if (errno == EINTR || errno==EAGAIN) {
+                LOG(WARNING) << "errno " << errno;
+                continue;
+            } else {
+                LOG(ERROR) << "errno " << errno;
+                return;
+            }
         }
+
+        uint32_t index = 0;
+        while (index < len) {
+            auto p = (uint16_t*)(&buffs + index);
+            auto size = *p;
+            if (size > MAX_SIZE - index) {
+                LOG(ERROR) << "error "; // 还需要做下处理，粘包
+                return;
+            }
+            LOG(INFO) << "size " << size << " index " << index;
+            Message msg(len - Message::HEAD_LEN);
+            memcpy(msg.data(), &buffs + index, size);
+            if (m_onMessageCB != nullptr) {
+                m_onMessageCB(std::move(msg));
+            }
+            index += size;
+        }
+        LOG(WARNING) << "once read, len " << len << " index " << index;
     }
 }
 

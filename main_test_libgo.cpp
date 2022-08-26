@@ -4,7 +4,7 @@
 
 #include <libgo/libgo.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "log/glog.h"
 
 uint64_t getCurMs() {

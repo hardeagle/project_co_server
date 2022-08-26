@@ -6,7 +6,7 @@
 
 #include <libgo/libgo.h>
 
-#include "core/message.hpp"
+#include "core/message.h"
 #include "core/servlet.h"
 #include "core/rpc/rpc_manager.h"
 #include "core/util/util.h"

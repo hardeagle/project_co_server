@@ -48,27 +48,27 @@ void RpcManager::init(const std::string& file) {
 }
 
 void RpcManager::call(int type, std::string& req) {
-    RpcSession::ptr rs = getClient(type);
-    if (!rs) {
-        LOG(ERROR) << "getClient fail";
-        return;
-    }
-    rs->sync_write(req);
+    // RpcSession::ptr rs = getClient(type);
+    // if (!rs) {
+    //     LOG(ERROR) << "getClient fail";
+    //     return;
+    // }
+    // rs->sync_write(req);
 }
 
 void RpcManager::call(int type, std::string& req, std::string& rsp) {
-    int rpc_id = nextRpcId();
-    RpcSession::ptr rs = getClient(type);
-    if (!rs) {
-        LOG(ERROR) << "getClient fail";
-        return;
-    }
-    rs->sync_write(rpc_id, req);
+    // int rpc_id = nextRpcId();
+    // RpcSession::ptr rs = getClient(type);
+    // if (!rs) {
+    //     LOG(ERROR) << "getClient fail";
+    //     return;
+    // }
+    // rs->sync_write(rpc_id, req);
 
-    co_chan<std::string> channel;
-    m_channels[rpc_id] = channel;
-    channel >> rsp;
-    //m_channels.erase(rpc_id);
+    // co_chan<std::string> channel;
+    // m_channels[rpc_id] = channel;
+    // channel >> rsp;
+    // //m_channels.erase(rpc_id);
 }
 
 void RpcManager::dispatch(std::string& buf) {

@@ -5,7 +5,7 @@
 
 #include <nats/nats.h>
 
-#include <core/message.hpp>
+#include <core/message.h>
 
 namespace Eayew {
 
