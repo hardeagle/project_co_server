@@ -91,15 +91,48 @@ void Session::send(Message&& msg) {
 //     }
 // }
 
+// // head + body
+// void Session::sync_read() {
+//     for (;;) {
+//         auto head_len = Message::LEN_SIZE;
+//         char buffs[head_len];
+//         if (!Eayew::eio(recv, m_fd, &buffs[0], head_len, MSG_WAITALL)) {
+//             LOG(ERROR) << "eio fail, close or error ";
+//             return;
+//         }
+//         auto len = *((uint16_t*)(&buffs[0]));
+//         auto body_len = len - head_len;
+//         Message msg(len - Message::HEAD_LEN);
+//         msg.length(len);
+//         if (!Eayew::eio(recv, m_fd, msg.data() + head_len, body_len, MSG_WAITALL)) {
+//             LOG(ERROR) << "eio fail, close or error ";
+//             return;
+//         }
+//         LOG(INFO) << "---msg " << msg.strInfo();
+//         if (m_onMessageCB != nullptr) {
+//             m_onMessageCB(std::move(msg));
+//         }
+//     }
+// }
+
 void Session::sync_read() {
     static const uint32_t MAX_SIZE = 64 * 1024;
     char buffs[MAX_SIZE];
+    uint32_t index = 0;
+    uint32_t rlen = 0;
     for (;;) {
-        auto len = read(m_fd, buffs, MAX_SIZE);
-        if (0 == len) {
+        if (index < rlen) {
+            LOG(WARNING) << "memmove index " << index << " rlen " << rlen;
+            memcpy(&buffs[0], &buffs[index], rlen - index);
+            index = rlen - index;
+        } else {
+            index = 0;
+        }
+        rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
+        if (0 == rlen) {
             LOG(ERROR) << "close";
             return;
-        } else if (-1 == len) {
+        } else if (-1 == rlen) {
             if (errno == EINTR || errno==EAGAIN) {
                 LOG(WARNING) << "errno " << errno;
                 continue;
@@ -109,23 +142,32 @@ void Session::sync_read() {
             }
         }
 
-        uint32_t index = 0;
-        while (index < len) {
-            auto p = (uint16_t*)(&buffs + index);
+        LOG(WARNING) << "---rlen " << rlen << " index " << index;
+        rlen += index;
+        index = 0;
+        while (index < rlen) {
+            auto p = (uint16_t*)(&buffs[index]);
+            LOG(INFO) << "p " << p << " data size " << *p;
             auto size = *p;
-            if (size > MAX_SIZE - index) {
-                LOG(ERROR) << "error "; // 还需要做下处理，粘包
+            if (size > MAX_SIZE) {
+                LOG(ERROR) << "overflow , size " << size << " MAX_SIZE" << MAX_SIZE;
                 return;
             }
-            LOG(INFO) << "size " << size << " index " << index;
-            Message msg(len - Message::HEAD_LEN);
-            memcpy(msg.data(), &buffs + index, size);
+            if (size > rlen - index) {
+                LOG(WARNING) << "warning " << " rlen " << rlen << " index " << index << " size " << size; // 还需要做下处理，粘包
+                break;
+            }
+            LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
+            Message msg(size - Message::HEAD_LEN);
+            memcpy(msg.data(), &buffs[index], size);
             if (m_onMessageCB != nullptr) {
+                LOG(INFO) << "msg " << msg.strInfo();
                 m_onMessageCB(std::move(msg));
             }
             index += size;
+            LOG(WARNING) << "loop, len " << rlen << " index " << index;
         }
-        LOG(WARNING) << "once read, len " << len << " index " << index;
+        LOG(WARNING) << "once read, len " << rlen << " index " << index;
     }
 }
 

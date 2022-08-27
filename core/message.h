@@ -24,7 +24,9 @@ public:
     static const uint32_t ROLE_ID_SIZE = 8;
     static const uint32_t HEAD_LEN = LEN_SIZE + SENDER_ID_SIZE + RECEIVER_ID_SIZE + MSG_ID_SIZE + SESSION_ID_SIZE + ROLE_ID_SIZE;
 
-    Message() {
+    Message()
+        : m_data(nullptr)
+        , m_capacity(0) {
     }
 
     Message(uint16_t ds) {
@@ -34,30 +36,36 @@ public:
     }
 
     ~Message() {
-        free(m_data);
+        // if (m_data && m_capacity > 0) {
+        //     free(m_data);
+        // }
     }
 
     Message(const Message& other) noexcept {
         m_data = other.m_data;
+        m_capacity = other.m_capacity;
         LOG(ERROR) << "copy";
     }
 
     Message& operator=(const Message& other) noexcept {
         if (this != std::addressof(other)) {
             m_data = other.m_data;
+            m_capacity = other.m_capacity;
             LOG(ERROR) << "assign";
         }
         return *this;
     }
 
     Message(Message&& other) noexcept
-        : m_data(std::exchange(other.m_data, nullptr)) {
+        : m_data(std::exchange(other.m_data, nullptr))
+        , m_capacity(std::exchange(other.m_capacity, 0)) {
         //LOG(ERROR) << "move0";
     }
 
     Message& operator=(Message&& other) noexcept {
         if (this != std::addressof(other)) {
             m_data = std::exchange(other.m_data, nullptr);
+            m_capacity = std::exchange(other.m_capacity, 0);
             //LOG(ERROR) << "move1111";
         }
         return *this;

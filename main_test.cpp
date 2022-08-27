@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 
     std::list<Connection::ptr> cons;
 
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 100; ++i) {
 
         go [&, i] {
 
@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
             con->run();
             cons.push_back(con);
 
-            for (int j = 0; j < 1; ++j) {
+            for (int j = 0; j < 10000; ++j) {
                 std::string str("1");
                 for (int k = 0; k < 100; ++k) {
                     str += "1";

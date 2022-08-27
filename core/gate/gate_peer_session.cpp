@@ -16,7 +16,7 @@ bool GatePeerSession::sync_connect(const std::string& ip, uint16_t port, uint16_
     m_sender = sender;
     m_receiver = receiver;
 
-    Message msg;
+    Message msg(0);
     msg.senderId(sender);
     msg.receiverId(receiver);
     write(m_fd, msg.data(), msg.size());

@@ -110,7 +110,7 @@ void GateServer::run() {
 
     consulServer();
 
-    co_sched.Start(1);
+    co_sched.Start(1, 1);
 }
 
 void GateServer::init() {
@@ -133,7 +133,7 @@ void GateServer::consulServer() {
         ppconsul::agent::kw::id = m_serverId
     );
 
-    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
+    m_timer.ExpireAt(std::chrono::seconds(3), [this, self = shared_from_this()] {
         discoverServer();
     });
 }
@@ -179,9 +179,9 @@ void GateServer::discoverServer() {
         m_gpSessions[st][si.id] = gps;
     }
 
-    m_timer.ExpireAt(std::chrono::seconds(60), [this, self = shared_from_this()] {
-        discoverServer();
-    });
+    // m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
+    //     discoverServer();
+    // });
 }
 
 }
