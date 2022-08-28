@@ -57,7 +57,7 @@ public:
     bool sync_connect(const std::string& ip, uint16_t port);
     void run();
 
-    void send(Message&& msg);
+    virtual void send(Message&& msg);
 
 protected:
 

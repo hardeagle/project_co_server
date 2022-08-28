@@ -16,6 +16,7 @@
 
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"
+#include "core/ws_session.h"
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -259,9 +260,138 @@ int64_t getCurMs() {
 int main(int argc, char* argv[]) {
     GLog glog(argv[0]);
 
+    //co_opt.debug = co::dbg_all;
+
     LOG(INFO) << "---begin---";
 
-    //co_opt.debug = co::dbg_all;
+    std::string m_ip = "127.0.0.1";
+    auto m_port = 9999;
+
+    int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    int opt = 1;
+    setsockopt(accept_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(m_port);
+    addr.sin_addr.s_addr = inet_addr(m_ip.data());
+    socklen_t len = sizeof(addr);
+    if (-1 == bind(accept_fd, (sockaddr*)&addr, len)) {
+        LOG(ERROR) << "bind error, port " << m_port;
+        return 0;
+    }
+    if (-1 == listen(accept_fd, 2048)) {
+        LOG(ERROR) << "listen error";
+        return 0;
+    }
+
+    for (;;) {
+        int fd = accept(accept_fd, (sockaddr*)&addr, &len);
+        LOG(INFO) << "accept "  << fd;
+        Eayew::WSSession ws(fd);
+        ws.start();
+
+        uint32_t icount = 0;
+        uint32_t count = 0;
+
+        static const uint32_t MAX_SIZE = 64 * 1024;
+        char buffs[MAX_SIZE];
+        uint32_t index = 0;
+        uint32_t rlen = 0;
+        for (;;) {
+            if (index < rlen) {
+                LOG(WARNING) << "memmove index " << index << " rlen " << rlen;
+                memcpy(&buffs[0], &buffs[index], rlen - index);
+                index = rlen - index;
+            } else {
+                index = 0;
+            }
+            rlen = read(fd, &buffs[index], MAX_SIZE - index);
+            if (0 == rlen) {
+                LOG(ERROR) << "close";
+                return 0;
+            } else if (-1 == rlen) {
+                if (errno == EINTR || errno==EAGAIN) {
+                    LOG(WARNING) << "errno " << errno;
+                    continue;
+                } else {
+                    LOG(ERROR) << "errno " << errno;
+                    return 0;
+                }
+            }
+
+            icount++;
+            LOG(WARNING) << "---rlen " << rlen << " index " << index;
+            rlen += index;
+            index = 0;
+            while (index < rlen) {
+                char datas[MAX_SIZE] = {};
+                int len = 0;
+                int pos = 0;
+                auto wsft = ws.getFrame((unsigned char*)&buffs[index], rlen - index, (unsigned char*)&datas[0], rlen - index, &len, &pos);
+                if (wsft != 129 || index + len + pos - 1 > rlen) {
+                    LOG(WARNING) << "break, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount  << " datas " << datas;
+                    break;
+                }
+                index = index + len + pos - 1;
+                LOG(WARNING) << "loop, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount << " datas " << datas;
+
+                // auto p = (uint16_t*)(&buffs[index]);
+                // LOG(INFO) << "p " << p << " data size " << *p;
+                // auto size = *p;
+                // if (size > MAX_SIZE) {
+                //     LOG(ERROR) << "overflow , size " << size << " MAX_SIZE" << MAX_SIZE;
+                //     return;
+                // }
+                // if (size > rlen - index) {
+                //     LOG(WARNING) << "warning " << " rlen " << rlen << " index " << index << " size " << size; // 还需要做下处理，粘包
+                //     break;
+                // }
+                // LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
+                // Message msg(size - Message::HEAD_LEN);
+                // memcpy(msg.data(), &buffs[index], size);
+                // if (m_onMessageCB != nullptr) {
+                //     LOG(INFO) << "msg " << msg.strInfo();
+                //     m_onMessageCB(std::move(msg));
+                // }
+                // index += size;
+                // LOG(WARNING) << "loop, len " << rlen << " index " << index;
+            }
+            LOG(WARNING) << "once read, len " << rlen << " index " << index;
+        }
+
+        // int count = 0;
+        // for (auto i = 0; i < 10000; ++i) {
+
+        //     static constexpr size_t HANDSHAKE_STREAMBUF_SIZE = 1024 * 1024;
+        //     char buffs[HANDSHAKE_STREAMBUF_SIZE] = {};
+        //     auto rlen = read(fd, &buffs[0], HANDSHAKE_STREAMBUF_SIZE);
+        //     LOG(INFO) << "rlen " << rlen;
+        //     //LOG(INFO) << "buffs " << buffs;
+
+        //     int index = 0;
+        //     while (index < rlen) {
+        //         int len = 0;
+        //         int pos = 0;
+        //         char buffs1[HANDSHAKE_STREAMBUF_SIZE] = {};
+        //         auto wsft = ws.getFrame((unsigned char*)&buffs[index], rlen - index, (unsigned char*)&buffs1[0], HANDSHAKE_STREAMBUF_SIZE, &len, &pos);
+        //         LOG(INFO) << " buffs1 " << buffs1 << " wsft " << wsft << " count " << count++ << " rlen " << rlen << " index " << index << " len " << len  << " pos " << pos;
+        //         index = index + len + pos - 1;
+        //     }
+
+
+        //     LOG(INFO) << " index " << index << " rlen " << rlen << "   i " << i;
+
+
+        //     // std::string str("12345678987654321");
+        //     // rlen = ws.makeFrame(Eayew::WebSocketFrameType::TEXT_FRAME, (unsigned char*)str.data(), str.size(), (unsigned char*)&buffs1[0], HANDSHAKE_STREAMBUF_SIZE);
+        //     // LOG(INFO) << "rlen " << rlen;
+        //     // auto wlen = write(fd, &buffs1[0], rlen);
+        //     // LOG(INFO) << "wlen " << rlen;
+        // }
+
+    }
 
     //auto vs = testCon();
     // std::vector<Point> vs;
@@ -365,76 +495,76 @@ int main(int argc, char* argv[]) {
     // points << std::move(p1);
     // points >> p1;
 
-    LOG(INFO) << "-------------------------------------------------";
+    // LOG(INFO) << "-------------------------------------------------";
 
-    //chanel<Point::ptr> points(1024000);
-    chanel<Point> points(1024000);
-    auto total_num = 100000;
-    auto pnum = 5;
-    auto cnum = 1;
-    auto pcnum = pnum + cnum;
-    auto pcount = total_num / pnum;
-    auto ccount = total_num / cnum;
-    chanel<void> wg(pcnum);
+    // //chanel<Point::ptr> points(1024000);
+    // chanel<Point> points(1024000);
+    // auto total_num = 100000;
+    // auto pnum = 5;
+    // auto cnum = 1;
+    // auto pcnum = pnum + cnum;
+    // auto pcount = total_num / pnum;
+    // auto ccount = total_num / cnum;
+    // chanel<void> wg(pcnum);
 
-    auto begin = getCurMs();
-    LOG(WARNING) << "begin... begin ts " << begin << " total num " << total_num << " p_routine num " << pnum << " c_routine num " << cnum;
+    // auto begin = getCurMs();
+    // LOG(WARNING) << "begin... begin ts " << begin << " total num " << total_num << " p_routine num " << pnum << " c_routine num " << cnum;
 
-    //Point::ptr p(new Point(1, 1, 1));
-    Point p(1, 1, 1);
-    for (auto i = 0; i < pnum; ++i) {
-        go [&, i] {
-            for (int j = 0; j < pcount; ++j) {
-                //Point p(j, j, j);
-                //Point::ptr p(new Point(1, 1, 1));
-                points << std::move(p);
-                //LOG(INFO) << "produce size " << points.size();
-            }
-            wg << nullptr;
-            LOG(WARNING) << "produce i " << i << " points.size() " << points.size();
-        };
-    }
+    // //Point::ptr p(new Point(1, 1, 1));
+    // Point p(1, 1, 1);
+    // for (auto i = 0; i < pnum; ++i) {
+    //     go [&, i] {
+    //         for (int j = 0; j < pcount; ++j) {
+    //             //Point p(j, j, j);
+    //             //Point::ptr p(new Point(1, 1, 1));
+    //             points << std::move(p);
+    //             //LOG(INFO) << "produce size " << points.size();
+    //         }
+    //         wg << nullptr;
+    //         LOG(WARNING) << "produce i " << i << " points.size() " << points.size();
+    //     };
+    // }
 
-    {
-        co::Scheduler* sched = co::Scheduler::Create();
-        std::thread t2([sched]{ sched->Start(1); });
-        t2.detach();
+    // {
+    //     co::Scheduler* sched = co::Scheduler::Create();
+    //     std::thread t2([sched]{ sched->Start(1); });
+    //     t2.detach();
 
-        for (auto i = 0; i < cnum; ++i) {
-            go co_scheduler(sched) [&, i] {
-                for (auto j = 0; j < ccount; ++j) {
-                    //Point p;
-                    //Point::ptr p(new Point(1, 1, 1));
-                    points >> p;
-                    //LOG(INFO) << "consume size " << points.size();
-                }
-                wg << nullptr;
-                LOG(WARNING) << "consume i " << i << " points.size() " << points.size();
-            };
-        }
-    }
+    //     for (auto i = 0; i < cnum; ++i) {
+    //         go co_scheduler(sched) [&, i] {
+    //             for (auto j = 0; j < ccount; ++j) {
+    //                 //Point p;
+    //                 //Point::ptr p(new Point(1, 1, 1));
+    //                 points >> p;
+    //                 //LOG(INFO) << "consume size " << points.size();
+    //             }
+    //             wg << nullptr;
+    //             LOG(WARNING) << "consume i " << i << " points.size() " << points.size();
+    //         };
+    //     }
+    // }
 
-    {
-        co::Scheduler* sched = co::Scheduler::Create();
-        std::thread t2([sched]{ sched->Start(1); });
-        t2.detach();
-        go co_scheduler(sched) [&] {
-            for (auto i = 0; i < pcnum; ++i) {
-                wg >> nullptr;
+    // {
+    //     co::Scheduler* sched = co::Scheduler::Create();
+    //     std::thread t2([sched]{ sched->Start(1); });
+    //     t2.detach();
+    //     go co_scheduler(sched) [&] {
+    //         for (auto i = 0; i < pcnum; ++i) {
+    //             wg >> nullptr;
 
-                if (i == pnum - 1) {
-                    auto end = getCurMs();
-                    LOG(WARNING) << "produce end... end ts " << end << " dur(ms) " << end - begin;
-                }
-            }
-            auto end = getCurMs();
-            LOG(WARNING) << "produce & consume end...  " << " end ts " << end << " dur(ms) " << end - begin;
-        };
-    }
+    //             if (i == pnum - 1) {
+    //                 auto end = getCurMs();
+    //                 LOG(WARNING) << "produce end... end ts " << end << " dur(ms) " << end - begin;
+    //             }
+    //         }
+    //         auto end = getCurMs();
+    //         LOG(WARNING) << "produce & consume end...  " << " end ts " << end << " dur(ms) " << end - begin;
+    //     };
+    // }
 
 
 
-    co_sched.Start(6);
+    // co_sched.Start(6);
     // for (int i = 0; i < 10; ++i) {
     //     go [=] {
     //         LOG(ERROR) << i;
