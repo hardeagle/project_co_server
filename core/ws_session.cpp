@@ -16,7 +16,7 @@ using namespace std;
 namespace Eayew {
 
 WSSession::WSSession(uint32_t fd)
-    : m_fd(fd) {
+    : Session(fd) {
 
 }
 
@@ -31,6 +31,79 @@ void WSSession::start(bool accept) {
         auto resp = answerHandshake();
         LOG(INFO) << "resp  " << resp;
         write(m_fd, resp.data(), resp.size());
+    }
+}
+
+void WSSession::run() {
+    go [this, self = shared_from_this()] {
+        sync_read();
+    };
+
+    go [this, self = shared_from_this()] {
+        sync_write();
+    };
+}
+
+void WSSession::sync_read() {
+	uint32_t icount = 0;
+	uint32_t count = 0;
+
+	static const uint32_t MAX_SIZE = 64 * 1024;
+	char buffs[MAX_SIZE];
+	uint32_t index = 0;
+	uint32_t rlen = 0;
+	for (;;) {
+		if (index < rlen) {
+			LOG(WARNING) << "memmove index " << index << " rlen " << rlen;
+			memcpy(&buffs[0], &buffs[index], rlen - index);
+			index = rlen - index;
+		} else {
+			index = 0;
+		}
+		rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
+		if (0 == rlen) {
+			LOG(ERROR) << "close";
+			break;
+		} else if (-1 == rlen) {
+			if (errno == EINTR || errno==EAGAIN) {
+				LOG(WARNING) << "errno " << errno;
+				continue;
+			} else {
+				LOG(ERROR) << "errno " << errno;
+				break;
+			}
+		}
+
+		icount++;
+		LOG(WARNING) << "---rlen " << rlen << " index " << index;
+		rlen += index;
+		index = 0;
+		while (index < rlen) {
+			char datas[MAX_SIZE] = {};
+			int len = 0;
+			int pos = 0;
+			auto wsft = getFrame((unsigned char*)&buffs[index], rlen - index, (unsigned char*)&datas[0], rlen - index, &len, &pos);
+			if (wsft != 129 || index + len + pos - 1 > rlen) {
+				LOG(WARNING) << "break, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount  << " datas " << datas;
+				break;
+			}
+			index = index + len + pos - 1;
+			LOG(WARNING) << "loop, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount << " datas " << datas;
+		}
+		LOG(WARNING) << "once read, len " << rlen << " index " << index;
+	}
+}
+
+void WSSession::sync_write() {
+    for (;;) {
+        if (m_wMsgs.size() == 0) {
+            LOG(WARNING) << "m_wMsgs empty";
+        }
+
+        Message msg;
+        m_wMsgs >> msg;
+        LOG(INFO) << "sync_write " << msg.strInfo();
+        write(m_fd, msg.data(), msg.size());
     }
 }
 

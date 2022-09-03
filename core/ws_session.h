@@ -34,7 +34,7 @@ enum WebSocketFrameType {
 	PONG_FRAME=0x1A
 };
 
-class WSSession {
+class WSSession : public Session {
 public:
 
 	string resource;
@@ -45,9 +45,14 @@ public:
 
 	WSSession(uint32_t fd);
 
-    void start(bool accept = true);
+    virtual void start(bool accept = true) override;
+	virtual void run();
 
-//private:
+private:
+public:
+    void sync_read();
+    void sync_write();
+
 	/**
 	 * @param input_frame .in. pointer to input frame
 	 * @param input_len .in. length of input frame
@@ -63,7 +68,7 @@ public:
 	vector<string> explode(string theString, string theDelimiter, bool theIncludeEmptyStrings = false );
 
 private:
-    uint32_t m_fd;
+
 };
 
 }

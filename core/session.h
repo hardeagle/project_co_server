@@ -55,7 +55,9 @@ public:
     void setOnClose(std::function<void()>);
 
     bool sync_connect(const std::string& ip, uint16_t port);
-    void run();
+
+    virtual void start(bool accept = true) {}
+    virtual void run();
 
     virtual void send(Message&& msg);
 
