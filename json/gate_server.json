@@ -1,8 +1,9 @@
 {
     "name": "gate",
-    "type": 1,
+    "type": 10,
     "ip": "127.0.0.1",
-    "port": 9101,
+    "port": 10001,
+    "ws_port": 10101,
 
     "servers": [
         {

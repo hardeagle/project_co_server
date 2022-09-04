@@ -6,3 +6,10 @@
 .vscode/settings.json
 
 build/
+bin/co_server
+bin/chat_server
+bin/game_server
+bin/login_server
+bin/gate_server
+bin/rank_server
+bin/test

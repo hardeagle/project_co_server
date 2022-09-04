@@ -1,8 +1,8 @@
 {
     "name": "game",
-    "type": 3,
+    "type": 12,
     "ip": "127.0.0.1",
-    "port": 9103,
+    "port": 12001,
 
     "servers": [
     ]

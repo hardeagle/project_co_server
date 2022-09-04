@@ -121,6 +121,7 @@ void GateServer::init() {
     m_type = root.get<uint16_t>("type");
     m_ip = root.get<std::string>("ip");
     m_port = root.get<uint16_t>("port");
+    m_wsPort = root.get<uint16_t>("ws_port");
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
 }
 

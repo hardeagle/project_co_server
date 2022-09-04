@@ -44,6 +44,7 @@ private:
     uint16_t m_type;
     uint16_t m_id;
     uint16_t m_port;
+    int16_t m_wsPort;
     std::string m_ip;
     std::string m_name;
 

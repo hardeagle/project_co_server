@@ -59,8 +59,7 @@ add_executable(test main_test.cpp ${SRC_LIST} ${TEST_SRC_LIST})
 
 add_executable(co_test main_test_libgo.cpp ${SRC_LIST})
 
-
-
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(exes co_server chat_server game_server login_server gate_server rank_server test co_test)
 FOREACH(exe ${exes})
     target_link_libraries(${exe} -ldl)
