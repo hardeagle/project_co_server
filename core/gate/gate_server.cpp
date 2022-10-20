@@ -103,6 +103,9 @@ void GateServer::run() {
                 msg.sessionId(gs_id);
                 gps->send(std::move(msg));
             });
+            gs->setOnClose([&](uint64_t id) {
+                m_sessions.erase(id);
+            });
             m_sessions[gs->id()] = gs;
             gs->run();
         }
@@ -168,9 +171,9 @@ void GateServer::discoverServer() {
             }
             if (msg.msgId() == 1002 || msg.msgId() == 1004) {
                 if (msg.roleId() != 0) {
-                    m_sessionToRoleIds[session_id] = msg.roleId();
+                    m_sessionIdToRoleIds[session_id] = msg.roleId();
                 }
-            } else if (m_sessionToRoleIds.find(session_id) == m_sessionToRoleIds.end()) {
+            } else if (m_sessionIdToRoleIds.find(session_id) == m_sessionIdToRoleIds.end()) {
                 LOG(ERROR) << "dispatch error, session id " << session_id;
             }
             LOG(INFO) << "onMessage " << msg.strInfo();

@@ -51,8 +51,8 @@ public:
 
     int64_t id() { return m_id; }
 
-    void setOnMessage(std::function<void(Message&& msg)>);
-    void setOnClose(std::function<void()>);
+    void setOnMessage(std::function<void(Message&&)>);
+    void setOnClose(std::function<void(uint64_t)>);
 
     bool sync_connect(const std::string& ip, uint16_t port);
 
@@ -68,8 +68,8 @@ private:
     void sync_write();
 
 protected:
-    std::function<void(Message&& msg)> m_onMessageCB;
-    std::function<void()> m_onCloseCB;
+    std::function<void(Message&&)> m_onMessageCB;
+    std::function<void(uint64_t)> m_onCloseCB;
 
     uint64_t m_id;
 

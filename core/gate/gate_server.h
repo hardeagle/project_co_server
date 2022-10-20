@@ -55,7 +55,7 @@ private:
 
     co_timer m_timer;
 
-    std::unordered_map<int, uint64_t> m_sessionToRoleIds;
+    std::unordered_map<uint64_t, uint64_t> m_sessionIdToRoleIds;
     std::unordered_map<uint64_t, std::shared_ptr<GateSession> > m_sessions;
 
     std::unordered_map<int, std::unordered_map<std::string, std::shared_ptr<GatePeerSession>>> m_gpSessions;

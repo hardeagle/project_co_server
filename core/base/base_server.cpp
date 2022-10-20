@@ -89,8 +89,9 @@ void BaseServer::run() {
                 gss->setOnMessage([=](Message&& msg) {
                     m_workRoutineMgr->dispatch(gss, std::move(msg));
                 });
-                gss->setOnClose([]() {
+                gss->setOnClose([&](uint64_t id) {
                     LOG(INFO) << "onClose";
+                    m_gateSessions.erase(id);
                 });
                 m_gateSessions[sender_type] = gss;
                 gss->run();

@@ -27,7 +27,7 @@ void Session::setOnMessage(std::function<void(Message&& msg)> cb) {
     m_onMessageCB = cb;
 }
 
-void Session::setOnClose(std::function<void()> cb) {
+void Session::setOnClose(std::function<void(uint64_t id)> cb) {
     m_onCloseCB = cb;
 }
 
@@ -130,7 +130,10 @@ void Session::sync_read() {
         }
         rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
         if (0 == rlen) {
-            LOG(ERROR) << "close";
+            LOG(WARNING) << "close";
+            if (m_onCloseCB != nullptr) {
+                m_onCloseCB(id());
+            }
             return;
         } else if (-1 == rlen) {
             if (errno == EINTR || errno==EAGAIN) {
