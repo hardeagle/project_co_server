@@ -34,7 +34,7 @@ enum WebSocketFrameType {
 	PONG_FRAME=0x1A
 };
 
-class WSSession : public Session {
+class WsSession : public Session {
 public:
 
 	string resource;
@@ -43,7 +43,7 @@ public:
 	string protocol;
 	string key;
 
-	WSSession(uint32_t fd);
+	WsSession(uint32_t fd);
 
     virtual void start(bool accept = true) override;
 	virtual void run();

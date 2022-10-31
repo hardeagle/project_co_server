@@ -15,6 +15,7 @@
 namespace Eayew {
 
 class GateSession;
+class GateWsSession;
 class GatePeerSession;
 class Message;
 
@@ -29,6 +30,7 @@ public:
     std::shared_ptr<GatePeerSession> getGatePeerSession(uint16_t type);
 
     std::shared_ptr<GateSession> getSession(uint64_t id);
+    std::shared_ptr<GateWsSession> getWsSession(uint64_t id);
 
     void run();
 
@@ -57,6 +59,7 @@ private:
 
     std::unordered_map<uint64_t, uint64_t> m_sessionIdToRoleIds;
     std::unordered_map<uint64_t, std::shared_ptr<GateSession> > m_sessions;
+    std::unordered_map<uint64_t, std::shared_ptr<GateWsSession> > m_wsSessions;
 
     std::unordered_map<int, std::unordered_map<std::string, std::shared_ptr<GatePeerSession>>> m_gpSessions;
 };

@@ -15,12 +15,12 @@ using namespace std;
 
 namespace Eayew {
 
-WSSession::WSSession(uint32_t fd)
+WsSession::WsSession(uint32_t fd)
     : Session(fd) {
 
 }
 
-void WSSession::start(bool accept) {
+void WsSession::start(bool accept) {
     if (accept) {
         static constexpr size_t HANDSHAKE_STREAMBUF_SIZE = 8192;
         char buffs[HANDSHAKE_STREAMBUF_SIZE] = {};
@@ -34,7 +34,7 @@ void WSSession::start(bool accept) {
     }
 }
 
-void WSSession::run() {
+void WsSession::run() {
     go [this, self = shared_from_this()] {
         sync_read();
     };
@@ -44,7 +44,7 @@ void WSSession::run() {
     };
 }
 
-void WSSession::sync_read() {
+void WsSession::sync_read() {
 	uint32_t icount = 0;
 	uint32_t count = 0;
 
@@ -94,7 +94,7 @@ void WSSession::sync_read() {
 	}
 }
 
-void WSSession::sync_write() {
+void WsSession::sync_write() {
     for (;;) {
         if (m_wMsgs.size() == 0) {
             LOG(WARNING) << "m_wMsgs empty";
@@ -107,7 +107,7 @@ void WSSession::sync_write() {
     }
 }
 
-WebSocketFrameType WSSession::parseHandshake(unsigned char* input_frame, int input_len) {
+WebSocketFrameType WsSession::parseHandshake(unsigned char* input_frame, int input_len) {
 	// 1. copy char*/len into string
 	// 2. try to parse headers until \r\n occurs
 	string headers((char*)input_frame, input_len); 
@@ -145,11 +145,11 @@ WebSocketFrameType WSSession::parseHandshake(unsigned char* input_frame, int inp
 	//printf("PARSED_KEY:%s \n", this->key.data());
 
 	//return FrameType::OPENING_FRAME;
-	printf("HANDSHAKE-PARSED\n");
+	LOG(INFO) << "HANDSHAKE-PARSED";
 	return OPENING_FRAME;
 }
 
-string WSSession::trim(string str) {
+string WsSession::trim(string str) {
 	//printf("TRIM\n");
 	const char* whitespace = " \t\r\n";
 	string::size_type pos = str.find_last_not_of(whitespace);
@@ -164,7 +164,7 @@ string WSSession::trim(string str) {
 	return str;
 }
 
-vector<string> WSSession::explode(string theString, string theDelimiter, bool theIncludeEmptyStrings) {
+vector<string> WsSession::explode(string theString, string theDelimiter, bool theIncludeEmptyStrings) {
 	//printf("EXPLODE\n");
 	//UASSERT( theDelimiter.size(), >, 0 );
 	
@@ -190,7 +190,7 @@ vector<string> WSSession::explode(string theString, string theDelimiter, bool th
 	return theStringVector;
 }
 
-string WSSession::answerHandshake() {
+string WsSession::answerHandshake() {
     unsigned char digest[20]; // 160 bit sha1 digest
 
 	string answer;
@@ -238,7 +238,7 @@ string WSSession::answerHandshake() {
 	//return WS_OPENING_FRAME;
 }
 
-int WSSession::makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_length, unsigned char* buffer, int buffer_size) {
+int WsSession::makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_length, unsigned char* buffer, int buffer_size) {
 	int pos = 0;
 	int size = msg_length; 
 	buffer[pos++] = (unsigned char)frame_type; // text frame
@@ -271,7 +271,7 @@ int WSSession::makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int 
 	return (size+pos);
 }
 
-WebSocketFrameType WSSession::getFrame(unsigned char* in_buffer, int in_length, unsigned char* out_buffer, int out_size, int* out_length, int* out_pos) {
+WebSocketFrameType WsSession::getFrame(unsigned char* in_buffer, int in_length, unsigned char* out_buffer, int out_size, int* out_length, int* out_pos) {
 	//printf("getTextFrame()\n");
 	if(in_length < 2) return INCOMPLETE_FRAME;
 

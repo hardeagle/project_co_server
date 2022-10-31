@@ -1,14 +1,16 @@
-#ifndef __CORE_GATE_GATE_WSS_SESSION_H__
-#define __CORE_GATE_GATE_WSS_SESSION_H__
+#ifndef __CORE_GATE_GATE_WS_SESSION_H__
+#define __CORE_GATE_GATE_WS_SESSION_H__
 
 #include <memory>
 #include "core/ws_session.h"
 
 namespace Eayew {
 
-class GateWssSession : public WSSession {
+class GateWsSession : public WsSession {
 public:
-    using ptr = std::shared_ptr<GateWssSession>;
+    using ptr = std::shared_ptr<GateWsSession>;
+
+    GateWsSession(int fd);
 };
 
 }

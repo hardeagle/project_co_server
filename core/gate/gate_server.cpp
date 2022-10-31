@@ -16,6 +16,7 @@
 #include "core/util/util.h"
 
 #include "gate_session.h"
+#include "gate_ws_session.h"
 #include "gate_peer_session.h"
 
 namespace Eayew {
@@ -55,6 +56,12 @@ GateSession::ptr GateServer::getSession(uint64_t id) {
     return it != m_sessions.end() ? it->second : nullptr;
 }
 
+GateWsSession::ptr GateServer::getWsSession(uint64_t id) {
+    std::unordered_map<uint64_t, GateWsSession::ptr>::iterator it = m_wsSessions.find(id);
+    return it != m_wsSessions.end() ? it->second : nullptr;
+}
+
+
 void GateServer::run() {
     init();
 
@@ -66,7 +73,7 @@ void GateServer::run() {
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(m_port);
-    addr.sin_addr.s_addr = inet_addr(m_ip.data());
+    addr.sin_addr.s_addr = inet_addr("0.0.0.0"); //inet_addr(m_ip.data());
     socklen_t len = sizeof(addr);
     if (-1 == bind(accept_fd, (sockaddr*)&addr, len)) {
         LOG(ERROR) << "bind error, port " << m_port;
@@ -91,7 +98,7 @@ void GateServer::run() {
             }
 
             LOG(INFO) << "accept success, fd " << fd;
-            auto gs = std::make_shared<GateSession>(fd);
+            auto gs = std::make_shared<GateWsSession>(fd);
             auto gs_id = gs->id();
             gs->setOnMessage([&, gs_id, self = shared_from_this()](Message&& msg) {
                 uint16_t receiver_id = msg.receiverId();
@@ -106,7 +113,8 @@ void GateServer::run() {
             gs->setOnClose([&](uint64_t id) {
                 m_sessions.erase(id);
             });
-            m_sessions[gs->id()] = gs;
+            m_wsSessions[gs->id()] = gs;
+            gs->start();
             gs->run();
         }
     };

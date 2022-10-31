@@ -264,8 +264,8 @@ int main(int argc, char* argv[]) {
 
     LOG(INFO) << "---begin---";
 
-    std::string m_ip = "127.0.0.1";
-    auto m_port = 9999;
+    std::string m_ip = "0.0.0.0";
+    auto m_port = 9777;
 
     int accept_fd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -289,7 +289,7 @@ int main(int argc, char* argv[]) {
     for (;;) {
         int fd = accept(accept_fd, (sockaddr*)&addr, &len);
         LOG(INFO) << "accept "  << fd;
-        Eayew::WSSession ws(fd);
+        Eayew::WsSession ws(fd);
         ws.start();
 
         uint32_t icount = 0;

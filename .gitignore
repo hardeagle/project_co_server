@@ -7,6 +7,7 @@
 
 build/
 bin/co_server
+bin/co_test
 bin/chat_server
 bin/game_server
 bin/login_server
