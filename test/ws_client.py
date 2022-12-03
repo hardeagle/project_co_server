@@ -67,7 +67,7 @@ class WebsocketClient(object):
     def on_open(self, ws):
         print("on open")
 
-        for i in range(1, 1000000):
+        for i in range(1, 2):
             len = random.randint(0, 4096)
             data = generate_random_str(len)
             ws.send(data)
@@ -86,6 +86,6 @@ class WebsocketClient(object):
 
 
 if __name__ == '__main__':
-    ws_client = WebsocketClient("ws://127.0.0.1:9999", 'hello')
+    ws_client = WebsocketClient("ws://127.0.0.1:9777", 'hello')
     ws_client.run()
     print(ws_client.get_message())

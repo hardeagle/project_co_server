@@ -27,7 +27,7 @@ void RpcServerSession::sync_read() {
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
         if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length";
+            LOG(ERROR) << "Invalid head length, rlen " << rlen << " head_len " << head_len;
             return;
         }
         int body_len = 0;

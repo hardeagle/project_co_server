@@ -108,10 +108,11 @@ void GateServer::run() {
                     return;
                 }
                 msg.sessionId(gs_id);
+                LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
                 gps->send(std::move(msg));
             });
             gs->setOnClose([&](uint64_t id) {
-                m_sessions.erase(id);
+                m_wsSessions.erase(id);
             });
             m_wsSessions[gs->id()] = gs;
             gs->start();
@@ -172,7 +173,7 @@ void GateServer::discoverServer() {
         gps->sync_connect(si.address, si.port, type(), st);
         gps->setOnMessage([&](Message&& msg) {
             auto session_id = msg.sessionId();
-            auto s = getSession(session_id);
+            auto s = getWsSession(session_id);
             if (!s) {
                 LOG(ERROR) << "Invalid session " << session_id;
                 return;

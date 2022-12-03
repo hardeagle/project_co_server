@@ -1,8 +1,8 @@
 {
     "name": "login",
-    "type": 11,
+    "type": 2,
     "ip": "127.0.0.1",
-    "port": 11001,
+    "port": 12000,
 
     "servers": [
     ]

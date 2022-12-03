@@ -83,11 +83,22 @@ void WsSession::sync_read() {
 			int len = 0;
 			int pos = 0;
 			auto wsft = getFrame((unsigned char*)&buffs[index], rlen - index, (unsigned char*)&datas[0], rlen - index, &len, &pos);
-			if (wsft != 129 || index + len + pos - 1 > rlen) {
+			if ((wsft != 129 && wsft != 130) || index + len + pos - 1 > rlen) {
 				LOG(WARNING) << "break, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount  << " datas " << datas;
 				break;
 			}
-			index = index + len + pos - 1;
+
+			auto size = len + pos;
+			LOG(WARNING) << "size " << size;
+            Message msg(size - Message::HEAD_LEN);
+            memcpy(msg.data(), &datas[0], size);
+			//msg.write(&datas[0], size);
+            if (m_onMessageCB != nullptr) {
+                LOG(INFO) << "msg " << msg.strInfo();
+                m_onMessageCB(std::move(msg));
+            }
+
+			index = index + len + pos;
 			LOG(WARNING) << "loop, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount << " datas " << datas;
 		}
 		LOG(WARNING) << "once read, len " << rlen << " index " << index;
@@ -335,10 +346,10 @@ WebSocketFrameType WsSession::getFrame(unsigned char* in_buffer, int in_length, 
 	}
 
 	memcpy((void*)out_buffer, (void*)(in_buffer+pos), payload_length);
-	out_buffer[payload_length] = 0;
-	*out_length = payload_length+1;
+	//out_buffer[payload_length] = 0;
+	*out_length = payload_length;
     *out_pos = pos;
-	
+
 	//printf("TEXT: %s\n", out_buffer);
 
 	if(msg_opcode == 0x0) return (msg_fin)?TEXT_FRAME:INCOMPLETE_TEXT_FRAME; // continuation frame ?

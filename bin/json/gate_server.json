@@ -1,6 +1,6 @@
 {
     "name": "gate",
-    "type": 10,
+    "type": 1,
     "ip": "127.0.0.1",
     "port": 9777,
     "ws_port": 9778,
