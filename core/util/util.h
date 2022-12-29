@@ -19,6 +19,10 @@ uint16_t getTypeByName(const std::string& name);
 
 Message&& covertRspMsg(Message& msg, const google::protobuf::Message& gpm);
 
+std::string getIP();
+
+std::string getip();
+
 }
 
 #endif

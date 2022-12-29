@@ -1,5 +1,12 @@
 #include "util.h"
 
+#include <stdio.h>     
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
+
 #include <sstream>
 
 #include "log/glog.h"
@@ -42,5 +49,47 @@ Message&& covertRspMsg(Message& msg, const google::protobuf::Message& gpm) {
     return std::move(msg);
 }
 
+std::string getIP() {
+    struct ifaddrs * ifAddrStruct=NULL;
+    void * tmpAddrPtr=NULL;
+
+    getifaddrs(&ifAddrStruct);
+
+    while (ifAddrStruct!=NULL) {
+        if (ifAddrStruct->ifa_addr->sa_family==AF_INET) { // check it is IP4
+            tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
+            char addressBuffer[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+            printf("%s IP Address %s/n", ifAddrStruct->ifa_name, addressBuffer);
+            if (ifAddrStruct->ifa_name != "lo") {
+                return std::string(addressBuffer);
+            }
+        } else if (ifAddrStruct->ifa_addr->sa_family==AF_INET6) { // check it is IP6
+            tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
+            char addressBuffer[INET6_ADDRSTRLEN];
+            inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
+            printf("%s IP Address %s/n", ifAddrStruct->ifa_name, addressBuffer);
+        }
+        ifAddrStruct=ifAddrStruct->ifa_next;
+    }
+    return "";
+}
+
+std::string getip() {
+    // char hname[128];
+    // struct hostent *hent;
+    // int i;
+
+    // gethostname(hname, sizeof(hname));
+
+    // hent = gethostbyname(hname);
+
+    // printf("hostname: %s/naddress list: ", hent->h_name);
+    // for(i = 0; hent->h_addr_list[i]; i++) 
+    // {
+    //     printf("%s/t", inet_ntoa(*(struct in_addr*)(hent->h_addr_list[i])));
+    // }
+    return "";
+}
 
 }

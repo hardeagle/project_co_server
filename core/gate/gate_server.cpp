@@ -24,7 +24,9 @@ namespace Eayew {
 GateServer::GateServer()
     : m_agent(m_consul)
     , m_kv(m_consul)
-    , m_timer(std::chrono::milliseconds(1), &co_sched) {    
+    , m_timer(std::chrono::milliseconds(1), &co_sched) {
+    auto ip = getIP();
+    LOG(ERROR) << "ip " << ip;
 }
 
 GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
@@ -192,9 +194,9 @@ void GateServer::discoverServer() {
         m_gpSessions[st][si.id] = gps;
     }
 
-    // m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
-    //     discoverServer();
-    // });
+    m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
+        discoverServer();
+    });
 }
 
 }
