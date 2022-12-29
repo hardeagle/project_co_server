@@ -38,7 +38,7 @@ private:
 
     std::atomic<int> m_rpcId;
 
-    std::unordered_map<int, std::unordered_map<int, std::shared_ptr<RpcSession> > > m_rpcSessions;
+    std::unordered_map<int, std::shared_ptr<RpcSession> > m_rpcSessions;
 
     std::map<int, co_chan<std::string> > m_channels;
 };

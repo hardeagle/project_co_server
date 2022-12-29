@@ -82,26 +82,36 @@ void BaseServer::run() {
 
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
-            if (1 == sender_type) {
-                auto gss = std::make_shared<GateServerSession>(fd);
-                // gss->senderType(sender_type);
-                // gss->receiverType(receiver_type);
-                gss->setOnMessage([=](Message&& msg) {
-                    m_workRoutineMgr->dispatch(gss, std::move(msg));
-                });
-                gss->setOnClose([&](uint64_t id) {
-                    LOG(INFO) << "onClose";
-                    m_gateSessions.erase(id);
-                });
-                m_gateSessions[sender_type] = gss;
-                gss->run();
-            } else {
-                auto ss = std::make_shared<RpcServerSession>(fd);
-                ss->senderType(sender_type);
-                ss->receiverType(receiver_type);
-                m_rpcSessions[sender_type] = ss;
-                ss->run();
-            }
+            auto s = std::make_shared<Session>(fd);
+            s->setOnMessage([=](Message&& msg) {
+                m_workRoutineMgr->dispatch(s, std::move(msg));
+            });
+            s->setOnClose([&](uint64_t id) {
+                m_sessions.erase(id);
+            });
+            m_sessions[sender_type] = s;
+            s->run();
+
+            // if (1 == sender_type) {
+            //     auto gss = std::make_shared<GateServerSession>(fd);
+            //     // gss->senderType(sender_type);
+            //     // gss->receiverType(receiver_type);
+            //     gss->setOnMessage([=](Message&& msg) {
+            //         m_workRoutineMgr->dispatch(gss, std::move(msg));
+            //     });
+            //     gss->setOnClose([&](uint64_t id) {
+            //         LOG(INFO) << "onClose";
+            //         m_gateSessions.erase(id);
+            //     });
+            //     m_gateSessions[sender_type] = gss;
+            //     gss->run();
+            // } else {
+            //     auto ss = std::make_shared<RpcServerSession>(fd);
+            //     ss->senderType(sender_type);
+            //     ss->receiverType(receiver_type);
+            //     m_rpcSessions[sender_type] = ss;
+            //     ss->run();
+            // }
 
         }
     };

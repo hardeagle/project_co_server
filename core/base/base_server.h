@@ -19,6 +19,7 @@ class GateServerSession;
 class RpcServerSession;
 class RpcManager;
 class ServletDispatchRange;
+class Session;
 class WorkRoutineManager;
 
 class BaseServer : public std::enable_shared_from_this<BaseServer> {
@@ -74,9 +75,11 @@ private:
 
     std::shared_ptr<ServletDispatchRange> m_servlet;
 
-    std::unordered_map<int, std::shared_ptr<GateServerSession> > m_gateSessions;
+    // std::unordered_map<int, std::shared_ptr<GateServerSession> > m_gateSessions;
 
-    std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
+    // std::unordered_map<int, std::shared_ptr<RpcServerSession> > m_rpcSessions;
+
+    std::unordered_map<uint32_t, std::shared_ptr<Session> > m_sessions;
 
     std::shared_ptr<WorkRoutineManager> m_workRoutineMgr;
 };

@@ -51,6 +51,12 @@ public:
 
     int64_t id() { return m_id; }
 
+    uint16_t sender() { return m_sender; }
+    void sender(uint16_t v) { m_sender = v; }
+
+    uint16_t receiver() { return m_receiver; }
+    void receiver(uint16_t v) { m_receiver = v; }
+
     void setOnMessage(std::function<void(Message&&)>);
     void setOnClose(std::function<void(uint64_t)>);
 
@@ -76,6 +82,9 @@ protected:
     std::string m_ip;
     uint16_t m_port;
     uint32_t m_fd;
+
+    uint16_t m_sender;
+    uint16_t m_receiver;
 
     co_chan<Message> m_rMsgs;
     co_chan<Message> m_wMsgs;
