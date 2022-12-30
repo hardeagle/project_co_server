@@ -24,11 +24,11 @@ class WorkRoutineManager;
 
 class BaseServer : public std::enable_shared_from_this<BaseServer> {
 public:
-    BaseServer();
+    BaseServer(uint16_t type);
 
     virtual ~BaseServer() {}
 
-    int type() const { return m_type; }
+    uint16_t type() const { return m_type; }
 
     int id() const { return m_id; }
 
@@ -56,7 +56,7 @@ private:
     void discoverServer();
 
 private:
-    int m_type;
+    uint16_t m_type;
     int m_id;
     uint16_t m_port;
     std::string m_ip;

@@ -25,7 +25,7 @@ public:
 
     GateServer();
 
-    int type() const { return m_type; }
+    uint16_t type() const { return m_type; }
 
     std::shared_ptr<GatePeerSession> getGatePeerSession(uint16_t type);
 

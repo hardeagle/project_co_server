@@ -14,3 +14,4 @@ bin/login_server
 bin/gate_server
 bin/rank_server
 bin/test
+bin/core.

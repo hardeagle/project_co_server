@@ -13,6 +13,8 @@ namespace Eayew {
 
 uint32_t getCurSecond();
 
+uint16_t serverPort(uint16_t type);
+
 std::string serverId(const std::string& name, u_int16_t type, const std::string& ip, u_int16_t port);
 
 uint16_t getTypeByName(const std::string& name);

@@ -18,6 +18,10 @@ uint32_t getCurSecond() {
     return uint32_t(t);
 }
 
+uint16_t serverPort(uint16_t type) {
+    return 9000 + type * 100 + 1;
+}
+
 std::string serverId(const std::string& name, uint16_t type, const std::string& ip, uint16_t port) {
     std::stringstream ss;
     ss << name << "_" << type << "_" << ip << "_" << port;
@@ -60,15 +64,17 @@ std::string getIP() {
             tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
             char addressBuffer[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-            printf("%s IP Address %s/n", ifAddrStruct->ifa_name, addressBuffer);
-            if (ifAddrStruct->ifa_name != "lo") {
-                return std::string(addressBuffer);
+            //LOG(ERROR) << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
+            if (strcmp(ifAddrStruct->ifa_name,"lo") == 0) {
+                ifAddrStruct=ifAddrStruct->ifa_next;
+                continue;
             }
+            return std::string(addressBuffer);
         } else if (ifAddrStruct->ifa_addr->sa_family==AF_INET6) { // check it is IP6
             tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
             char addressBuffer[INET6_ADDRSTRLEN];
             inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-            printf("%s IP Address %s/n", ifAddrStruct->ifa_name, addressBuffer);
+            //LOG(ERROR) << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
         }
         ifAddrStruct=ifAddrStruct->ifa_next;
     }

@@ -19,8 +19,9 @@
 
 namespace Eayew {
 
-BaseServer::BaseServer()
-    : m_agent(m_consul)
+BaseServer::BaseServer(uint16_t type)
+    : m_type(type)
+    , m_agent(m_consul)
     , m_kv(m_consul) {
     m_servlet = std::make_shared<ServletDispatchRange>();
     m_workRoutineMgr = std::make_shared<WorkRoutineManager>(m_servlet);
@@ -134,16 +135,25 @@ void BaseServer::rpcDispatch(std::string& msg) {
 }
 
 void BaseServer::initByConfig(const std::string& file) {
-    boost::property_tree::ptree root;
-    boost::property_tree::read_json(file, root);
-    m_name = root.get<std::string>("name");
-    m_type = root.get<int>("type");
-    m_ip = root.get<std::string>("ip");
-    m_port = root.get<int>("port");
+    // boost::property_tree::ptree root;
+    // boost::property_tree::read_json(file, root);
+    // m_name = root.get<std::string>("name");
+    // m_type = root.get<int>("type");
+    // m_ip = root.get<std::string>("ip");
+    // m_port = root.get<int>("port");
+    // m_serverId = serverId(m_name, m_type, m_ip, m_port);
+
+    // m_rpcManager = std::make_shared<RpcManager>(m_type);
+    // m_rpcManager->init(file);
+
+    LOG(INFO) << "BaseServer initByConfig begin...";
+
+    m_ip = getIP();
+    m_port = serverPort(m_type);
+    m_name = std::to_string(m_type);
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
 
-    m_rpcManager = std::make_shared<RpcManager>(m_type);
-    m_rpcManager->init(file);
+    LOG(INFO) << "BaseServer initByConfig end...";
 }
 
 void BaseServer::consulServer() {

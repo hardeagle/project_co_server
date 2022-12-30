@@ -13,6 +13,7 @@
 #include "core/rpc/rpc_manager.h"
 
 #include "log/glog.h"
+#include "core/const.hpp"
 #include "core/util/util.h"
 
 #include "gate_session.h"
@@ -22,7 +23,8 @@
 namespace Eayew {
 
 GateServer::GateServer()
-    : m_agent(m_consul)
+    : m_type(ServerType::GATE)
+    , m_agent(m_consul)
     , m_kv(m_consul)
     , m_timer(std::chrono::milliseconds(1), &co_sched) {
     auto ip = getIP();
@@ -128,14 +130,19 @@ void GateServer::run() {
 }
 
 void GateServer::init() {
-    const std::string file = "./json/gate_server.json";
-    boost::property_tree::ptree root;
-    boost::property_tree::read_json(file, root);
-    m_name = root.get<std::string>("name");
-    m_type = root.get<uint16_t>("type");
-    m_ip = root.get<std::string>("ip");
-    m_port = root.get<uint16_t>("port");
-    m_wsPort = root.get<uint16_t>("ws_port");
+    // const std::string file = "./json/gate_server.json";
+    // boost::property_tree::ptree root;
+    // boost::property_tree::read_json(file, root);
+    // m_name = root.get<std::string>("name");
+    // m_type = root.get<uint16_t>("type");
+    // m_ip = root.get<std::string>("ip");
+    // m_port = root.get<uint16_t>("port");
+    // m_wsPort = root.get<uint16_t>("ws_port");
+    // m_serverId = serverId(m_name, m_type, m_ip, m_port);
+
+    m_ip = getIP();
+    m_port = serverPort(m_type);
+    m_name = std::to_string(m_type);
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
 }
 
