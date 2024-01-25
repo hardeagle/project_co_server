@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ChatProtocol;
+
+enum ID {
+    ZERO                    = 0;
+
+    LOGIN_ID_BASE           = 327680;   // 5 << 16
+
+    C2S_CHAT_BASE           = 328680;   // ID_BASE + 1000
+    C2S_CHAT_LOAD           = 328681;
+    S2C_CHAT_LOAD           = 328682;
+    C2S_CHAT_CHAT           = 328683;
+    S2C_CHAT_CHAT           = 328684;
+    C2S_CHAT_TOP            = 329680;
+}

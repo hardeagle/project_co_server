@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ChatProtocol;
+
+message ChatMsg {
+    int64 role_id = 1;
+    bytes name = 2;
+    bytes avatarurl = 3;
+    bytes context = 4;
+}
+
+message C2S_ChatLoad {
+    int64 role_id = 1;
+}
+
+message S2C_ChatLoad {
+    int32 ret = 1;
+    repeated ChatMsg cms =2;
+}
+
+message C2S_ChatChat {
+    int64 role_id = 1;
+    ChatMsg cm = 2;
+}
+
+message S2C_ChatChat {
+    int32 ret = 1;
+}

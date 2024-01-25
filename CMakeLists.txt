@@ -24,6 +24,8 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/protocol PUBLIC_SRC_LIST)
 
 # chat server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat CHAT_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat/protocol CHAT_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat/servlet CHAT_SRC_LIST)
 
 # game server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/game GAME_SRC_LIST)
@@ -35,6 +37,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/servlet LOGIN_SRC_LIST)
 
 # rank server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank RANK_SRC_LIST)
+
 
 # task server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/task TASK_SRC_LIST)

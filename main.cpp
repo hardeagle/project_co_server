@@ -16,6 +16,7 @@
 
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"
+#include "core/httplib.h"
 #include "core/ws_session.h"
 
 #include <sys/socket.h>
@@ -263,6 +264,27 @@ int main(int argc, char* argv[]) {
     //co_opt.debug = co::dbg_all;
 
     LOG(INFO) << "---begin---";
+
+    {
+        httplib::Client cli("http://124.222.229.211:8080");
+        auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3");
+        res->status;
+        res->body;
+        LOG(INFO) << "status " << res->status << " body " << res->body;
+    }
+
+    {
+        httplib::Client cli("http://124.222.229.211:8080");
+        if (auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3")) {
+            if (res->status == httplib::StatusCode::OK_200) {
+                std::cout << res->body << std::endl;
+            }
+        } else {
+            auto err = res.error();
+            std::cout << "HTTP error: " << httplib::to_string(err) << std::endl;
+        }
+    }
+
 
     std::string m_ip = "0.0.0.0";
     auto m_port = 9777;

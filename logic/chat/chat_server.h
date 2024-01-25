@@ -12,10 +12,8 @@ public:
 
     void beforeRun();
 
-    void test();
-
 private:
-
+    void initServlet();
 };
 
 #endif

@@ -14,176 +14,178 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-
-PROTOBUF_PRAGMA_INIT_SEG
-
-namespace _pb = ::PROTOBUF_NAMESPACE_ID;
-namespace _pbi = _pb::internal;
-
 namespace LoginProtocol {
-PROTOBUF_CONSTEXPR C2S_LoginLogin::C2S_LoginLogin(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.loginname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_LoginLoginDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_LoginLoginDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_LoginLoginDefaultTypeInternal() {}
-  union {
-    C2S_LoginLogin _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_LoginLoginDefaultTypeInternal _C2S_LoginLogin_default_instance_;
-PROTOBUF_CONSTEXPR S2C_LoginLogin::S2C_LoginLogin(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.role_id_)*/int64_t{0}
-  , /*decltype(_impl_.ret_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_LoginLoginDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_LoginLoginDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_LoginLoginDefaultTypeInternal() {}
-  union {
-    S2C_LoginLogin _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_LoginLoginDefaultTypeInternal _S2C_LoginLogin_default_instance_;
-PROTOBUF_CONSTEXPR C2S_LoginCreate::C2S_LoginCreate(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.loginname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.role_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.avatarurl_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_LoginCreateDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_LoginCreateDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_LoginCreateDefaultTypeInternal() {}
-  union {
-    C2S_LoginCreate _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_LoginCreateDefaultTypeInternal _C2S_LoginCreate_default_instance_;
-PROTOBUF_CONSTEXPR S2C_LoginCreate::S2C_LoginCreate(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.role_id_)*/int64_t{0}
-  , /*decltype(_impl_.ret_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_LoginCreateDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_LoginCreateDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_LoginCreateDefaultTypeInternal() {}
-  union {
-    S2C_LoginCreate _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_LoginCreateDefaultTypeInternal _S2C_LoginCreate_default_instance_;
-PROTOBUF_CONSTEXPR C2S_LoginLoad::C2S_LoginLoad(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.role_id_)*/int64_t{0}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct C2S_LoginLoadDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR C2S_LoginLoadDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~C2S_LoginLoadDefaultTypeInternal() {}
-  union {
-    C2S_LoginLoad _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2S_LoginLoadDefaultTypeInternal _C2S_LoginLoad_default_instance_;
-PROTOBUF_CONSTEXPR S2C_LoginLoad::S2C_LoginLoad(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.ret_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct S2C_LoginLoadDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S2C_LoginLoadDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S2C_LoginLoadDefaultTypeInternal() {}
-  union {
-    S2C_LoginLoad _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2C_LoginLoadDefaultTypeInternal _S2C_LoginLoad_default_instance_;
+class C2S_LoginLoginDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<C2S_LoginLogin> _instance;
+} _C2S_LoginLogin_default_instance_;
+class S2C_LoginLoginDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_LoginLogin> _instance;
+} _S2C_LoginLogin_default_instance_;
+class C2S_LoginCreateDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<C2S_LoginCreate> _instance;
+} _C2S_LoginCreate_default_instance_;
+class S2C_LoginCreateDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_LoginCreate> _instance;
+} _S2C_LoginCreate_default_instance_;
+class C2S_LoginLoadDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<C2S_LoginLoad> _instance;
+} _C2S_LoginLoad_default_instance_;
+class S2C_LoginLoadDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_LoginLoad> _instance;
+} _S2C_LoginLoad_default_instance_;
 }  // namespace LoginProtocol
-static ::_pb::Metadata file_level_metadata_login_2eproto[6];
-static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_login_2eproto = nullptr;
-static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_login_2eproto = nullptr;
+static void InitDefaultsscc_info_C2S_LoginCreate_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-const uint32_t TableStruct_login_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  {
+    void* ptr = &::LoginProtocol::_C2S_LoginCreate_default_instance_;
+    new (ptr) ::LoginProtocol::C2S_LoginCreate();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::C2S_LoginCreate::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_C2S_LoginCreate_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_C2S_LoginCreate_login_2eproto}, {}};
+
+static void InitDefaultsscc_info_C2S_LoginLoad_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::LoginProtocol::_C2S_LoginLoad_default_instance_;
+    new (ptr) ::LoginProtocol::C2S_LoginLoad();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::C2S_LoginLoad::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_C2S_LoginLoad_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_C2S_LoginLoad_login_2eproto}, {}};
+
+static void InitDefaultsscc_info_C2S_LoginLogin_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::LoginProtocol::_C2S_LoginLogin_default_instance_;
+    new (ptr) ::LoginProtocol::C2S_LoginLogin();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::C2S_LoginLogin::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_C2S_LoginLogin_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_C2S_LoginLogin_login_2eproto}, {}};
+
+static void InitDefaultsscc_info_S2C_LoginCreate_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::LoginProtocol::_S2C_LoginCreate_default_instance_;
+    new (ptr) ::LoginProtocol::S2C_LoginCreate();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::S2C_LoginCreate::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_S2C_LoginCreate_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_S2C_LoginCreate_login_2eproto}, {}};
+
+static void InitDefaultsscc_info_S2C_LoginLoad_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::LoginProtocol::_S2C_LoginLoad_default_instance_;
+    new (ptr) ::LoginProtocol::S2C_LoginLoad();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::S2C_LoginLoad::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_S2C_LoginLoad_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_S2C_LoginLoad_login_2eproto}, {}};
+
+static void InitDefaultsscc_info_S2C_LoginLogin_login_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::LoginProtocol::_S2C_LoginLogin_default_instance_;
+    new (ptr) ::LoginProtocol::S2C_LoginLogin();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::LoginProtocol::S2C_LoginLogin::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_S2C_LoginLogin_login_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_S2C_LoginLogin_login_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_login_2eproto[6];
+static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_login_2eproto = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_login_2eproto = nullptr;
+
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLogin, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLogin, _impl_.loginname_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLogin, loginname_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLogin, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLogin, _impl_.ret_),
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLogin, _impl_.role_id_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLogin, ret_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLogin, role_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, _impl_.loginname_),
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, _impl_.role_name_),
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, _impl_.avatarurl_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, loginname_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, role_name_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, avatarurl_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginCreate, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginCreate, _impl_.ret_),
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginCreate, _impl_.role_id_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginCreate, ret_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginCreate, role_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLoad, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLoad, _impl_.role_id_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginLoad, role_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLoad, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _split_
-  ~0u,  // no sizeof(Split)
-  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLoad, _impl_.ret_),
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::S2C_LoginLoad, ret_),
 };
-static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::LoginProtocol::C2S_LoginLogin)},
-  { 9, -1, -1, sizeof(::LoginProtocol::S2C_LoginLogin)},
-  { 19, -1, -1, sizeof(::LoginProtocol::C2S_LoginCreate)},
-  { 30, -1, -1, sizeof(::LoginProtocol::S2C_LoginCreate)},
-  { 40, -1, -1, sizeof(::LoginProtocol::C2S_LoginLoad)},
-  { 49, -1, -1, sizeof(::LoginProtocol::S2C_LoginLoad)},
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, sizeof(::LoginProtocol::C2S_LoginLogin)},
+  { 6, -1, sizeof(::LoginProtocol::S2C_LoginLogin)},
+  { 13, -1, sizeof(::LoginProtocol::C2S_LoginCreate)},
+  { 21, -1, sizeof(::LoginProtocol::S2C_LoginCreate)},
+  { 28, -1, sizeof(::LoginProtocol::C2S_LoginLoad)},
+  { 34, -1, sizeof(::LoginProtocol::S2C_LoginLoad)},
 };
 
-static const ::_pb::Message* const file_default_instances[] = {
-  &::LoginProtocol::_C2S_LoginLogin_default_instance_._instance,
-  &::LoginProtocol::_S2C_LoginLogin_default_instance_._instance,
-  &::LoginProtocol::_C2S_LoginCreate_default_instance_._instance,
-  &::LoginProtocol::_S2C_LoginCreate_default_instance_._instance,
-  &::LoginProtocol::_C2S_LoginLoad_default_instance_._instance,
-  &::LoginProtocol::_S2C_LoginLoad_default_instance_._instance,
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_C2S_LoginLogin_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_S2C_LoginLogin_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_C2S_LoginCreate_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_S2C_LoginCreate_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_C2S_LoginLoad_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::LoginProtocol::_S2C_LoginLoad_default_instance_),
 };
 
 const char descriptor_table_protodef_login_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -196,149 +198,135 @@ const char descriptor_table_protodef_login_2eproto[] PROTOBUF_SECTION_VARIABLE(p
   "\n\rC2S_LoginLoad\022\017\n\007role_id\030\001 \001(\003\"\034\n\rS2C_"
   "LoginLoad\022\013\n\003ret\030\001 \001(\005b\006proto3"
   ;
-static ::_pbi::once_flag descriptor_table_login_2eproto_once;
-const ::_pbi::DescriptorTable descriptor_table_login_2eproto = {
-    false, false, 310, descriptor_table_protodef_login_2eproto,
-    "login.proto",
-    &descriptor_table_login_2eproto_once, nullptr, 0, 6,
-    schemas, file_default_instances, TableStruct_login_2eproto::offsets,
-    file_level_metadata_login_2eproto, file_level_enum_descriptors_login_2eproto,
-    file_level_service_descriptors_login_2eproto,
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_2eproto_deps[1] = {
 };
-PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_login_2eproto_getter() {
-  return &descriptor_table_login_2eproto;
-}
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_login_2eproto_sccs[6] = {
+  &scc_info_C2S_LoginCreate_login_2eproto.base,
+  &scc_info_C2S_LoginLoad_login_2eproto.base,
+  &scc_info_C2S_LoginLogin_login_2eproto.base,
+  &scc_info_S2C_LoginCreate_login_2eproto.base,
+  &scc_info_S2C_LoginLoad_login_2eproto.base,
+  &scc_info_S2C_LoginLogin_login_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_2eproto_once;
+static bool descriptor_table_login_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_2eproto = {
+  &descriptor_table_login_2eproto_initialized, descriptor_table_protodef_login_2eproto, "login.proto", 310,
+  &descriptor_table_login_2eproto_once, descriptor_table_login_2eproto_sccs, descriptor_table_login_2eproto_deps, 6, 0,
+  schemas, file_default_instances, TableStruct_login_2eproto::offsets,
+  file_level_metadata_login_2eproto, 6, file_level_enum_descriptors_login_2eproto, file_level_service_descriptors_login_2eproto,
+};
 
 // Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_login_2eproto(&descriptor_table_login_2eproto);
+static bool dynamic_init_dummy_login_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_login_2eproto), true);
 namespace LoginProtocol {
 
 // ===================================================================
 
+void C2S_LoginLogin::InitAsDefaultInstance() {
+}
 class C2S_LoginLogin::_Internal {
  public:
 };
 
-C2S_LoginLogin::C2S_LoginLogin(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.C2S_LoginLogin)
+C2S_LoginLogin::C2S_LoginLogin()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.C2S_LoginLogin)
 }
 C2S_LoginLogin::C2S_LoginLogin(const C2S_LoginLogin& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_LoginLogin* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.loginname_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.loginname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.loginname_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  loginname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_loginname().empty()) {
-    _this->_impl_.loginname_.Set(from._internal_loginname(), 
-      _this->GetArenaForAllocation());
+    loginname_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.loginname_);
   }
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.C2S_LoginLogin)
 }
 
-inline void C2S_LoginLogin::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.loginname_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.loginname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.loginname_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+void C2S_LoginLogin::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_C2S_LoginLogin_login_2eproto.base);
+  loginname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 C2S_LoginLogin::~C2S_LoginLogin() {
   // @@protoc_insertion_point(destructor:LoginProtocol.C2S_LoginLogin)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void C2S_LoginLogin::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.loginname_.Destroy();
+void C2S_LoginLogin::SharedDtor() {
+  loginname_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void C2S_LoginLogin::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const C2S_LoginLogin& C2S_LoginLogin::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_C2S_LoginLogin_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void C2S_LoginLogin::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.C2S_LoginLogin)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.loginname_.ClearToEmpty();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
 }
 
-const char* C2S_LoginLogin::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* C2S_LoginLogin::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // bytes loginname = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_loginname();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_loginname(), ptr, ctx);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* C2S_LoginLogin::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* C2S_LoginLogin::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.C2S_LoginLogin)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bytes loginname = 1;
-  if (!this->_internal_loginname().empty()) {
+  if (this->loginname().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         1, this->_internal_loginname(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.C2S_LoginLogin)
   return target;
@@ -348,39 +336,59 @@ size_t C2S_LoginLogin::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.C2S_LoginLogin)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // bytes loginname = 1;
-  if (!this->_internal_loginname().empty()) {
+  if (this->loginname().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_loginname());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoginLogin::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_LoginLogin::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoginLogin::GetClassData() const { return &_class_data_; }
+void C2S_LoginLogin::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.C2S_LoginLogin)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C2S_LoginLogin* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C2S_LoginLogin>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.C2S_LoginLogin)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.C2S_LoginLogin)
+    MergeFrom(*source);
+  }
+}
 
-
-void C2S_LoginLogin::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_LoginLogin*>(&to_msg);
-  auto& from = static_cast<const C2S_LoginLogin&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginLogin)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void C2S_LoginLogin::MergeFrom(const C2S_LoginLogin& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginLogin)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_loginname().empty()) {
-    _this->_internal_set_loginname(from._internal_loginname());
+  if (from.loginname().size() > 0) {
+
+    loginname_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.loginname_);
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void C2S_LoginLogin::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.C2S_LoginLogin)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void C2S_LoginLogin::CopyFrom(const C2S_LoginLogin& from) {
@@ -396,154 +404,136 @@ bool C2S_LoginLogin::IsInitialized() const {
 
 void C2S_LoginLogin::InternalSwap(C2S_LoginLogin* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.loginname_, lhs_arena,
-      &other->_impl_.loginname_, rhs_arena
-  );
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  loginname_.Swap(&other->loginname_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoginLogin::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[0]);
+  return GetMetadataStatic();
 }
+
 
 // ===================================================================
 
+void S2C_LoginLogin::InitAsDefaultInstance() {
+}
 class S2C_LoginLogin::_Internal {
  public:
 };
 
-S2C_LoginLogin::S2C_LoginLogin(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.S2C_LoginLogin)
+S2C_LoginLogin::S2C_LoginLogin()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.S2C_LoginLogin)
 }
 S2C_LoginLogin::S2C_LoginLogin(const S2C_LoginLogin& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_LoginLogin* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){}
-    , decltype(_impl_.ret_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.role_id_, &from._impl_.role_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ret_) -
-    reinterpret_cast<char*>(&_impl_.role_id_)) + sizeof(_impl_.ret_));
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&role_id_, &from.role_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&ret_) -
+    reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.S2C_LoginLogin)
 }
 
-inline void S2C_LoginLogin::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){int64_t{0}}
-    , decltype(_impl_.ret_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
+void S2C_LoginLogin::SharedCtor() {
+  ::memset(&role_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ret_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
 }
 
 S2C_LoginLogin::~S2C_LoginLogin() {
   // @@protoc_insertion_point(destructor:LoginProtocol.S2C_LoginLogin)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void S2C_LoginLogin::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void S2C_LoginLogin::SharedDtor() {
 }
 
 void S2C_LoginLogin::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const S2C_LoginLogin& S2C_LoginLogin::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_S2C_LoginLogin_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void S2C_LoginLogin::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.S2C_LoginLogin)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.role_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.ret_) -
-      reinterpret_cast<char*>(&_impl_.role_id_)) + sizeof(_impl_.ret_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  ::memset(&role_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ret_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
+  _internal_metadata_.Clear();
 }
 
-const char* S2C_LoginLogin::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* S2C_LoginLogin::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // int32 ret = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
       // int64 role_id = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* S2C_LoginLogin::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* S2C_LoginLogin::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.S2C_LoginLogin)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
+  if (this->ret() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
   }
 
   // int64 role_id = 2;
-  if (this->_internal_role_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_role_id(), target);
+  if (this->role_id() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(2, this->_internal_role_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.S2C_LoginLogin)
   return target;
@@ -553,45 +543,68 @@ size_t S2C_LoginLogin::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.S2C_LoginLogin)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // int64 role_id = 2;
-  if (this->_internal_role_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_role_id());
+  if (this->role_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_role_id());
   }
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_ret());
+  if (this->ret() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_ret());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_LoginLogin::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_LoginLogin::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_LoginLogin::GetClassData() const { return &_class_data_; }
+void S2C_LoginLogin::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.S2C_LoginLogin)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S2C_LoginLogin* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S2C_LoginLogin>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.S2C_LoginLogin)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.S2C_LoginLogin)
+    MergeFrom(*source);
+  }
+}
 
-
-void S2C_LoginLogin::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_LoginLogin*>(&to_msg);
-  auto& from = static_cast<const S2C_LoginLogin&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginLogin)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void S2C_LoginLogin::MergeFrom(const S2C_LoginLogin& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginLogin)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_role_id() != 0) {
-    _this->_internal_set_role_id(from._internal_role_id());
+  if (from.role_id() != 0) {
+    _internal_set_role_id(from._internal_role_id());
   }
-  if (from._internal_ret() != 0) {
-    _this->_internal_set_ret(from._internal_ret());
+  if (from.ret() != 0) {
+    _internal_set_ret(from._internal_ret());
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_LoginLogin::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.S2C_LoginLogin)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void S2C_LoginLogin::CopyFrom(const S2C_LoginLogin& from) {
@@ -607,209 +620,162 @@ bool S2C_LoginLogin::IsInitialized() const {
 
 void S2C_LoginLogin::InternalSwap(S2C_LoginLogin* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_LoginLogin, _impl_.ret_)
-      + sizeof(S2C_LoginLogin::_impl_.ret_)
-      - PROTOBUF_FIELD_OFFSET(S2C_LoginLogin, _impl_.role_id_)>(
-          reinterpret_cast<char*>(&_impl_.role_id_),
-          reinterpret_cast<char*>(&other->_impl_.role_id_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(role_id_, other->role_id_);
+  swap(ret_, other->ret_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoginLogin::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[1]);
+  return GetMetadataStatic();
 }
+
 
 // ===================================================================
 
+void C2S_LoginCreate::InitAsDefaultInstance() {
+}
 class C2S_LoginCreate::_Internal {
  public:
 };
 
-C2S_LoginCreate::C2S_LoginCreate(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.C2S_LoginCreate)
+C2S_LoginCreate::C2S_LoginCreate()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.C2S_LoginCreate)
 }
 C2S_LoginCreate::C2S_LoginCreate(const C2S_LoginCreate& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_LoginCreate* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.loginname_){}
-    , decltype(_impl_.role_name_){}
-    , decltype(_impl_.avatarurl_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.loginname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.loginname_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  loginname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_loginname().empty()) {
-    _this->_impl_.loginname_.Set(from._internal_loginname(), 
-      _this->GetArenaForAllocation());
+    loginname_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.loginname_);
   }
-  _impl_.role_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.role_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  role_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_role_name().empty()) {
-    _this->_impl_.role_name_.Set(from._internal_role_name(), 
-      _this->GetArenaForAllocation());
+    role_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.role_name_);
   }
-  _impl_.avatarurl_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.avatarurl_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  avatarurl_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_avatarurl().empty()) {
-    _this->_impl_.avatarurl_.Set(from._internal_avatarurl(), 
-      _this->GetArenaForAllocation());
+    avatarurl_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.avatarurl_);
   }
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.C2S_LoginCreate)
 }
 
-inline void C2S_LoginCreate::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.loginname_){}
-    , decltype(_impl_.role_name_){}
-    , decltype(_impl_.avatarurl_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.loginname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.loginname_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.role_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.role_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.avatarurl_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.avatarurl_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+void C2S_LoginCreate::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_C2S_LoginCreate_login_2eproto.base);
+  loginname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  role_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  avatarurl_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 C2S_LoginCreate::~C2S_LoginCreate() {
   // @@protoc_insertion_point(destructor:LoginProtocol.C2S_LoginCreate)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void C2S_LoginCreate::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.loginname_.Destroy();
-  _impl_.role_name_.Destroy();
-  _impl_.avatarurl_.Destroy();
+void C2S_LoginCreate::SharedDtor() {
+  loginname_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  role_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  avatarurl_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void C2S_LoginCreate::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const C2S_LoginCreate& C2S_LoginCreate::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_C2S_LoginCreate_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void C2S_LoginCreate::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.C2S_LoginCreate)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.loginname_.ClearToEmpty();
-  _impl_.role_name_.ClearToEmpty();
-  _impl_.avatarurl_.ClearToEmpty();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  role_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
 }
 
-const char* C2S_LoginCreate::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* C2S_LoginCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // bytes loginname = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_loginname();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_loginname(), ptr, ctx);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
       // bytes role_name = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_role_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_role_name(), ptr, ctx);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
       // bytes avatarurl = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_avatarurl();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_avatarurl(), ptr, ctx);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* C2S_LoginCreate::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* C2S_LoginCreate::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.C2S_LoginCreate)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bytes loginname = 1;
-  if (!this->_internal_loginname().empty()) {
+  if (this->loginname().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         1, this->_internal_loginname(), target);
   }
 
   // bytes role_name = 2;
-  if (!this->_internal_role_name().empty()) {
+  if (this->role_name().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         2, this->_internal_role_name(), target);
   }
 
   // bytes avatarurl = 3;
-  if (!this->_internal_avatarurl().empty()) {
+  if (this->avatarurl().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         3, this->_internal_avatarurl(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.C2S_LoginCreate)
   return target;
@@ -819,59 +785,81 @@ size_t C2S_LoginCreate::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.C2S_LoginCreate)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // bytes loginname = 1;
-  if (!this->_internal_loginname().empty()) {
+  if (this->loginname().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_loginname());
   }
 
   // bytes role_name = 2;
-  if (!this->_internal_role_name().empty()) {
+  if (this->role_name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_role_name());
   }
 
   // bytes avatarurl = 3;
-  if (!this->_internal_avatarurl().empty()) {
+  if (this->avatarurl().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_avatarurl());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoginCreate::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_LoginCreate::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoginCreate::GetClassData() const { return &_class_data_; }
+void C2S_LoginCreate::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.C2S_LoginCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C2S_LoginCreate* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C2S_LoginCreate>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.C2S_LoginCreate)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.C2S_LoginCreate)
+    MergeFrom(*source);
+  }
+}
 
-
-void C2S_LoginCreate::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_LoginCreate*>(&to_msg);
-  auto& from = static_cast<const C2S_LoginCreate&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginCreate)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void C2S_LoginCreate::MergeFrom(const C2S_LoginCreate& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_loginname().empty()) {
-    _this->_internal_set_loginname(from._internal_loginname());
+  if (from.loginname().size() > 0) {
+
+    loginname_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.loginname_);
   }
-  if (!from._internal_role_name().empty()) {
-    _this->_internal_set_role_name(from._internal_role_name());
+  if (from.role_name().size() > 0) {
+
+    role_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.role_name_);
   }
-  if (!from._internal_avatarurl().empty()) {
-    _this->_internal_set_avatarurl(from._internal_avatarurl());
+  if (from.avatarurl().size() > 0) {
+
+    avatarurl_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.avatarurl_);
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void C2S_LoginCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.C2S_LoginCreate)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void C2S_LoginCreate::CopyFrom(const C2S_LoginCreate& from) {
@@ -887,162 +875,140 @@ bool C2S_LoginCreate::IsInitialized() const {
 
 void C2S_LoginCreate::InternalSwap(C2S_LoginCreate* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.loginname_, lhs_arena,
-      &other->_impl_.loginname_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.role_name_, lhs_arena,
-      &other->_impl_.role_name_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.avatarurl_, lhs_arena,
-      &other->_impl_.avatarurl_, rhs_arena
-  );
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  loginname_.Swap(&other->loginname_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  role_name_.Swap(&other->role_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  avatarurl_.Swap(&other->avatarurl_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoginCreate::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[2]);
+  return GetMetadataStatic();
 }
+
 
 // ===================================================================
 
+void S2C_LoginCreate::InitAsDefaultInstance() {
+}
 class S2C_LoginCreate::_Internal {
  public:
 };
 
-S2C_LoginCreate::S2C_LoginCreate(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.S2C_LoginCreate)
+S2C_LoginCreate::S2C_LoginCreate()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.S2C_LoginCreate)
 }
 S2C_LoginCreate::S2C_LoginCreate(const S2C_LoginCreate& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_LoginCreate* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){}
-    , decltype(_impl_.ret_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.role_id_, &from._impl_.role_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ret_) -
-    reinterpret_cast<char*>(&_impl_.role_id_)) + sizeof(_impl_.ret_));
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&role_id_, &from.role_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&ret_) -
+    reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.S2C_LoginCreate)
 }
 
-inline void S2C_LoginCreate::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){int64_t{0}}
-    , decltype(_impl_.ret_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
+void S2C_LoginCreate::SharedCtor() {
+  ::memset(&role_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ret_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
 }
 
 S2C_LoginCreate::~S2C_LoginCreate() {
   // @@protoc_insertion_point(destructor:LoginProtocol.S2C_LoginCreate)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void S2C_LoginCreate::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void S2C_LoginCreate::SharedDtor() {
 }
 
 void S2C_LoginCreate::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const S2C_LoginCreate& S2C_LoginCreate::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_S2C_LoginCreate_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void S2C_LoginCreate::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.S2C_LoginCreate)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.role_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.ret_) -
-      reinterpret_cast<char*>(&_impl_.role_id_)) + sizeof(_impl_.ret_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  ::memset(&role_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ret_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(ret_));
+  _internal_metadata_.Clear();
 }
 
-const char* S2C_LoginCreate::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* S2C_LoginCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // int32 ret = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
       // int64 role_id = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* S2C_LoginCreate::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* S2C_LoginCreate::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.S2C_LoginCreate)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
+  if (this->ret() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
   }
 
   // int64 role_id = 2;
-  if (this->_internal_role_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_role_id(), target);
+  if (this->role_id() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(2, this->_internal_role_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.S2C_LoginCreate)
   return target;
@@ -1052,45 +1018,68 @@ size_t S2C_LoginCreate::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.S2C_LoginCreate)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // int64 role_id = 2;
-  if (this->_internal_role_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_role_id());
+  if (this->role_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_role_id());
   }
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_ret());
+  if (this->ret() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_ret());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_LoginCreate::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_LoginCreate::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_LoginCreate::GetClassData() const { return &_class_data_; }
+void S2C_LoginCreate::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.S2C_LoginCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S2C_LoginCreate* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S2C_LoginCreate>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.S2C_LoginCreate)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.S2C_LoginCreate)
+    MergeFrom(*source);
+  }
+}
 
-
-void S2C_LoginCreate::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_LoginCreate*>(&to_msg);
-  auto& from = static_cast<const S2C_LoginCreate&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginCreate)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void S2C_LoginCreate::MergeFrom(const S2C_LoginCreate& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_role_id() != 0) {
-    _this->_internal_set_role_id(from._internal_role_id());
+  if (from.role_id() != 0) {
+    _internal_set_role_id(from._internal_role_id());
   }
-  if (from._internal_ret() != 0) {
-    _this->_internal_set_ret(from._internal_ret());
+  if (from.ret() != 0) {
+    _internal_set_ret(from._internal_ret());
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_LoginCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.S2C_LoginCreate)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void S2C_LoginCreate::CopyFrom(const S2C_LoginCreate& from) {
@@ -1106,134 +1095,117 @@ bool S2C_LoginCreate::IsInitialized() const {
 
 void S2C_LoginCreate::InternalSwap(S2C_LoginCreate* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S2C_LoginCreate, _impl_.ret_)
-      + sizeof(S2C_LoginCreate::_impl_.ret_)
-      - PROTOBUF_FIELD_OFFSET(S2C_LoginCreate, _impl_.role_id_)>(
-          reinterpret_cast<char*>(&_impl_.role_id_),
-          reinterpret_cast<char*>(&other->_impl_.role_id_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(role_id_, other->role_id_);
+  swap(ret_, other->ret_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoginCreate::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[3]);
+  return GetMetadataStatic();
 }
+
 
 // ===================================================================
 
+void C2S_LoginLoad::InitAsDefaultInstance() {
+}
 class C2S_LoginLoad::_Internal {
  public:
 };
 
-C2S_LoginLoad::C2S_LoginLoad(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.C2S_LoginLoad)
+C2S_LoginLoad::C2S_LoginLoad()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.C2S_LoginLoad)
 }
 C2S_LoginLoad::C2S_LoginLoad(const C2S_LoginLoad& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  C2S_LoginLoad* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.role_id_ = from._impl_.role_id_;
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  role_id_ = from.role_id_;
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.C2S_LoginLoad)
 }
 
-inline void C2S_LoginLoad::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.role_id_){int64_t{0}}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
+void C2S_LoginLoad::SharedCtor() {
+  role_id_ = PROTOBUF_LONGLONG(0);
 }
 
 C2S_LoginLoad::~C2S_LoginLoad() {
   // @@protoc_insertion_point(destructor:LoginProtocol.C2S_LoginLoad)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void C2S_LoginLoad::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void C2S_LoginLoad::SharedDtor() {
 }
 
 void C2S_LoginLoad::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const C2S_LoginLoad& C2S_LoginLoad::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_C2S_LoginLoad_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void C2S_LoginLoad::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.C2S_LoginLoad)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.role_id_ = int64_t{0};
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  role_id_ = PROTOBUF_LONGLONG(0);
+  _internal_metadata_.Clear();
 }
 
-const char* C2S_LoginLoad::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* C2S_LoginLoad::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // int64 role_id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          role_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* C2S_LoginLoad::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* C2S_LoginLoad::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.C2S_LoginLoad)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int64 role_id = 1;
-  if (this->_internal_role_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_role_id(), target);
+  if (this->role_id() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_role_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.C2S_LoginLoad)
   return target;
@@ -1243,37 +1215,58 @@ size_t C2S_LoginLoad::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.C2S_LoginLoad)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // int64 role_id = 1;
-  if (this->_internal_role_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_role_id());
+  if (this->role_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_role_id());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C2S_LoginLoad::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    C2S_LoginLoad::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2S_LoginLoad::GetClassData() const { return &_class_data_; }
+void C2S_LoginLoad::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.C2S_LoginLoad)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C2S_LoginLoad* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C2S_LoginLoad>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.C2S_LoginLoad)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.C2S_LoginLoad)
+    MergeFrom(*source);
+  }
+}
 
-
-void C2S_LoginLoad::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<C2S_LoginLoad*>(&to_msg);
-  auto& from = static_cast<const C2S_LoginLoad&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginLoad)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void C2S_LoginLoad::MergeFrom(const C2S_LoginLoad& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.C2S_LoginLoad)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_role_id() != 0) {
-    _this->_internal_set_role_id(from._internal_role_id());
+  if (from.role_id() != 0) {
+    _internal_set_role_id(from._internal_role_id());
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void C2S_LoginLoad::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.C2S_LoginLoad)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void C2S_LoginLoad::CopyFrom(const C2S_LoginLoad& from) {
@@ -1289,129 +1282,116 @@ bool C2S_LoginLoad::IsInitialized() const {
 
 void C2S_LoginLoad::InternalSwap(C2S_LoginLoad* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.role_id_, other->_impl_.role_id_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(role_id_, other->role_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoginLoad::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[4]);
+  return GetMetadataStatic();
 }
+
 
 // ===================================================================
 
+void S2C_LoginLoad::InitAsDefaultInstance() {
+}
 class S2C_LoginLoad::_Internal {
  public:
 };
 
-S2C_LoginLoad::S2C_LoginLoad(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:LoginProtocol.S2C_LoginLoad)
+S2C_LoginLoad::S2C_LoginLoad()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:LoginProtocol.S2C_LoginLoad)
 }
 S2C_LoginLoad::S2C_LoginLoad(const S2C_LoginLoad& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  S2C_LoginLoad* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.ret_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.ret_ = from._impl_.ret_;
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ret_ = from.ret_;
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.S2C_LoginLoad)
 }
 
-inline void S2C_LoginLoad::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.ret_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
+void S2C_LoginLoad::SharedCtor() {
+  ret_ = 0;
 }
 
 S2C_LoginLoad::~S2C_LoginLoad() {
   // @@protoc_insertion_point(destructor:LoginProtocol.S2C_LoginLoad)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void S2C_LoginLoad::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void S2C_LoginLoad::SharedDtor() {
 }
 
 void S2C_LoginLoad::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _cached_size_.Set(size);
 }
+const S2C_LoginLoad& S2C_LoginLoad::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_S2C_LoginLoad_login_2eproto.base);
+  return *internal_default_instance();
+}
+
 
 void S2C_LoginLoad::Clear() {
 // @@protoc_insertion_point(message_clear_start:LoginProtocol.S2C_LoginLoad)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.ret_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  ret_ = 0;
+  _internal_metadata_.Clear();
 }
 
-const char* S2C_LoginLoad::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* S2C_LoginLoad::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // int32 ret = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ret_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-        } else
-          goto handle_unusual;
+        } else goto handle_unusual;
         continue;
-      default:
-        goto handle_unusual;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
     }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
   }  // while
-message_done:
+success:
   return ptr;
 failure:
   ptr = nullptr;
-  goto message_done;
+  goto success;
 #undef CHK_
 }
 
-uint8_t* S2C_LoginLoad::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+::PROTOBUF_NAMESPACE_ID::uint8* S2C_LoginLoad::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:LoginProtocol.S2C_LoginLoad)
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
+  if (this->ret() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_ret(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:LoginProtocol.S2C_LoginLoad)
   return target;
@@ -1421,37 +1401,58 @@ size_t S2C_LoginLoad::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:LoginProtocol.S2C_LoginLoad)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // int32 ret = 1;
-  if (this->_internal_ret() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_ret());
+  if (this->ret() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_ret());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S2C_LoginLoad::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    S2C_LoginLoad::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2C_LoginLoad::GetClassData() const { return &_class_data_; }
+void S2C_LoginLoad::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:LoginProtocol.S2C_LoginLoad)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S2C_LoginLoad* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S2C_LoginLoad>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:LoginProtocol.S2C_LoginLoad)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:LoginProtocol.S2C_LoginLoad)
+    MergeFrom(*source);
+  }
+}
 
-
-void S2C_LoginLoad::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<S2C_LoginLoad*>(&to_msg);
-  auto& from = static_cast<const S2C_LoginLoad&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginLoad)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
+void S2C_LoginLoad::MergeFrom(const S2C_LoginLoad& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:LoginProtocol.S2C_LoginLoad)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_ret() != 0) {
-    _this->_internal_set_ret(from._internal_ret());
+  if (from.ret() != 0) {
+    _internal_set_ret(from._internal_ret());
   }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S2C_LoginLoad::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:LoginProtocol.S2C_LoginLoad)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void S2C_LoginLoad::CopyFrom(const S2C_LoginLoad& from) {
@@ -1467,42 +1468,35 @@ bool S2C_LoginLoad::IsInitialized() const {
 
 void S2C_LoginLoad::InternalSwap(S2C_LoginLoad* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.ret_, other->_impl_.ret_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(ret_, other->ret_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S2C_LoginLoad::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_login_2eproto_getter, &descriptor_table_login_2eproto_once,
-      file_level_metadata_login_2eproto[5]);
+  return GetMetadataStatic();
 }
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace LoginProtocol
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginLogin*
-Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginLogin >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::C2S_LoginLogin >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginLogin* Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginLogin >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::C2S_LoginLogin >(arena);
 }
-template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginLogin*
-Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginLogin >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::S2C_LoginLogin >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginLogin* Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginLogin >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::S2C_LoginLogin >(arena);
 }
-template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginCreate*
-Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginCreate >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::C2S_LoginCreate >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginCreate* Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginCreate >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::C2S_LoginCreate >(arena);
 }
-template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginCreate*
-Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginCreate >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::S2C_LoginCreate >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginCreate* Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginCreate >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::S2C_LoginCreate >(arena);
 }
-template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginLoad*
-Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginLoad >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::C2S_LoginLoad >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::C2S_LoginLoad* Arena::CreateMaybeMessage< ::LoginProtocol::C2S_LoginLoad >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::C2S_LoginLoad >(arena);
 }
-template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginLoad*
-Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginLoad >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::LoginProtocol::S2C_LoginLoad >(arena);
+template<> PROTOBUF_NOINLINE ::LoginProtocol::S2C_LoginLoad* Arena::CreateMaybeMessage< ::LoginProtocol::S2C_LoginLoad >(Arena* arena) {
+  return Arena::CreateInternal< ::LoginProtocol::S2C_LoginLoad >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -144,6 +144,8 @@ void GateServer::init() {
     m_port = serverPort(m_type);
     m_name = std::to_string(m_type);
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
+
+    LOG(INFO) << "m_ip " << m_ip << " m_port " << m_port << " m_name " << m_name << " m_serverId " << m_serverId;
 }
 
 void GateServer::consulServer() {
