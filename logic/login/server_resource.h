@@ -8,6 +8,7 @@ namespace Eayew {
 }
 
 class AccountManager;
+class GameInfoManager;
 class IdManager;
 
 class ServerResource {
@@ -37,6 +38,10 @@ public:
         return m_accountMgr;
     }
 
+    std::shared_ptr<GameInfoManager> gameInfoMgr() {
+        return m_gameInfoMgr;
+    }
+
     std::shared_ptr<IdManager> idMgr() {
         return m_idMgr;
     }
@@ -47,6 +52,7 @@ private:
     std::shared_ptr<Eayew::RedisManager> m_tendisMgr;
 
     std::shared_ptr<AccountManager> m_accountMgr;
+    std::shared_ptr<GameInfoManager> m_gameInfoMgr;
     std::shared_ptr<IdManager> m_idMgr;
 
 };

@@ -1,17 +1,21 @@
 #include "login_servlet.h"
 
+#include <json/json.h>
+
 #include "log/glog.h"
 
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"
+#include "core/httplib.h"
 
 #include "logic/common/redis_key.h"
 #include "logic/protocol/public.pb.h"
 
+#include "logic/login/game_info_manager.h"
+#include "logic/login/id_manager.h"
 #include "logic/login/protocol/login_id.pb.h"
 #include "logic/login/protocol/login.pb.h"
 #include "logic/login/server_resource.h"
-#include "logic/login/id_manager.h"
 
 bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     auto id = msg.realMsgId();
@@ -22,6 +26,8 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) 
             return doCreate(session, std::move(msg));
         case LoginProtocol::ID::C2S_LOGIN_LOAD:
             return doLoad(session, std::move(msg));
+        case LoginProtocol::ID::C2S_LOGIN_OPENID:
+            return doOpenid(session, std::move(msg));
         default:
             LOG(ERROR) << "invalid id " << id;
             return true;
@@ -122,6 +128,63 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     session->send(std::move(msg));
 
+    LOG(ERROR) << "doLoad end...";
+    return true;
+}
+
+bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    LOG(INFO) << "doOpenid begin...";
+    LOG(WARNING) << msg.strInfo();
+    LoginProtocol::C2S_LoginOpenid req;
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+        LOG(ERROR) << "ParseFromArray fail";
+        return false;
+    }
+
+    LoginProtocol::S2C_LoginOpenid resp;
+    do {
+        auto gi_mgr = ServerResource::get()->gameInfoMgr();
+        auto gi = gi_mgr->get(req.gameid());
+        if (!gi) {
+            LOG(ERROR) << "Not exist game id " << req.gameid();
+            break;
+        }
+
+        httplib::Client cli("https://developer.toutiao.com");
+        std::string params = "/api/apps/jscode2session";
+        params += "?appid=";
+        params += gi->appid();
+        params += "&secret=";
+        params += gi->secret();
+        params += "&code=";
+        params += req.code();;
+        if (auto res = cli.Get(params)) {
+            // if (res->status != httplib::StatusCode::OK_200) {
+            //     LOG(ERROR) << "http response status " << res->status;
+            //     break;
+            // }
+            LOG(INFO) << "resp body " << res->body;
+            Json::Value root;
+            Json::Reader reader;
+            if (reader.parse(res->body, root)) {
+                LOG(INFO) << "parse resp " << root;
+                auto ret = root["error"].asInt64();
+                if (ret != 0) {
+                    LOG(ERROR) << "resp error ret " << ret;
+                    break;
+                }
+                resp.set_openid(root["openid"].asString());
+            } else {
+                LOG(ERROR) << "parse error, body " << res->body;
+            }
+        } else {
+            auto err = res.error();
+            LOG(ERROR) << "http fail err " << err;
+            break;
+        }
+    } while(false);
+
+    session->send(std::move(covertRspMsg(msg, resp)));
     LOG(ERROR) << "doLoad end...";
     return true;
 }

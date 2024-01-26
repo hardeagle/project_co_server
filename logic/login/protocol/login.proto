@@ -4,6 +4,14 @@ syntax = "proto3";
 
 package LoginProtocol;
 
+message GameInfo {
+    int32 gameid = 1;
+    int32 platform = 2;
+    bytes name = 3;
+    bytes appid = 4;
+    bytes secret = 5;
+}
+
 message C2S_LoginLogin {
     bytes loginname = 1;
 }
@@ -30,4 +38,14 @@ message C2S_LoginLoad {
 
 message S2C_LoginLoad {
     int32 ret = 1;
+}
+
+message C2S_LoginOpenid {
+    int32 gameid = 1;
+    bytes code = 2;
+}
+
+message S2C_LoginOpenid {
+    int32 ret = 1;
+    bytes openid = 2;
 }

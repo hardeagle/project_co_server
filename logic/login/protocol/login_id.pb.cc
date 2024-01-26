@@ -24,13 +24,14 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_login_5fid_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016login_id.proto\022\rLoginProtocol*\330\001\n\002ID\022\010"
+  "\n\016login_id.proto\022\rLoginProtocol*\210\002\n\002ID\022\010"
   "\n\004ZERO\020\000\022\023\n\rLOGIN_ID_BASE\020\200\200\010\022\024\n\016C2S_LOG"
   "IN_BASE\020\350\207\010\022\025\n\017C2S_LOGIN_LOGIN\020\351\207\010\022\025\n\017S2"
   "C_LOGIN_LOGIN\020\352\207\010\022\026\n\020C2S_LOGIN_CREATE\020\353\207"
   "\010\022\026\n\020S2C_LOGIN_CREATE\020\354\207\010\022\024\n\016C2S_LOGIN_L"
-  "OAD\020\355\207\010\022\024\n\016S2C_LOGIN_LOAD\020\356\207\010\022\023\n\rC2S_LOG"
-  "IN_TOP\020\317\217\010b\006proto3"
+  "OAD\020\355\207\010\022\024\n\016S2C_LOGIN_LOAD\020\356\207\010\022\026\n\020C2S_LOG"
+  "IN_OPENID\020\357\207\010\022\026\n\020S2C_LOGIN_OPENID\020\360\207\010\022\023\n"
+  "\rC2S_LOGIN_TOP\020\317\217\010b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fid_2eproto_deps[1] = {
 };
@@ -39,7 +40,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_log
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fid_2eproto_once;
 static bool descriptor_table_login_5fid_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fid_2eproto = {
-  &descriptor_table_login_5fid_2eproto_initialized, descriptor_table_protodef_login_5fid_2eproto, "login_id.proto", 258,
+  &descriptor_table_login_5fid_2eproto_initialized, descriptor_table_protodef_login_5fid_2eproto, "login_id.proto", 306,
   &descriptor_table_login_5fid_2eproto_once, descriptor_table_login_5fid_2eproto_sccs, descriptor_table_login_5fid_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_login_5fid_2eproto::offsets,
   file_level_metadata_login_5fid_2eproto, 0, file_level_enum_descriptors_login_5fid_2eproto, file_level_service_descriptors_login_5fid_2eproto,
@@ -63,6 +64,8 @@ bool ID_IsValid(int value) {
     case 132076:
     case 132077:
     case 132078:
+    case 132079:
+    case 132080:
     case 133071:
       return true;
     default:

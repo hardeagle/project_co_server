@@ -312,7 +312,7 @@ public:
             LOG(ERROR) << "get fail";
             return;
         }
-        return rc->exec("hset", key, field, val);
+        rc->exec("hset", key, field, val);
     }
 
     template<typename T, typename U>
@@ -323,6 +323,16 @@ public:
             return {};
         }
         return rc->exec("hget", key, field).get();
+    }
+
+    template<typename K, typename V>
+    std::map<K, V> hgetall(const std::string& key) {
+        auto rc = get();
+        if (!rc) {
+            LOG(ERROR) << "hgetall fail";
+            return {};
+        }
+        return rc->exec("hgetall", key).template get<K, V>();
     }
 
 private:

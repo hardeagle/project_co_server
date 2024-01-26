@@ -165,7 +165,7 @@ void GateServer::consulServer() {
 void GateServer::discoverServer() {
     auto servers = m_agent.services();
     for (auto [id, si] : servers) {
-        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+        // LOG(INFO) << "discoverServer id " << id << " name " << si.name;
         if (id == m_serverId) {
             continue;
         }
@@ -174,7 +174,7 @@ void GateServer::discoverServer() {
         if (it != m_gpSessions.end()) {
             auto it1 = it->second.find(id);
             if (it1 != it->second.end()) {
-                LOG(INFO) << "exist,  id " << si.id;
+                // LOG(INFO) << "exist,  id " << si.id;
                 continue;
             }
         }

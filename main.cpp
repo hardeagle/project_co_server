@@ -1,9 +1,9 @@
 
-
 #include <boost/foreach.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
+#include <json/json.h>
 #include <jemalloc/jemalloc.h>
 
 #include <memory>
@@ -16,11 +16,14 @@
 
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include "core/httplib.h"
 #include "core/ws_session.h"
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
+
+#include "logic/login/protocol/login.pb.h"
 
 const static int s_limit = 20480;
 
@@ -258,12 +261,88 @@ int64_t getCurMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+void insertGameInfo() {
+
+    auto key = "pcs_game_info_hash";
+    Eayew::RedisManager redisMgr("127.0.0.1", 6379);
+    {
+        LoginProtocol::GameInfo gi;
+        gi.set_gameid(1);
+        gi.set_platform(1);
+        gi.set_name("monster_elimination");
+        gi.set_appid("tt09ee7f5396d5f796");
+        gi.set_secret("0c0008a7e2a2179e9afbc12879f3b7b0aad0efdb");
+        std::string str;
+        gi.SerializeToString(&str);
+        redisMgr.hset(key, gi.gameid(), str);
+    }
+
+    {
+        LoginProtocol::GameInfo gi;
+        gi.set_gameid(2);
+        gi.set_platform(1);
+        gi.set_name("star_elimination");
+        gi.set_appid("tt5c2d2a90c316a8d9");
+        gi.set_secret("40a13a4ea1a0c6b9c19d79267c1881851066dd83");
+        std::string str;
+        gi.SerializeToString(&str);
+        redisMgr.hset(key, gi.gameid(), str);
+    }
+
+    // {
+    //     LoginProtocol::GameInfo gi;
+    //     gi.set_gameid(3);
+    //     gi.set_platform(1);
+    //     gi.set_name("all_star_elimination");
+    //     gi.set_appid("tt157063cd8a40408a02");
+    //     gi.set_secret("82a41e490c412bf4972194b301a60b0b1097afd1");
+    //     std::string str;
+    //     gi.SerializeToString(&str);
+    //     redisMgr.hset(key, gi.gameid(), str);
+    // }
+}
+
 int main(int argc, char* argv[]) {
     GLog glog(argv[0]);
 
     //co_opt.debug = co::dbg_all;
 
     LOG(INFO) << "---begin---";
+
+    insertGameInfo();
+
+    {
+        httplib::SSLClient cli("https://developer.toutiao.com");
+        std::string params = "/api/apps/jscode2session";
+        params += "?appid=";
+        params += "tt157063cd8a40408a02";
+        params += "&secret=";
+        params += "82a41e490c412bf4972194b301a60b0b1097afd1";
+        params += "&code=";
+        params += "_CsFcXCY1fQtGhYPUb18NI1O0ksIzTwz--W0pYykpbc229fknOsrYDnoltueY1okvL7CyiEya9fwGe3NKWblPi2bJdYNy0aUNrwgmUF8heBHvME2bq2oGRBeX0o";
+        if (auto res = cli.Get(params)) {
+            // if (res->status != httplib::StatusCode::OK_200) {
+            //     LOG(ERROR) << "http response status " << res->status;
+            // }
+
+            LOG(ERROR) << "http response status " << res->status;
+            LOG(INFO) << "resp body " << res->body;
+            Json::Value root;
+            Json::Reader reader;
+            if (reader.parse(res->body, root)) {
+                LOG(INFO) << "parse resp " << root;
+                auto ret = root["error"].asInt64();
+                if (ret != 0) {
+                    LOG(ERROR) << "resp error ret " << ret;
+                }
+            } else {
+                LOG(ERROR) << "parse error, body " << res->body;
+            }
+        } else {
+            auto err = res.error();
+            LOG(ERROR) << "http fail err " << err;
+        }
+    }
 
     {
         httplib::Client cli("http://124.222.229.211:8080");
@@ -276,8 +355,31 @@ int main(int argc, char* argv[]) {
     {
         httplib::Client cli("http://124.222.229.211:8080");
         if (auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3")) {
-            if (res->status == httplib::StatusCode::OK_200) {
+            //if (res->status == httplib::StatusCode::OK_200) {
+            if (true) {
                 std::cout << res->body << std::endl;
+
+                Json::Value root;
+                Json::Reader reader;
+                if (reader.parse(res->body, root)) {
+                    std::cout << "ret: " << root["ret"].asInt() << std::endl;
+                    std::cout << "rank: " << root["ranking"].asInt() << std::endl;
+                    LOG(INFO) << "ris " << root["ris"] << " isArray " << root["ris"].isArray() << " size " << root["ris"].size();
+                    for (int32_t i = 0; i < root["ris"].size(); i++) {
+                        LOG(INFO) << "openid " << root["ris"][i]["openid"].asString();
+                        LOG(INFO) << "nickname " << root["ris"][i]["nickname"].asString();
+                        LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"].asString();
+                        LOG(INFO) << "score " << root["ris"][i]["score"].asString();
+
+
+                        LOG(INFO) << "openid " << root["ris"][i]["openid"];
+                        LOG(INFO) << "nickname " << root["ris"][i]["nickname"];
+                        LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"];
+                        LOG(INFO) << "score " << root["ris"][i]["score"];
+                    }
+                } else {
+                    std::cout << "parse error!" << std::endl;
+                }
             }
         } else {
             auto err = res.error();

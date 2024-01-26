@@ -14,6 +14,7 @@ private:
     bool doLogin(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doCreate(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
+    bool doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg);
 };
 
 #endif
