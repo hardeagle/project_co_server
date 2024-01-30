@@ -145,43 +145,6 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
-// {
-//     httplib::SSLClient cli("developer.toutiao.com");
-//     // cli.set_ca_cert_path("./ca-bundle.crt");
-//     cli.enable_server_certificate_verification(false);
-//     if (auto res = cli.Get("/api/apps/jscode2session?appid=tt5c2d2a90c316a8d9&secret=40a13a4ea1a0c6b9c19d79267c1881851066dd83&code=EoHEtFObgpzwz4wzo1Fh2wlSK-_8EiK4Ul7dE_CCwQk6chOT8GCqWUCHe60nhBXD7UZB7R5-zghV9WMR_uFaBykvaD9YJQLmix6mhzV_2jqcWmQZxxqMq_FQtj8")) {
-//         LOG(INFO) << res->status;
-//         LOG(INFO) << res->get_header_value("Content-Type");
-//         LOG(INFO) << res->body;
-//     } else {
-//         LOG(INFO) << "error code: " << res.error();
-//     #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-//         auto result = cli.get_openssl_verify_result();
-//         if (result) {
-//         LOG(INFO) << "verify error: " << X509_verify_cert_error_string(result);
-//         }
-//     #endif
-//     }
-
-// }
-
-
-    // {
-    //     httplib::SSLClient cli("developer.toutiao.com");
-    //     cli.enable_server_certificate_verification(false);
-
-    //     if (auto res = cli.Get("/api/apps/jscode2session?appid=tt5c2d2a90c316a8d9&secret=40a13a4ea1a0c6b9c19d79267c1881851066dd83&code=EoHEtFObgpzwz4wzo1Fh2wlSK-_8EiK4Ul7dE_CCwQk6chOT8GCqWUCHe60nhBXD7UZB7R5-zghV9WMR_uFaBykvaD9YJQLmix6mhzV_2jqcWmQZxxqMq_FQtj8")) {
-    //         LOG(INFO) << res->status;
-    //         LOG(INFO) << res->get_header_value("Content-Type");
-    //         LOG(INFO) << res->body;
-    //     } else {
-    //         LOG(ERROR) << "error code: " << res.error();
-    //         auto result = cli.get_openssl_verify_result();
-    //         if (result) {
-    //             LOG(INFO) << "verify error: " << X509_verify_cert_error_string(result);
-    //         }
-    //     }
-    // }
 
     LoginProtocol::S2C_LoginOpenid resp;
     do {
@@ -192,17 +155,9 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
 
-        // httplib::Client cli("https://developer.toutiao.com");
-        // httplib::SSLClient cli("developer.toutiao.com");
-        // cli.set_ca_cert_path("/etc/nginx/ssl/eayew/eayew.com_bundle.crt");
-        // cli.enable_server_certificate_verification(false);
 
         httplib::SSLClient cli("developer.toutiao.com");
-        // httplib::SSLClient cli("google.com");
-        // httplib::SSLClient cli("www.youtube.com");
-        // cli.set_ca_cert_path("/etc/nginx/ssl/eayew/eayew.com_bundle.crt");
         cli.enable_server_certificate_verification(false);
-
 
         std::string params = "/api/apps/jscode2session";
         params += "?appid=";
@@ -213,10 +168,10 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
         params += req.code();;
         LOG(INFO) << "params " << params;
         if (auto res = cli.Get(params)) {
-            // if (res->status != httplib::StatusCode::OK_200) {
-            //     LOG(ERROR) << "http response status " << res->status;
-            //     break;
-            // }
+            if (res->status != httplib::StatusCode::OK_200) {
+                LOG(ERROR) << "http response status " << res->status;
+                break;
+            }
             std::cout << res->status << std::endl;
             std::cout << res->get_header_value("Content-Type") << std::endl;
             std::cout << res->body << std::endl;
@@ -242,8 +197,9 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
         }
     } while(false);
 
+    LOG(INFO) << "resp " << resp.DebugString();
     session->send(std::move(covertRspMsg(msg, resp)));
-    LOG(ERROR) << "doLoad end...";
+    LOG(ERROR) << "doOpenid end...";
     return true;
 }
 

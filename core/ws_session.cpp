@@ -25,11 +25,11 @@ void WsSession::start(bool accept) {
         static constexpr size_t HANDSHAKE_STREAMBUF_SIZE = 8192;
         char buffs[HANDSHAKE_STREAMBUF_SIZE] = {};
         auto rlen = read(m_fd, &buffs[0], HANDSHAKE_STREAMBUF_SIZE);
-        LOG(INFO) << "rlen " << rlen;
+        // LOG(INFO) << "rlen " << rlen;
         auto wsft = parseHandshake((unsigned char*)(&buffs[0]), HANDSHAKE_STREAMBUF_SIZE);
-        LOG(INFO) << "wstf  " << wsft;
+        // LOG(INFO) << "wstf  " << wsft;
         auto resp = answerHandshake();
-        LOG(INFO) << "resp  " << resp;
+        // LOG(INFO) << "resp  " << resp;
         write(m_fd, resp.data(), resp.size());
     }
 }
@@ -62,7 +62,7 @@ void WsSession::sync_read() {
 		}
 		rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
 		if (0 == rlen) {
-			LOG(ERROR) << "close";
+			LOG(WARNING) << "close";
 			break;
 		} else if (-1 == rlen) {
 			if (errno == EINTR || errno==EAGAIN) {
@@ -106,15 +106,20 @@ void WsSession::sync_read() {
 }
 
 void WsSession::sync_write() {
+	static const uint32_t MAX_SIZE = 64 * 1024;
+
     for (;;) {
-        if (m_wMsgs.size() == 0) {
-            LOG(WARNING) << "m_wMsgs empty";
-        }
+        // if (m_wMsgs.size() == 0) {
+        //     LOG(WARNING) << "m_wMsgs empty";
+        // }
 
         Message msg;
         m_wMsgs >> msg;
         LOG(INFO) << "sync_write " << msg.strInfo();
-        write(m_fd, msg.data(), msg.size());
+
+		char datas[MAX_SIZE] = {};
+		auto len = this->makeFrame(Eayew::WebSocketFrameType::BINARY_FRAME, (unsigned char*)msg.data(), msg.length(),  (unsigned char*)&datas[0]);
+        write(m_fd, datas, len);
     }
 }
 
@@ -249,7 +254,7 @@ string WsSession::answerHandshake() {
 	//return WS_OPENING_FRAME;
 }
 
-int WsSession::makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_length, unsigned char* buffer, int buffer_size) {
+int WsSession::makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_length, unsigned char* buffer) {
 	int pos = 0;
 	int size = msg_length; 
 	buffer[pos++] = (unsigned char)frame_type; // text frame

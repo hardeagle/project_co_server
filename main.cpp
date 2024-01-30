@@ -309,7 +309,7 @@ int main(int argc, char* argv[]) {
 
     LOG(INFO) << "---begin---";
 
-    insertGameInfo();
+    // insertGameInfo();
 
     // if (false) {
     //     httplib::SSLClient cli("https://developer.toutiao.com");
@@ -345,40 +345,40 @@ int main(int argc, char* argv[]) {
     // }
 
 
-    {
-        httplib::SSLClient cli("developer.toutiao.com");
-        cli.enable_server_certificate_verification(false);
+    // {
+    //     httplib::SSLClient cli("developer.toutiao.com");
+    //     cli.enable_server_certificate_verification(false);
 
-        if (auto res = cli.Get("/api/apps/jscode2session?appid=tt5c2d2a90c316a8d9&secret=40a13a4ea1a0c6b9c19d79267c1881851066dd83&code=EoHEtFObgpzwz4wzo1Fh2wlSK-_8EiK4Ul7dE_CCwQk6chOT8GCqWUCHe60nhBXD7UZB7R5-zghV9WMR_uFaBykvaD9YJQLmix6mhzV_2jqcWmQZxxqMq_FQtj8")) {
-            LOG(INFO) << res->status;
-            LOG(INFO) << res->get_header_value("Content-Type");
-            LOG(INFO) << res->body;
-        } else {
-            LOG(ERROR) << "error code: " << res.error();
-            auto result = cli.get_openssl_verify_result();
-            if (result) {
-                LOG(INFO) << "verify error: " << X509_verify_cert_error_string(result);
-            }
-        }
-    }
+    //     if (auto res = cli.Get("/api/apps/jscode2session?appid=tt5c2d2a90c316a8d9&secret=40a13a4ea1a0c6b9c19d79267c1881851066dd83&code=EoHEtFObgpzwz4wzo1Fh2wlSK-_8EiK4Ul7dE_CCwQk6chOT8GCqWUCHe60nhBXD7UZB7R5-zghV9WMR_uFaBykvaD9YJQLmix6mhzV_2jqcWmQZxxqMq_FQtj8")) {
+    //         LOG(INFO) << res->status;
+    //         LOG(INFO) << res->get_header_value("Content-Type");
+    //         LOG(INFO) << res->body;
+    //     } else {
+    //         LOG(ERROR) << "error code: " << res.error();
+    //         auto result = cli.get_openssl_verify_result();
+    //         if (result) {
+    //             LOG(INFO) << "verify error: " << X509_verify_cert_error_string(result);
+    //         }
+    //     }
+    // }
 
-    {
-        httplib::SSLClient cli("eayew.com");
-        cli.set_ca_cert_path("/etc/nginx/ssl/eayew/eayew.com_bundle.cr");
+    // {
+    //     httplib::SSLClient cli("eayew.com");
+    //     cli.set_ca_cert_path("/etc/nginx/ssl/eayew/eayew.com_bundle.cr");
 
-        cli.enable_server_certificate_verification(false);
+    //     cli.enable_server_certificate_verification(false);
 
-        auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3");
-
-
-            cout << res->status << endl;
-            cout << res->get_header_value("Content-Type") << endl;
-            cout << res->body << endl;
+    //     auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3");
 
 
-        LOG(INFO) << "status " << res->status << " body " << res->body;
+    //         cout << res->status << endl;
+    //         cout << res->get_header_value("Content-Type") << endl;
+    //         cout << res->body << endl;
 
-    }
+
+    //     LOG(INFO) << "status " << res->status << " body " << res->body;
+
+    // }
 
     // {
     //     httplib::Client cli("http://124.222.229.211:8080");
