@@ -289,17 +289,17 @@ void insertGameInfo() {
         redisMgr.hset(key, gi.gameid(), str);
     }
 
-    // {
-    //     LoginProtocol::GameInfo gi;
-    //     gi.set_gameid(3);
-    //     gi.set_platform(1);
-    //     gi.set_name("all_star_elimination");
-    //     gi.set_appid("tt157063cd8a40408a02");
-    //     gi.set_secret("82a41e490c412bf4972194b301a60b0b1097afd1");
-    //     std::string str;
-    //     gi.SerializeToString(&str);
-    //     redisMgr.hset(key, gi.gameid(), str);
-    // }
+    {
+        LoginProtocol::GameInfo gi;
+        gi.set_gameid(3);
+        gi.set_platform(1);
+        gi.set_name("all_star_elimination");
+        gi.set_appid("tt157063cd8a40408a02");
+        gi.set_secret("82a41e490c412bf4972194b301a60b0b1097afd1");
+        std::string str;
+        gi.SerializeToString(&str);
+        redisMgr.hset(key, gi.gameid(), str);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -311,81 +311,117 @@ int main(int argc, char* argv[]) {
 
     insertGameInfo();
 
-    {
-        httplib::SSLClient cli("https://developer.toutiao.com");
-        std::string params = "/api/apps/jscode2session";
-        params += "?appid=";
-        params += "tt157063cd8a40408a02";
-        params += "&secret=";
-        params += "82a41e490c412bf4972194b301a60b0b1097afd1";
-        params += "&code=";
-        params += "_CsFcXCY1fQtGhYPUb18NI1O0ksIzTwz--W0pYykpbc229fknOsrYDnoltueY1okvL7CyiEya9fwGe3NKWblPi2bJdYNy0aUNrwgmUF8heBHvME2bq2oGRBeX0o";
-        if (auto res = cli.Get(params)) {
-            // if (res->status != httplib::StatusCode::OK_200) {
-            //     LOG(ERROR) << "http response status " << res->status;
-            // }
+    // if (false) {
+    //     httplib::SSLClient cli("https://developer.toutiao.com");
+    //     std::string params = "/api/apps/jscode2session";
+    //     params += "?appid=";
+    //     params += "tt157063cd8a40408a02";
+    //     params += "&secret=";
+    //     params += "82a41e490c412bf4972194b301a60b0b1097afd1";
+    //     params += "&code=";
+    //     params += "_CsFcXCY1fQtGhYPUb18NI1O0ksIzTwz--W0pYykpbc229fknOsrYDnoltueY1okvL7CyiEya9fwGe3NKWblPi2bJdYNy0aUNrwgmUF8heBHvME2bq2oGRBeX0o";
+    //     if (auto res = cli.Get(params)) {
+    //         // if (res->status != httplib::StatusCode::OK_200) {
+    //         //     LOG(ERROR) << "http response status " << res->status;
+    //         // }
 
-            LOG(ERROR) << "http response status " << res->status;
-            LOG(INFO) << "resp body " << res->body;
-            Json::Value root;
-            Json::Reader reader;
-            if (reader.parse(res->body, root)) {
-                LOG(INFO) << "parse resp " << root;
-                auto ret = root["error"].asInt64();
-                if (ret != 0) {
-                    LOG(ERROR) << "resp error ret " << ret;
-                }
-            } else {
-                LOG(ERROR) << "parse error, body " << res->body;
-            }
+    //         LOG(ERROR) << "http response status " << res->status;
+    //         LOG(INFO) << "resp body " << res->body;
+    //         Json::Value root;
+    //         Json::Reader reader;
+    //         if (reader.parse(res->body, root)) {
+    //             LOG(INFO) << "parse resp " << root;
+    //             auto ret = root["error"].asInt64();
+    //             if (ret != 0) {
+    //                 LOG(ERROR) << "resp error ret " << ret;
+    //             }
+    //         } else {
+    //             LOG(ERROR) << "parse error, body " << res->body;
+    //         }
+    //     } else {
+    //         auto err = res.error();
+    //         LOG(ERROR) << "http fail err " << err;
+    //     }
+    // }
+
+
+    {
+        httplib::SSLClient cli("developer.toutiao.com");
+        cli.enable_server_certificate_verification(false);
+
+        if (auto res = cli.Get("/api/apps/jscode2session?appid=tt5c2d2a90c316a8d9&secret=40a13a4ea1a0c6b9c19d79267c1881851066dd83&code=EoHEtFObgpzwz4wzo1Fh2wlSK-_8EiK4Ul7dE_CCwQk6chOT8GCqWUCHe60nhBXD7UZB7R5-zghV9WMR_uFaBykvaD9YJQLmix6mhzV_2jqcWmQZxxqMq_FQtj8")) {
+            LOG(INFO) << res->status;
+            LOG(INFO) << res->get_header_value("Content-Type");
+            LOG(INFO) << res->body;
         } else {
-            auto err = res.error();
-            LOG(ERROR) << "http fail err " << err;
+            LOG(ERROR) << "error code: " << res.error();
+            auto result = cli.get_openssl_verify_result();
+            if (result) {
+                LOG(INFO) << "verify error: " << X509_verify_cert_error_string(result);
+            }
         }
     }
 
     {
-        httplib::Client cli("http://124.222.229.211:8080");
+        httplib::SSLClient cli("eayew.com");
+        cli.set_ca_cert_path("/etc/nginx/ssl/eayew/eayew.com_bundle.cr");
+
+        cli.enable_server_certificate_verification(false);
+
         auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3");
-        res->status;
-        res->body;
+
+
+            cout << res->status << endl;
+            cout << res->get_header_value("Content-Type") << endl;
+            cout << res->body << endl;
+
+
         LOG(INFO) << "status " << res->status << " body " << res->body;
+
     }
 
-    {
-        httplib::Client cli("http://124.222.229.211:8080");
-        if (auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3")) {
-            //if (res->status == httplib::StatusCode::OK_200) {
-            if (true) {
-                std::cout << res->body << std::endl;
+    // {
+    //     httplib::Client cli("http://124.222.229.211:8080");
+    //     auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3");
+    //     res->status;
+    //     res->body;
+    //     LOG(INFO) << "status " << res->status << " body " << res->body;
+    // }
 
-                Json::Value root;
-                Json::Reader reader;
-                if (reader.parse(res->body, root)) {
-                    std::cout << "ret: " << root["ret"].asInt() << std::endl;
-                    std::cout << "rank: " << root["ranking"].asInt() << std::endl;
-                    LOG(INFO) << "ris " << root["ris"] << " isArray " << root["ris"].isArray() << " size " << root["ris"].size();
-                    for (int32_t i = 0; i < root["ris"].size(); i++) {
-                        LOG(INFO) << "openid " << root["ris"][i]["openid"].asString();
-                        LOG(INFO) << "nickname " << root["ris"][i]["nickname"].asString();
-                        LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"].asString();
-                        LOG(INFO) << "score " << root["ris"][i]["score"].asString();
+    // {
+    //     httplib::Client cli("http://124.222.229.211:8080");
+    //     if (auto res = cli.Get("/sgs/rank/RankApiHandler/rankingList?gameid=13&openid=_000qbWZzL5CIn0jSMeOhvxwB6Y0_PcCToLX&limit=3")) {
+    //         //if (res->status == httplib::StatusCode::OK_200) {
+    //         if (true) {
+    //             std::cout << res->body << std::endl;
+
+    //             Json::Value root;
+    //             Json::Reader reader;
+    //             if (reader.parse(res->body, root)) {
+    //                 std::cout << "ret: " << root["ret"].asInt() << std::endl;
+    //                 std::cout << "rank: " << root["ranking"].asInt() << std::endl;
+    //                 LOG(INFO) << "ris " << root["ris"] << " isArray " << root["ris"].isArray() << " size " << root["ris"].size();
+    //                 for (int32_t i = 0; i < root["ris"].size(); i++) {
+    //                     LOG(INFO) << "openid " << root["ris"][i]["openid"].asString();
+    //                     LOG(INFO) << "nickname " << root["ris"][i]["nickname"].asString();
+    //                     LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"].asString();
+    //                     LOG(INFO) << "score " << root["ris"][i]["score"].asString();
 
 
-                        LOG(INFO) << "openid " << root["ris"][i]["openid"];
-                        LOG(INFO) << "nickname " << root["ris"][i]["nickname"];
-                        LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"];
-                        LOG(INFO) << "score " << root["ris"][i]["score"];
-                    }
-                } else {
-                    std::cout << "parse error!" << std::endl;
-                }
-            }
-        } else {
-            auto err = res.error();
-            std::cout << "HTTP error: " << httplib::to_string(err) << std::endl;
-        }
-    }
+    //                     LOG(INFO) << "openid " << root["ris"][i]["openid"];
+    //                     LOG(INFO) << "nickname " << root["ris"][i]["nickname"];
+    //                     LOG(INFO) << "avatar_url " << root["ris"][i]["avatar_url"];
+    //                     LOG(INFO) << "score " << root["ris"][i]["score"];
+    //                 }
+    //             } else {
+    //                 std::cout << "parse error!" << std::endl;
+    //             }
+    //         }
+    //     } else {
+    //         auto err = res.error();
+    //         std::cout << "HTTP error: " << httplib::to_string(err) << std::endl;
+    //     }
+    // }
 
 
     std::string m_ip = "0.0.0.0";
