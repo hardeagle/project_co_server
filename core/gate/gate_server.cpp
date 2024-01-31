@@ -157,7 +157,7 @@ void GateServer::consulServer() {
         ppconsul::agent::kw::id = m_serverId
     );
 
-    m_timer.ExpireAt(std::chrono::seconds(3), [this, self = shared_from_this()] {
+    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
         discoverServer();
     });
 }
@@ -165,7 +165,7 @@ void GateServer::consulServer() {
 void GateServer::discoverServer() {
     auto servers = m_agent.services();
     for (auto [id, si] : servers) {
-        // LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
         if (id == m_serverId) {
             continue;
         }
@@ -199,11 +199,14 @@ void GateServer::discoverServer() {
             LOG(INFO) << "onMessage " << msg.strInfo();
             s->send(std::move(msg));
         });
+        gps->setOnClose([&](uint64_t id) {
+            m_gpSessions.erase(id);
+        });
         gps->run();
         m_gpSessions[st][si.id] = gps;
     }
 
-    m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
+    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
         discoverServer();
     });
 }

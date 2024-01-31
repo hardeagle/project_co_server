@@ -61,7 +61,7 @@ public:
 	WebSocketFrameType parseHandshake(unsigned char* input_frame, int input_len);
 	string answerHandshake();
 
-	int makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_len, unsigned char* buffer, int buffer_len);
+	int makeFrame(WebSocketFrameType frame_type, unsigned char* msg, int msg_len, unsigned char* buffer);
 	WebSocketFrameType getFrame(unsigned char* in_buffer, int in_length, unsigned char* out_buffer, int out_size, int* out_length, int* out_pos);
 
 	string trim(string str);

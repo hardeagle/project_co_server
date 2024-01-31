@@ -51,8 +51,10 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     LoginProtocol::S2C_LoginLogin resp;
     do {
-        auto redis_mgr = ServerResource::get()->redisMgr();
-        auto role_id = redis_mgr->get<uint64_t>(LoginNameToRoleIdKey(req.loginname()));
+        auto key = "loginname_to_role_id_" + req.loginname();
+        LOG(INFO) << "key " << key;
+        auto role_id = ServerResource::get()->redisMgr()->get<uint64_t>(key);
+        LOG(INFO) << "role id " << role_id;
         if (role_id == 0) {
             LOG(INFO) << "new role";
             resp.set_ret(1);
@@ -84,6 +86,8 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             resp.set_ret(1);
             break;
         }
+        ServerResource::get()->redisMgr()->set("loginname_to_role_id_" + req.loginname(), role_id);
+
         resp.set_role_id(role_id);
         msg.roleId(role_id);
 
@@ -93,7 +97,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         bri.set_avatarurl(req.avatarurl());
         std::string serial;
         bri.SerializeToString(&serial);
-        ServerResource::get()->redisMgr()->set("base_role_info", serial);
+        ServerResource::get()->redisMgr()->set("base_role_info_" + std::to_string(role_id), serial);
     } while(false);
 
     session->send(std::move(covertRspMsg(msg, resp)));
@@ -109,7 +113,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
-
+    LoginProtocol::S2C_LoginLogin resp;
     do {
 
     } while(false);
@@ -131,7 +135,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     // LOG(WARNING) << "-----1doLoad " << msg.strInfo();
 
-    session->send(std::move(msg));
+    session->send(std::move(covertRspMsg(msg, resp)));
 
     LOG(ERROR) << "doLoad end...";
     return true;
