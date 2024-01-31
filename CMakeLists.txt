@@ -37,7 +37,8 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/servlet LOGIN_SRC_LIST)
 
 # rank server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank RANK_SRC_LIST)
-
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank/protocol RANK_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank/servlet RANK_SRC_LIST)
 
 # task server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/task TASK_SRC_LIST)
@@ -57,7 +58,7 @@ add_executable(chat_server main_chat.cpp ${SRC_LIST} ${CHAT_SRC_LIST})
 add_executable(game_server main_game.cpp ${SRC_LIST} ${GAME_SRC_LIST})
 add_executable(login_server main_login.cpp ${SRC_LIST} ${PUBLIC_SRC_LIST} ${LOGIN_SRC_LIST})
 add_executable(gate_server main_gate.cpp ${SRC_LIST})
-add_executable(rank_server main_rank.cpp ${SRC_LIST} ${RANK_SRC_LIST})
+add_executable(rank_server main_rank.cpp ${SRC_LIST} ${PUBLIC_SRC_LIST} ${RANK_SRC_LIST})
 add_executable(test main_test.cpp ${SRC_LIST} ${TEST_SRC_LIST})
 
 add_executable(co_test main_test_libgo.cpp ${SRC_LIST})

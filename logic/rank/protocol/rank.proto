@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package RankProtocol;
+
+message RankRoleInfo {
+
+}
+
+message C2S_RankLoad {
+}
+
+message S2C_RankLoad {
+    int32 ret = 1;
+    RankRoleInfo myself = 2;
+    repeated RankRoleInfo rris = 3;
+}
+
+message C2S_RankUpdate {
+    int32 score = 1;
+}
+
+message S2C_RankUpdate {
+    int32 ret = 1;
+}

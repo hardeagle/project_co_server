@@ -12,9 +12,11 @@ public:
 
     virtual ~RankServer() {}
 
-    void beforeRun();
+protected:
+    virtual void beforeRun() override;
 
 private:
+    void initServlet();
 
 };
 
