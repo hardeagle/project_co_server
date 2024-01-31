@@ -211,6 +211,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_2eproto::offsets[] PROTO
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, gameid_),
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, loginname_),
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, role_name_),
   PROTOBUF_FIELD_OFFSET(::LoginProtocol::C2S_LoginCreate, avatarurl_),
@@ -253,11 +254,11 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 10, -1, sizeof(::LoginProtocol::C2S_LoginLogin)},
   { 16, -1, sizeof(::LoginProtocol::S2C_LoginLogin)},
   { 23, -1, sizeof(::LoginProtocol::C2S_LoginCreate)},
-  { 31, -1, sizeof(::LoginProtocol::S2C_LoginCreate)},
-  { 38, -1, sizeof(::LoginProtocol::C2S_LoginLoad)},
-  { 44, -1, sizeof(::LoginProtocol::S2C_LoginLoad)},
-  { 50, -1, sizeof(::LoginProtocol::C2S_LoginOpenid)},
-  { 57, -1, sizeof(::LoginProtocol::S2C_LoginOpenid)},
+  { 32, -1, sizeof(::LoginProtocol::S2C_LoginCreate)},
+  { 39, -1, sizeof(::LoginProtocol::C2S_LoginLoad)},
+  { 45, -1, sizeof(::LoginProtocol::S2C_LoginLoad)},
+  { 51, -1, sizeof(::LoginProtocol::C2S_LoginOpenid)},
+  { 58, -1, sizeof(::LoginProtocol::S2C_LoginOpenid)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -278,14 +279,14 @@ const char descriptor_table_protodef_login_2eproto[] PROTOBUF_SECTION_VARIABLE(p
   "me\030\003 \001(\014\022\r\n\005appid\030\004 \001(\014\022\016\n\006secret\030\005 \001(\014\""
   "#\n\016C2S_LoginLogin\022\021\n\tloginname\030\001 \001(\014\".\n\016"
   "S2C_LoginLogin\022\013\n\003ret\030\001 \001(\005\022\017\n\007role_id\030\002"
-  " \001(\003\"J\n\017C2S_LoginCreate\022\021\n\tloginname\030\001 \001"
-  "(\014\022\021\n\trole_name\030\002 \001(\014\022\021\n\tavatarurl\030\003 \001(\014"
-  "\"/\n\017S2C_LoginCreate\022\013\n\003ret\030\001 \001(\005\022\017\n\007role"
-  "_id\030\002 \001(\003\" \n\rC2S_LoginLoad\022\017\n\007role_id\030\001 "
-  "\001(\003\"\034\n\rS2C_LoginLoad\022\013\n\003ret\030\001 \001(\005\"/\n\017C2S"
-  "_LoginOpenid\022\016\n\006gameid\030\001 \001(\005\022\014\n\004code\030\002 \001"
-  "(\014\".\n\017S2C_LoginOpenid\022\013\n\003ret\030\001 \001(\005\022\016\n\006op"
-  "enid\030\002 \001(\014b\006proto3"
+  " \001(\003\"Z\n\017C2S_LoginCreate\022\016\n\006gameid\030\001 \001(\005\022"
+  "\021\n\tloginname\030\002 \001(\014\022\021\n\trole_name\030\003 \001(\014\022\021\n"
+  "\tavatarurl\030\004 \001(\014\"/\n\017S2C_LoginCreate\022\013\n\003r"
+  "et\030\001 \001(\005\022\017\n\007role_id\030\002 \001(\003\" \n\rC2S_LoginLo"
+  "ad\022\017\n\007role_id\030\001 \001(\003\"\034\n\rS2C_LoginLoad\022\013\n\003"
+  "ret\030\001 \001(\005\"/\n\017C2S_LoginOpenid\022\016\n\006gameid\030\001"
+  " \001(\005\022\014\n\004code\030\002 \001(\014\".\n\017S2C_LoginOpenid\022\013\n"
+  "\003ret\030\001 \001(\005\022\016\n\006openid\030\002 \001(\014b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_2eproto_deps[1] = {
 };
@@ -303,7 +304,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_log
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_2eproto_once;
 static bool descriptor_table_login_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_2eproto = {
-  &descriptor_table_login_2eproto_initialized, descriptor_table_protodef_login_2eproto, "login.proto", 498,
+  &descriptor_table_login_2eproto_initialized, descriptor_table_protodef_login_2eproto, "login.proto", 514,
   &descriptor_table_login_2eproto_once, descriptor_table_login_2eproto_sccs, descriptor_table_login_2eproto_deps, 9, 0,
   schemas, file_default_instances, TableStruct_login_2eproto::offsets,
   file_level_metadata_login_2eproto, 9, file_level_enum_descriptors_login_2eproto, file_level_service_descriptors_login_2eproto,
@@ -1067,6 +1068,7 @@ C2S_LoginCreate::C2S_LoginCreate(const C2S_LoginCreate& from)
   if (!from._internal_avatarurl().empty()) {
     avatarurl_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.avatarurl_);
   }
+  gameid_ = from.gameid_;
   // @@protoc_insertion_point(copy_constructor:LoginProtocol.C2S_LoginCreate)
 }
 
@@ -1075,6 +1077,7 @@ void C2S_LoginCreate::SharedCtor() {
   loginname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   role_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   avatarurl_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  gameid_ = 0;
 }
 
 C2S_LoginCreate::~C2S_LoginCreate() {
@@ -1106,6 +1109,7 @@ void C2S_LoginCreate::Clear() {
   loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   role_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  gameid_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -1116,23 +1120,30 @@ const char* C2S_LoginCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // bytes loginname = 1;
+      // int32 gameid = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          gameid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes loginname = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_loginname(), ptr, ctx);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes role_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // bytes role_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_role_name(), ptr, ctx);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes avatarurl = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+      // bytes avatarurl = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_avatarurl(), ptr, ctx);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -1163,22 +1174,28 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes loginname = 1;
+  // int32 gameid = 1;
+  if (this->gameid() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_gameid(), target);
+  }
+
+  // bytes loginname = 2;
   if (this->loginname().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
-        1, this->_internal_loginname(), target);
+        2, this->_internal_loginname(), target);
   }
 
-  // bytes role_name = 2;
+  // bytes role_name = 3;
   if (this->role_name().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
-        2, this->_internal_role_name(), target);
+        3, this->_internal_role_name(), target);
   }
 
-  // bytes avatarurl = 3;
+  // bytes avatarurl = 4;
   if (this->avatarurl().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
-        3, this->_internal_avatarurl(), target);
+        4, this->_internal_avatarurl(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1197,25 +1214,32 @@ size_t C2S_LoginCreate::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes loginname = 1;
+  // bytes loginname = 2;
   if (this->loginname().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_loginname());
   }
 
-  // bytes role_name = 2;
+  // bytes role_name = 3;
   if (this->role_name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_role_name());
   }
 
-  // bytes avatarurl = 3;
+  // bytes avatarurl = 4;
   if (this->avatarurl().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_avatarurl());
+  }
+
+  // int32 gameid = 1;
+  if (this->gameid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_gameid());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1261,6 +1285,9 @@ void C2S_LoginCreate::MergeFrom(const C2S_LoginCreate& from) {
 
     avatarurl_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.avatarurl_);
   }
+  if (from.gameid() != 0) {
+    _internal_set_gameid(from._internal_gameid());
+  }
 }
 
 void C2S_LoginCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1290,6 +1317,7 @@ void C2S_LoginCreate::InternalSwap(C2S_LoginCreate* other) {
     GetArenaNoVirtual());
   avatarurl_.Swap(&other->avatarurl_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  swap(gameid_, other->gameid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2S_LoginCreate::GetMetadata() const {

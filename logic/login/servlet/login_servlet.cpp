@@ -82,6 +82,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         ServerResource::get()->redisMgr()->set(LoginNameToRoleIdSetKey(req.loginname()), role_id);
+        ServerResource::get()->redisMgr()->set(RoleIdToGameIdSetKey(role_id), req.gameid());
 
         resp.set_role_id(role_id);
         msg.roleId(role_id);
@@ -92,7 +93,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         bri.set_avatarurl(req.avatarurl());
         std::string serial;
         bri.SerializeToString(&serial);
-        ServerResource::get()->redisMgr()->set("base_role_info_" + std::to_string(role_id), serial);
+        ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(role_id), serial);
     } while(false);
 
     session->send(std::move(covertRspMsg(msg, resp)));

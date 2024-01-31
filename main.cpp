@@ -309,7 +309,7 @@ int main(int argc, char* argv[]) {
 
     LOG(INFO) << "---begin---";
 
-    // insertGameInfo();
+    insertGameInfo();
 
     // if (false) {
     //     httplib::SSLClient cli("https://developer.toutiao.com");

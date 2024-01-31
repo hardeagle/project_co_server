@@ -13,6 +13,7 @@
 
 #include "logic/rank/protocol/rank_id.pb.h"
 #include "logic/rank/protocol/rank.pb.h"
+#include "logic/rank/server_resource.h"
 
 bool RankServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     auto id = msg.realMsgId();
@@ -39,7 +40,24 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     }
     RankProtocol::S2C_RankLoad resp;
     do {
+        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(msg.roleId()));
+        auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(RankZsetKey(gameid), 0, 100);
+        std::set<uint64_t> ids;
+        for (auto [id, score] : scores) {
+            LOG(INFO) << "rank data id " << id << " score " << score;
+            ids.insert(id);
+        }
+        auto roles = ServerResource::get()->redisMgr()->mget<std::string>(ids);
+        for (auto& role : roles) {
+            PublicProtocol::BaseRoleInfo bri;
+            bri.ParseFromString(role);
 
+            auto rri = resp.add_rris();
+            rri->set_role_id(bri.role_id());
+            rri->set_name(bri.name());
+            rri->set_avatarurl(bri.avatarurl());
+            rri->set_rank(scores[bri.role_id()]);   // ?
+        }
     } while(false);
 
     session->send(std::move(covertRspMsg(msg, resp)));
@@ -59,6 +77,9 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     RankProtocol::S2C_RankUpdate resp;
     do {
+        auto roleid = msg.roleId();
+        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
+        ServerResource::get()->redisMgr()->zadd(RankZsetKey(gameid), req.score(), roleid);
     } while(false);
 
     LOG(INFO) << "resp " << resp.DebugString();

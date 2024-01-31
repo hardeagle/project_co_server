@@ -671,11 +671,12 @@ class C2S_LoginCreate :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kLoginnameFieldNumber = 1,
-    kRoleNameFieldNumber = 2,
-    kAvatarurlFieldNumber = 3,
+    kLoginnameFieldNumber = 2,
+    kRoleNameFieldNumber = 3,
+    kAvatarurlFieldNumber = 4,
+    kGameidFieldNumber = 1,
   };
-  // bytes loginname = 1;
+  // bytes loginname = 2;
   void clear_loginname();
   const std::string& loginname() const;
   void set_loginname(const std::string& value);
@@ -691,7 +692,7 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_loginname();
   public:
 
-  // bytes role_name = 2;
+  // bytes role_name = 3;
   void clear_role_name();
   const std::string& role_name() const;
   void set_role_name(const std::string& value);
@@ -707,7 +708,7 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_role_name();
   public:
 
-  // bytes avatarurl = 3;
+  // bytes avatarurl = 4;
   void clear_avatarurl();
   const std::string& avatarurl() const;
   void set_avatarurl(const std::string& value);
@@ -723,6 +724,15 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_avatarurl();
   public:
 
+  // int32 gameid = 1;
+  void clear_gameid();
+  ::PROTOBUF_NAMESPACE_ID::int32 gameid() const;
+  void set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_gameid() const;
+  void _internal_set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:LoginProtocol.C2S_LoginCreate)
  private:
   class _Internal;
@@ -731,6 +741,7 @@ class C2S_LoginCreate :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loginname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr role_name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatarurl_;
+  ::PROTOBUF_NAMESPACE_ID::int32 gameid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_2eproto;
 };
@@ -1764,7 +1775,27 @@ inline void S2C_LoginLogin::set_role_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
 
 // C2S_LoginCreate
 
-// bytes loginname = 1;
+// int32 gameid = 1;
+inline void C2S_LoginCreate::clear_gameid() {
+  gameid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_LoginCreate::_internal_gameid() const {
+  return gameid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_LoginCreate::gameid() const {
+  // @@protoc_insertion_point(field_get:LoginProtocol.C2S_LoginCreate.gameid)
+  return _internal_gameid();
+}
+inline void C2S_LoginCreate::_internal_set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  gameid_ = value;
+}
+inline void C2S_LoginCreate::set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_gameid(value);
+  // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginCreate.gameid)
+}
+
+// bytes loginname = 2;
 inline void C2S_LoginCreate::clear_loginname() {
   loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1824,7 +1855,7 @@ inline void C2S_LoginCreate::set_allocated_loginname(std::string* loginname) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.loginname)
 }
 
-// bytes role_name = 2;
+// bytes role_name = 3;
 inline void C2S_LoginCreate::clear_role_name() {
   role_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1884,7 +1915,7 @@ inline void C2S_LoginCreate::set_allocated_role_name(std::string* role_name) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.role_name)
 }
 
-// bytes avatarurl = 3;
+// bytes avatarurl = 4;
 inline void C2S_LoginCreate::clear_avatarurl() {
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }

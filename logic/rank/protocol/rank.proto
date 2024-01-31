@@ -2,8 +2,11 @@ syntax = "proto3";
 
 package RankProtocol;
 
-message RankRoleInfo {
-
+message RankItem {
+    uint64 role_id = 1;
+    bytes name = 2;
+    bytes avatarurl = 3;
+    int32 rank = 4;
 }
 
 message C2S_RankLoad {
@@ -11,8 +14,8 @@ message C2S_RankLoad {
 
 message S2C_RankLoad {
     int32 ret = 1;
-    RankRoleInfo myself = 2;
-    repeated RankRoleInfo rris = 3;
+    RankItem myself = 2;
+    repeated RankItem rris = 3;
 }
 
 message C2S_RankUpdate {

@@ -159,6 +159,24 @@ public:
         }
     }
 
+    template<typename T>
+    RedisResult exec(std::string cmd, std::set<T>& params) {
+        std::vector<std::string> cmds;
+        cmds.emplace_back(std::move(boost::lexical_cast<std::string>(cmd)));
+        for (auto& val: params) {
+            cmds.emplace_back(std::move(boost::lexical_cast<std::string>(val)));
+        }
+        size_t argc = cmds.size();
+        std::vector<const char*> argvs(argc);
+        std::vector<size_t> argvs_len(argc);
+        for (size_t i = 0; i < argc; ++i) {
+            argvs[i] = cmds[i].data();
+            argvs_len[i] = cmds[i].size();
+        }
+        redisReply *reply = (redisReply*)redisCommandArgv(m_ctx, argc, &argvs[0], &argvs_len[0]);
+        return reply ? RedisResult(reply) : RedisResult();
+    }
+
     template<typename ...Args>
     RedisResult exec(Args... args) {
         std::vector<std::string> cmds;
@@ -214,6 +232,16 @@ public:
             return {};
         }
         return rc->exec("get", key).template get<T>();
+    }
+
+    template<typename T, typename U>
+    std::set<T> mget(std::set<U>& keys) {
+        auto rc = get();
+        if (!rc) {
+            LOG(ERROR) << "get fail";
+            return {};
+        }
+        return rc->exec<U>("mget", keys).template get<T, true>();
     }
 
     // set ---------------------------------------------------------------------

@@ -22,9 +22,10 @@ message S2C_LoginLogin {
 }
 
 message C2S_LoginCreate {
-    bytes loginname = 1;
-    bytes role_name = 2;
-    bytes avatarurl = 3;
+    int32 gameid = 1;
+    bytes loginname = 2;
+    bytes role_name = 3;
+    bytes avatarurl = 4;
 }
 
 message S2C_LoginCreate {
