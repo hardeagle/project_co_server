@@ -3,7 +3,7 @@
 
 #include <string>
 
-std::string LoginNameToRoleIdKey(const std::string& loginname);
+std::string LoginNameToRoleIdSetKey(const std::string& loginname);
 
 std::string RoleIdIncrementKey();
 

@@ -1,9 +1,9 @@
 #include "redis_key.h"
 
-static const std::string PREFIX = "EAYEW_";
+static const std::string PREFIX = "pcs_";
 
-std::string LoginNameToRoleIdKey(const std::string& loginname) {
-    std::string key = PREFIX;
+std::string LoginNameToRoleIdSetKey(const std::string& loginname) {
+    std::string key = PREFIX + "loginname_to_roleid_set_";
     key += loginname;
     return key;
 }

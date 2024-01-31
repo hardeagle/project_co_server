@@ -11,8 +11,7 @@
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"
 
-
-
+#include "logic/common/error_code.h"
 #include "logic/common/redis_key.h"
 #include "logic/protocol/public.pb.h"
 
@@ -51,13 +50,10 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     LoginProtocol::S2C_LoginLogin resp;
     do {
-        auto key = "loginname_to_role_id_" + req.loginname();
-        LOG(INFO) << "key " << key;
-        auto role_id = ServerResource::get()->redisMgr()->get<uint64_t>(key);
-        LOG(INFO) << "role id " << role_id;
+        auto role_id = ServerResource::get()->redisMgr()->get<uint64_t>(LoginNameToRoleIdSetKey(req.loginname()));
         if (role_id == 0) {
             LOG(INFO) << "new role";
-            resp.set_ret(1);
+            resp.set_ret(EC_LOGIN::NO_ROLE);
             break;
         }
         resp.set_role_id(role_id);
@@ -76,17 +72,16 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
-    LOG(INFO) << "req " << req.DebugString();
 
     LoginProtocol::S2C_LoginCreate resp;
     do {
         auto role_id = ServerResource::get()->idMgr()->generateId();
         if (role_id <= 0) {
             LOG(ERROR) << "general id fail, role id " << role_id;
-            resp.set_ret(1);
+            resp.set_ret(EC_LOGIN::GENERATE_ID_FAIL);
             break;
         }
-        ServerResource::get()->redisMgr()->set("loginname_to_role_id_" + req.loginname(), role_id);
+        ServerResource::get()->redisMgr()->set(LoginNameToRoleIdSetKey(req.loginname()), role_id);
 
         resp.set_role_id(role_id);
         msg.roleId(role_id);
@@ -118,27 +113,49 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     } while(false);
 
-
-    // auto sessionId = msg.sessionId();
-    // LOG(WARNING) << "session id " << sessionId;
-
-    // LoginProtocol::C2S_LoginLoad req;
-    // if (!req.ParseFromArray(msg.realData(), msg.realSize())) {
-    //     LOG(ERROR) << "ParseFromArray fail ";
-    //     return false;
-    // }
-    // //LOG(INFO) << "req " << req.DebugString();
- 
-    // LOG(WARNING) << "-----0doLoad " << msg.strInfo();
-
-    // msg.forceSetRoleId(43980465111168);
-
-    // LOG(WARNING) << "-----1doLoad " << msg.strInfo();
-
     session->send(std::move(covertRspMsg(msg, resp)));
-
     LOG(ERROR) << "doLoad end...";
     return true;
+}
+
+EC_LOGIN ttOpenid(std::string& openid, GameInfo::ptr gi, const std::string& code) {
+    httplib::SSLClient cli("developer.toutiao.com");
+    cli.enable_server_certificate_verification(false);
+
+    std::string params = "/api/apps/jscode2session";
+    params += "?appid=";
+    params += gi->appid();
+    params += "&secret=";
+    params += gi->secret();
+    params += "&code=";
+    params += code;
+    LOG(INFO) << "params " << params;
+    if (auto res = cli.Get(params)) {
+        if (res->status != httplib::StatusCode::OK_200) {
+            LOG(ERROR) << "http response status " << res->status;
+            return EC_LOGIN::HTTP_TT_STATUS_ERROR;
+        }
+
+        LOG(INFO) << "resp body " << res->body;
+        Json::Value root;
+        Json::Reader reader;
+        if (reader.parse(res->body, root)) {
+            LOG(INFO) << "parse resp " << root;
+            auto ret = root["error"].asInt64();
+            if (ret != 0) {
+                LOG(ERROR) << "resp error ret " << ret;
+                return EC_LOGIN::HTTP_TT_RSP_FAIL;
+            }
+            openid = root["openid"].asString();
+        } else {
+            LOG(ERROR) << "parse error, body " << res->body;
+            return EC_LOGIN::HTTP_TT_RSP_PARSE_FAIL;
+        }
+    } else {
+        LOG(ERROR) << "http fail err " << res.error();
+        return EC_LOGIN::HTTP_TT_GET_FAIL;
+    }
+    return EC_LOGIN::SUCCESS;
 }
 
 bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
@@ -156,49 +173,18 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
         auto gi = gi_mgr->get(req.gameid());
         if (!gi) {
             LOG(ERROR) << "Not exist game id " << req.gameid();
+            resp.set_ret(EC_LOGIN::GAME_ID_ILLEGAL);
             break;
         }
 
-
-        httplib::SSLClient cli("developer.toutiao.com");
-        cli.enable_server_certificate_verification(false);
-
-        std::string params = "/api/apps/jscode2session";
-        params += "?appid=";
-        params += gi->appid();
-        params += "&secret=";
-        params += gi->secret();
-        params += "&code=";
-        params += req.code();;
-        LOG(INFO) << "params " << params;
-        if (auto res = cli.Get(params)) {
-            if (res->status != httplib::StatusCode::OK_200) {
-                LOG(ERROR) << "http response status " << res->status;
-                break;
-            }
-            std::cout << res->status << std::endl;
-            std::cout << res->get_header_value("Content-Type") << std::endl;
-            std::cout << res->body << std::endl;
-
-            LOG(INFO) << "resp body " << res->body;
-            Json::Value root;
-            Json::Reader reader;
-            if (reader.parse(res->body, root)) {
-                LOG(INFO) << "parse resp " << root;
-                auto ret = root["error"].asInt64();
-                if (ret != 0) {
-                    LOG(ERROR) << "resp error ret " << ret;
-                    break;
-                }
-                resp.set_openid(root["openid"].asString());
-            } else {
-                LOG(ERROR) << "parse error, body " << res->body;
-            }
-        } else {
-            auto err = res.error();
-            LOG(ERROR) << "http fail err " << err;
+        std::string openid;
+        auto ret = ttOpenid(openid, gi, req.code());
+        if (ret != EC_LOGIN::SUCCESS) {
+            LOG(ERROR) << "ttOpenid ret " << ret;
+            resp.set_ret(ret);
             break;
         }
+        resp.set_openid(openid);
     } while(false);
 
     LOG(INFO) << "resp " << resp.DebugString();

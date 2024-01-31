@@ -17,13 +17,13 @@ uint64_t IdManager::generateId(int eid) {
         return 0;
     }
     if (m_curIds[eid] >= m_maxIds[eid]) {   // 有bug
-        m_maxIds[eid] = ServerResource::get()->redisMgr()->hincrby("id_increment", "role_id", m_stepIds[eid]);
+        m_maxIds[eid] = ServerResource::get()->redisMgr()->hincrby("pcs_id_increment", "role_id", m_stepIds[eid]);
         m_curIds[eid] = m_maxIds[eid] - m_stepIds[eid];
     }
     return ++m_curIds[eid];
 }
 
 uint64_t IdManager::generateId() {
-    auto aid = ServerResource::get()->redisMgr()->hincrby("id_increment", "role_id", 1);
+    auto aid = ServerResource::get()->redisMgr()->hincrby("pcs_id_increment", "role_id", 1);
     return (uint64_t(37) << 32) | aid;
 }
