@@ -181,7 +181,10 @@ void GateServer::discoverServer() {
         LOG(INFO) << "config self type " << type() << " rpc type " << st;
 
         auto gps = std::make_shared<GatePeerSession>();
-        gps->sync_connect(si.address, si.port, type(), st);
+        if (!gps->sync_connect(si.address, si.port, type(), st)) {
+            LOG(WARNING) << "sync connect fail";
+            continue;
+        }
         gps->setOnMessage([&](Message&& msg) {
             auto session_id = msg.sessionId();
             auto s = getWsSession(session_id);
@@ -199,8 +202,8 @@ void GateServer::discoverServer() {
             LOG(INFO) << "onMessage " << msg.strInfo();
             s->send(std::move(msg));
         });
-        gps->setOnClose([&](uint64_t id) {
-            m_gpSessions.erase(id);
+        gps->setOnClose([&, st, id](uint64_t) {
+            m_gpSessions[st].erase(id);
         });
         gps->run();
         m_gpSessions[st][si.id] = gps;
