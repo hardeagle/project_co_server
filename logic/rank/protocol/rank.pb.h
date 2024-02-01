@@ -193,13 +193,13 @@ class RankItem :
     kRoleIdFieldNumber = 1,
     kRankFieldNumber = 4,
   };
-  // bytes name = 2;
+  // string name = 2;
   void clear_name();
   const std::string& name() const;
   void set_name(const std::string& value);
   void set_name(std::string&& value);
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   std::string* mutable_name();
   std::string* release_name();
   void set_allocated_name(std::string* name);
@@ -209,13 +209,13 @@ class RankItem :
   std::string* _internal_mutable_name();
   public:
 
-  // bytes avatarurl = 3;
+  // string avatarurl = 3;
   void clear_avatarurl();
   const std::string& avatarurl() const;
   void set_avatarurl(const std::string& value);
   void set_avatarurl(std::string&& value);
   void set_avatarurl(const char* value);
-  void set_avatarurl(const void* value, size_t size);
+  void set_avatarurl(const char* value, size_t size);
   std::string* mutable_avatarurl();
   std::string* release_avatarurl();
   void set_allocated_avatarurl(std::string* avatarurl);
@@ -822,7 +822,7 @@ inline void RankItem::set_role_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:RankProtocol.RankItem.role_id)
 }
 
-// bytes name = 2;
+// string name = 2;
 inline void RankItem::clear_name() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -857,7 +857,7 @@ inline void RankItem::set_name(const char* value) {
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:RankProtocol.RankItem.name)
 }
-inline void RankItem::set_name(const void* value, size_t size) {
+inline void RankItem::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -882,7 +882,7 @@ inline void RankItem::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:RankProtocol.RankItem.name)
 }
 
-// bytes avatarurl = 3;
+// string avatarurl = 3;
 inline void RankItem::clear_avatarurl() {
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -917,7 +917,7 @@ inline void RankItem::set_avatarurl(const char* value) {
   avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:RankProtocol.RankItem.avatarurl)
 }
-inline void RankItem::set_avatarurl(const void* value, size_t size) {
+inline void RankItem::set_avatarurl(const char* value, size_t size) {
   
   avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

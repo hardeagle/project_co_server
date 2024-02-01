@@ -210,13 +210,13 @@ class GameInfo :
     kGameidFieldNumber = 1,
     kPlatformFieldNumber = 2,
   };
-  // bytes name = 3;
+  // string name = 3;
   void clear_name();
   const std::string& name() const;
   void set_name(const std::string& value);
   void set_name(std::string&& value);
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   std::string* mutable_name();
   std::string* release_name();
   void set_allocated_name(std::string* name);
@@ -226,13 +226,13 @@ class GameInfo :
   std::string* _internal_mutable_name();
   public:
 
-  // bytes appid = 4;
+  // string appid = 4;
   void clear_appid();
   const std::string& appid() const;
   void set_appid(const std::string& value);
   void set_appid(std::string&& value);
   void set_appid(const char* value);
-  void set_appid(const void* value, size_t size);
+  void set_appid(const char* value, size_t size);
   std::string* mutable_appid();
   std::string* release_appid();
   void set_allocated_appid(std::string* appid);
@@ -242,13 +242,13 @@ class GameInfo :
   std::string* _internal_mutable_appid();
   public:
 
-  // bytes secret = 5;
+  // string secret = 5;
   void clear_secret();
   const std::string& secret() const;
   void set_secret(const std::string& value);
   void set_secret(std::string&& value);
   void set_secret(const char* value);
-  void set_secret(const void* value, size_t size);
+  void set_secret(const char* value, size_t size);
   std::string* mutable_secret();
   std::string* release_secret();
   void set_allocated_secret(std::string* secret);
@@ -399,13 +399,13 @@ class C2S_LoginLogin :
   enum : int {
     kLoginnameFieldNumber = 1,
   };
-  // bytes loginname = 1;
+  // string loginname = 1;
   void clear_loginname();
   const std::string& loginname() const;
   void set_loginname(const std::string& value);
   void set_loginname(std::string&& value);
   void set_loginname(const char* value);
-  void set_loginname(const void* value, size_t size);
+  void set_loginname(const char* value, size_t size);
   std::string* mutable_loginname();
   std::string* release_loginname();
   void set_allocated_loginname(std::string* loginname);
@@ -671,18 +671,34 @@ class C2S_LoginCreate :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kGameidFieldNumber = 1,
     kLoginnameFieldNumber = 2,
     kRoleNameFieldNumber = 3,
     kAvatarurlFieldNumber = 4,
-    kGameidFieldNumber = 1,
   };
-  // bytes loginname = 2;
+  // string gameid = 1;
+  void clear_gameid();
+  const std::string& gameid() const;
+  void set_gameid(const std::string& value);
+  void set_gameid(std::string&& value);
+  void set_gameid(const char* value);
+  void set_gameid(const char* value, size_t size);
+  std::string* mutable_gameid();
+  std::string* release_gameid();
+  void set_allocated_gameid(std::string* gameid);
+  private:
+  const std::string& _internal_gameid() const;
+  void _internal_set_gameid(const std::string& value);
+  std::string* _internal_mutable_gameid();
+  public:
+
+  // string loginname = 2;
   void clear_loginname();
   const std::string& loginname() const;
   void set_loginname(const std::string& value);
   void set_loginname(std::string&& value);
   void set_loginname(const char* value);
-  void set_loginname(const void* value, size_t size);
+  void set_loginname(const char* value, size_t size);
   std::string* mutable_loginname();
   std::string* release_loginname();
   void set_allocated_loginname(std::string* loginname);
@@ -692,13 +708,13 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_loginname();
   public:
 
-  // bytes role_name = 3;
+  // string role_name = 3;
   void clear_role_name();
   const std::string& role_name() const;
   void set_role_name(const std::string& value);
   void set_role_name(std::string&& value);
   void set_role_name(const char* value);
-  void set_role_name(const void* value, size_t size);
+  void set_role_name(const char* value, size_t size);
   std::string* mutable_role_name();
   std::string* release_role_name();
   void set_allocated_role_name(std::string* role_name);
@@ -708,13 +724,13 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_role_name();
   public:
 
-  // bytes avatarurl = 4;
+  // string avatarurl = 4;
   void clear_avatarurl();
   const std::string& avatarurl() const;
   void set_avatarurl(const std::string& value);
   void set_avatarurl(std::string&& value);
   void set_avatarurl(const char* value);
-  void set_avatarurl(const void* value, size_t size);
+  void set_avatarurl(const char* value, size_t size);
   std::string* mutable_avatarurl();
   std::string* release_avatarurl();
   void set_allocated_avatarurl(std::string* avatarurl);
@@ -724,24 +740,15 @@ class C2S_LoginCreate :
   std::string* _internal_mutable_avatarurl();
   public:
 
-  // int32 gameid = 1;
-  void clear_gameid();
-  ::PROTOBUF_NAMESPACE_ID::int32 gameid() const;
-  void set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_gameid() const;
-  void _internal_set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:LoginProtocol.C2S_LoginCreate)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gameid_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loginname_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr role_name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatarurl_;
-  ::PROTOBUF_NAMESPACE_ID::int32 gameid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_2eproto;
 };
@@ -1251,13 +1258,13 @@ class C2S_LoginOpenid :
     kCodeFieldNumber = 2,
     kGameidFieldNumber = 1,
   };
-  // bytes code = 2;
+  // string code = 2;
   void clear_code();
   const std::string& code() const;
   void set_code(const std::string& value);
   void set_code(std::string&& value);
   void set_code(const char* value);
-  void set_code(const void* value, size_t size);
+  void set_code(const char* value, size_t size);
   std::string* mutable_code();
   std::string* release_code();
   void set_allocated_code(std::string* code);
@@ -1397,13 +1404,13 @@ class S2C_LoginOpenid :
     kOpenidFieldNumber = 2,
     kRetFieldNumber = 1,
   };
-  // bytes openid = 2;
+  // string openid = 2;
   void clear_openid();
   const std::string& openid() const;
   void set_openid(const std::string& value);
   void set_openid(std::string&& value);
   void set_openid(const char* value);
-  void set_openid(const void* value, size_t size);
+  void set_openid(const char* value, size_t size);
   std::string* mutable_openid();
   std::string* release_openid();
   void set_allocated_openid(std::string* openid);
@@ -1483,7 +1490,7 @@ inline void GameInfo::set_platform(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:LoginProtocol.GameInfo.platform)
 }
 
-// bytes name = 3;
+// string name = 3;
 inline void GameInfo::clear_name() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1518,7 +1525,7 @@ inline void GameInfo::set_name(const char* value) {
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.GameInfo.name)
 }
-inline void GameInfo::set_name(const void* value, size_t size) {
+inline void GameInfo::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1543,7 +1550,7 @@ inline void GameInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.GameInfo.name)
 }
 
-// bytes appid = 4;
+// string appid = 4;
 inline void GameInfo::clear_appid() {
   appid_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1578,7 +1585,7 @@ inline void GameInfo::set_appid(const char* value) {
   appid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.GameInfo.appid)
 }
-inline void GameInfo::set_appid(const void* value, size_t size) {
+inline void GameInfo::set_appid(const char* value, size_t size) {
   
   appid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1603,7 +1610,7 @@ inline void GameInfo::set_allocated_appid(std::string* appid) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.GameInfo.appid)
 }
 
-// bytes secret = 5;
+// string secret = 5;
 inline void GameInfo::clear_secret() {
   secret_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1638,7 +1645,7 @@ inline void GameInfo::set_secret(const char* value) {
   secret_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.GameInfo.secret)
 }
-inline void GameInfo::set_secret(const void* value, size_t size) {
+inline void GameInfo::set_secret(const char* value, size_t size) {
   
   secret_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1667,7 +1674,7 @@ inline void GameInfo::set_allocated_secret(std::string* secret) {
 
 // C2S_LoginLogin
 
-// bytes loginname = 1;
+// string loginname = 1;
 inline void C2S_LoginLogin::clear_loginname() {
   loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1702,7 +1709,7 @@ inline void C2S_LoginLogin::set_loginname(const char* value) {
   loginname_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginLogin.loginname)
 }
-inline void C2S_LoginLogin::set_loginname(const void* value, size_t size) {
+inline void C2S_LoginLogin::set_loginname(const char* value, size_t size) {
   
   loginname_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1775,27 +1782,67 @@ inline void S2C_LoginLogin::set_role_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
 
 // C2S_LoginCreate
 
-// int32 gameid = 1;
+// string gameid = 1;
 inline void C2S_LoginCreate::clear_gameid() {
-  gameid_ = 0;
+  gameid_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_LoginCreate::_internal_gameid() const {
-  return gameid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_LoginCreate::gameid() const {
+inline const std::string& C2S_LoginCreate::gameid() const {
   // @@protoc_insertion_point(field_get:LoginProtocol.C2S_LoginCreate.gameid)
   return _internal_gameid();
 }
-inline void C2S_LoginCreate::_internal_set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  gameid_ = value;
-}
-inline void C2S_LoginCreate::set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void C2S_LoginCreate::set_gameid(const std::string& value) {
   _internal_set_gameid(value);
   // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginCreate.gameid)
 }
+inline std::string* C2S_LoginCreate::mutable_gameid() {
+  // @@protoc_insertion_point(field_mutable:LoginProtocol.C2S_LoginCreate.gameid)
+  return _internal_mutable_gameid();
+}
+inline const std::string& C2S_LoginCreate::_internal_gameid() const {
+  return gameid_.GetNoArena();
+}
+inline void C2S_LoginCreate::_internal_set_gameid(const std::string& value) {
+  
+  gameid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void C2S_LoginCreate::set_gameid(std::string&& value) {
+  
+  gameid_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LoginProtocol.C2S_LoginCreate.gameid)
+}
+inline void C2S_LoginCreate::set_gameid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  gameid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginCreate.gameid)
+}
+inline void C2S_LoginCreate::set_gameid(const char* value, size_t size) {
+  
+  gameid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LoginProtocol.C2S_LoginCreate.gameid)
+}
+inline std::string* C2S_LoginCreate::_internal_mutable_gameid() {
+  
+  return gameid_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* C2S_LoginCreate::release_gameid() {
+  // @@protoc_insertion_point(field_release:LoginProtocol.C2S_LoginCreate.gameid)
+  
+  return gameid_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void C2S_LoginCreate::set_allocated_gameid(std::string* gameid) {
+  if (gameid != nullptr) {
+    
+  } else {
+    
+  }
+  gameid_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), gameid);
+  // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.gameid)
+}
 
-// bytes loginname = 2;
+// string loginname = 2;
 inline void C2S_LoginCreate::clear_loginname() {
   loginname_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1830,7 +1877,7 @@ inline void C2S_LoginCreate::set_loginname(const char* value) {
   loginname_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginCreate.loginname)
 }
-inline void C2S_LoginCreate::set_loginname(const void* value, size_t size) {
+inline void C2S_LoginCreate::set_loginname(const char* value, size_t size) {
   
   loginname_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1855,7 +1902,7 @@ inline void C2S_LoginCreate::set_allocated_loginname(std::string* loginname) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.loginname)
 }
 
-// bytes role_name = 3;
+// string role_name = 3;
 inline void C2S_LoginCreate::clear_role_name() {
   role_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1890,7 +1937,7 @@ inline void C2S_LoginCreate::set_role_name(const char* value) {
   role_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginCreate.role_name)
 }
-inline void C2S_LoginCreate::set_role_name(const void* value, size_t size) {
+inline void C2S_LoginCreate::set_role_name(const char* value, size_t size) {
   
   role_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -1915,7 +1962,7 @@ inline void C2S_LoginCreate::set_allocated_role_name(std::string* role_name) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginCreate.role_name)
 }
 
-// bytes avatarurl = 4;
+// string avatarurl = 4;
 inline void C2S_LoginCreate::clear_avatarurl() {
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -1950,7 +1997,7 @@ inline void C2S_LoginCreate::set_avatarurl(const char* value) {
   avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginCreate.avatarurl)
 }
-inline void C2S_LoginCreate::set_avatarurl(const void* value, size_t size) {
+inline void C2S_LoginCreate::set_avatarurl(const char* value, size_t size) {
   
   avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -2091,7 +2138,7 @@ inline void C2S_LoginOpenid::set_gameid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginOpenid.gameid)
 }
 
-// bytes code = 2;
+// string code = 2;
 inline void C2S_LoginOpenid::clear_code() {
   code_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -2126,7 +2173,7 @@ inline void C2S_LoginOpenid::set_code(const char* value) {
   code_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginOpenid.code)
 }
-inline void C2S_LoginOpenid::set_code(const void* value, size_t size) {
+inline void C2S_LoginOpenid::set_code(const char* value, size_t size) {
   
   code_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -2175,7 +2222,7 @@ inline void S2C_LoginOpenid::set_ret(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:LoginProtocol.S2C_LoginOpenid.ret)
 }
 
-// bytes openid = 2;
+// string openid = 2;
 inline void S2C_LoginOpenid::clear_openid() {
   openid_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -2210,7 +2257,7 @@ inline void S2C_LoginOpenid::set_openid(const char* value) {
   openid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:LoginProtocol.S2C_LoginOpenid.openid)
 }
-inline void S2C_LoginOpenid::set_openid(const void* value, size_t size) {
+inline void S2C_LoginOpenid::set_openid(const char* value, size_t size) {
   
   openid_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

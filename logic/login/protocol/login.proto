@@ -7,13 +7,13 @@ package LoginProtocol;
 message GameInfo {
     int32 gameid = 1;
     int32 platform = 2;
-    bytes name = 3;
-    bytes appid = 4;
-    bytes secret = 5;
+    string name = 3;
+    string appid = 4;
+    string secret = 5;
 }
 
 message C2S_LoginLogin {
-    bytes loginname = 1;
+    string loginname = 1;
 }
 
 message S2C_LoginLogin {
@@ -22,10 +22,10 @@ message S2C_LoginLogin {
 }
 
 message C2S_LoginCreate {
-    int32 gameid = 1;
-    bytes loginname = 2;
-    bytes role_name = 3;
-    bytes avatarurl = 4;
+    string gameid = 1;
+    string loginname = 2;
+    string role_name = 3;
+    string avatarurl = 4;
 }
 
 message S2C_LoginCreate {
@@ -43,10 +43,10 @@ message S2C_LoginLoad {
 
 message C2S_LoginOpenid {
     int32 gameid = 1;
-    bytes code = 2;
+    string code = 2;
 }
 
 message S2C_LoginOpenid {
     int32 ret = 1;
-    bytes openid = 2;
+    string openid = 2;
 }

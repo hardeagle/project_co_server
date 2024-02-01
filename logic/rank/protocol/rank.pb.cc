@@ -166,8 +166,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_rank_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nrank.proto\022\014RankProtocol\"J\n\010RankItem\022\017"
-  "\n\007role_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\014\022\021\n\tavataru"
-  "rl\030\003 \001(\014\022\014\n\004rank\030\004 \001(\005\"\016\n\014C2S_RankLoad\"i"
+  "\n\007role_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\021\n\tavataru"
+  "rl\030\003 \001(\t\022\014\n\004rank\030\004 \001(\005\"\016\n\014C2S_RankLoad\"i"
   "\n\014S2C_RankLoad\022\013\n\003ret\030\001 \001(\005\022&\n\006myself\030\002 "
   "\001(\0132\026.RankProtocol.RankItem\022$\n\004rris\030\003 \003("
   "\0132\026.RankProtocol.RankItem\"\037\n\016C2S_RankUpd"
@@ -283,17 +283,17 @@ const char* RankItem::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes name = 2;
+      // string name = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_name(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_name(), ptr, ctx, "RankProtocol.RankItem.name");
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes avatarurl = 3;
+      // string avatarurl = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(_internal_mutable_avatarurl(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_avatarurl(), ptr, ctx, "RankProtocol.RankItem.avatarurl");
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -336,15 +336,23 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_role_id(), target);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
-    target = stream->WriteBytesMaybeAliased(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "RankProtocol.RankItem.name");
+    target = stream->WriteStringMaybeAliased(
         2, this->_internal_name(), target);
   }
 
-  // bytes avatarurl = 3;
+  // string avatarurl = 3;
   if (this->avatarurl().size() > 0) {
-    target = stream->WriteBytesMaybeAliased(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_avatarurl().data(), static_cast<int>(this->_internal_avatarurl().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "RankProtocol.RankItem.avatarurl");
+    target = stream->WriteStringMaybeAliased(
         3, this->_internal_avatarurl(), target);
   }
 
@@ -370,17 +378,17 @@ size_t RankItem::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // bytes avatarurl = 3;
+  // string avatarurl = 3;
   if (this->avatarurl().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_avatarurl());
   }
 
