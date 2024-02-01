@@ -47,6 +47,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             LOG(INFO) << "rank data id " << id << " score " << score;
             keys.insert(BaseRoleInfoSetKey(id));
         }
+        auto index = 0;
         auto roles = ServerResource::get()->redisMgr()->mget<std::string>(keys);
         for (auto& role : roles) {
             PublicProtocol::BaseRoleInfo bri;
@@ -55,12 +56,13 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
                 continue;
             }
 
-            auto rri = resp.add_rris();
-            rri->set_role_id(bri.role_id());
-            rri->set_name(bri.name());
-            rri->set_avatarurl(bri.avatarurl());
-            rri->set_rank(scores[bri.role_id()]);   // ?
-            LOG(INFO) << "rri " << rri->DebugString();
+            auto ri = resp.add_ris();
+            ri->set_role_id(bri.role_id());
+            ri->set_rank(++index);
+            ri->set_name(bri.name());
+            ri->set_avatarurl(bri.avatarurl());
+            ri->set_score(scores[bri.role_id()]);   // ?
+            LOG(INFO) << "ri " << ri->DebugString();
         }
     } while(false);
 

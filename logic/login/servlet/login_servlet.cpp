@@ -32,6 +32,8 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) 
             return doLoad(session, std::move(msg));
         case LoginProtocol::ID::C2S_LOGIN_OPENID:
             return doOpenid(session, std::move(msg));
+        case LoginProtocol::ID::C2S_LOGIN_UPDATE:
+            return doUpdate(session, std::move(msg));
         default:
             LOG(ERROR) << "invalid id " << id;
             return true;
@@ -191,6 +193,43 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "resp " << resp.DebugString();
     session->send(std::move(covertRspMsg(msg, resp)));
     LOG(ERROR) << "doOpenid end...";
+    return true;
+}
+
+bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    LOG(INFO) << "doUpdate begin...";
+    LoginProtocol::C2S_LoginUpdate req;
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+        LOG(ERROR) << "ParseFromArray fail";
+        return false;
+    }
+
+    LoginProtocol::S2C_LoginUpdate resp;
+    do {
+        auto role_id = ServerResource::get()->idMgr()->generateId();
+        if (role_id <= 0) {
+            LOG(ERROR) << "general id fail, role id " << role_id;
+            resp.set_ret(EC_LOGIN::GENERATE_ID_FAIL);
+            break;
+        }
+
+        auto roleid = msg.roleId();
+        auto val = ServerResource::get()->redisMgr()->get<std::string>(BaseRoleInfoSetKey(roleid));
+        PublicProtocol::BaseRoleInfo bri;
+        if (!bri.ParseFromString(val)) {
+            LOG(ERROR) << "parseFromString fail roleid " << roleid;
+            resp.set_ret(EC_LOGIN::PARSE_FROM_STRING_FAIL);
+            break;
+        }
+        bri.set_name(req.role_name());
+        bri.set_avatarurl(req.avatarurl());
+        std::string serial;
+        bri.SerializeToString(&serial);
+        ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(role_id), serial);
+    } while(false);
+
+    session->send(std::move(covertRspMsg(msg, resp)));
+    LOG(INFO) << "doUpdate end...";
     return true;
 }
 

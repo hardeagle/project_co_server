@@ -4,9 +4,10 @@ package RankProtocol;
 
 message RankItem {
     uint64 role_id = 1;
-    string name = 2;
-    string avatarurl = 3;
-    int32 rank = 4;
+    int32 rank = 2;
+    int32 score = 3;
+    string name = 4;
+    string avatarurl = 5;
 }
 
 message C2S_RankLoad {
@@ -15,7 +16,7 @@ message C2S_RankLoad {
 message S2C_RankLoad {
     int32 ret = 1;
     RankItem myself = 2;
-    repeated RankItem rris = 3;
+    repeated RankItem ris = 3;
 }
 
 message C2S_RankUpdate {

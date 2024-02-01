@@ -15,6 +15,7 @@ private:
     bool doCreate(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg);
+    bool doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg);
 };
 
 #endif

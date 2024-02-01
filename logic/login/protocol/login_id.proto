@@ -16,5 +16,7 @@ enum ID {
     S2C_LOGIN_LOAD          = 132078;
     C2S_LOGIN_OPENID        = 132079;
     S2C_LOGIN_OPENID        = 132080;
+    C2S_LOGIN_UPDATE        = 132081;
+    S2C_LOGIN_UPDATE        = 132082;
     C2S_LOGIN_TOP           = 133071;
 }

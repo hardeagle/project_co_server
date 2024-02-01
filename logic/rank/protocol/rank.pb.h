@@ -188,12 +188,13 @@ class RankItem :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kAvatarurlFieldNumber = 3,
+    kNameFieldNumber = 4,
+    kAvatarurlFieldNumber = 5,
     kRoleIdFieldNumber = 1,
-    kRankFieldNumber = 4,
+    kRankFieldNumber = 2,
+    kScoreFieldNumber = 3,
   };
-  // string name = 2;
+  // string name = 4;
   void clear_name();
   const std::string& name() const;
   void set_name(const std::string& value);
@@ -209,7 +210,7 @@ class RankItem :
   std::string* _internal_mutable_name();
   public:
 
-  // string avatarurl = 3;
+  // string avatarurl = 5;
   void clear_avatarurl();
   const std::string& avatarurl() const;
   void set_avatarurl(const std::string& value);
@@ -234,13 +235,22 @@ class RankItem :
   void _internal_set_role_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // int32 rank = 4;
+  // int32 rank = 2;
   void clear_rank();
   ::PROTOBUF_NAMESPACE_ID::int32 rank() const;
   void set_rank(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
   ::PROTOBUF_NAMESPACE_ID::int32 _internal_rank() const;
   void _internal_set_rank(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 score = 3;
+  void clear_score();
+  ::PROTOBUF_NAMESPACE_ID::int32 score() const;
+  void set_score(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_score() const;
+  void _internal_set_score(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:RankProtocol.RankItem)
@@ -252,6 +262,7 @@ class RankItem :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatarurl_;
   ::PROTOBUF_NAMESPACE_ID::uint64 role_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 rank_;
+  ::PROTOBUF_NAMESPACE_ID::int32 score_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_rank_2eproto;
 };
@@ -478,27 +489,27 @@ class S2C_RankLoad :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRrisFieldNumber = 3,
+    kRisFieldNumber = 3,
     kMyselfFieldNumber = 2,
     kRetFieldNumber = 1,
   };
-  // repeated .RankProtocol.RankItem rris = 3;
-  int rris_size() const;
+  // repeated .RankProtocol.RankItem ris = 3;
+  int ris_size() const;
   private:
-  int _internal_rris_size() const;
+  int _internal_ris_size() const;
   public:
-  void clear_rris();
-  ::RankProtocol::RankItem* mutable_rris(int index);
+  void clear_ris();
+  ::RankProtocol::RankItem* mutable_ris(int index);
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
-      mutable_rris();
+      mutable_ris();
   private:
-  const ::RankProtocol::RankItem& _internal_rris(int index) const;
-  ::RankProtocol::RankItem* _internal_add_rris();
+  const ::RankProtocol::RankItem& _internal_ris(int index) const;
+  ::RankProtocol::RankItem* _internal_add_ris();
   public:
-  const ::RankProtocol::RankItem& rris(int index) const;
-  ::RankProtocol::RankItem* add_rris();
+  const ::RankProtocol::RankItem& ris(int index) const;
+  ::RankProtocol::RankItem* add_ris();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
-      rris() const;
+      ris() const;
 
   // .RankProtocol.RankItem myself = 2;
   bool has_myself() const;
@@ -529,7 +540,7 @@ class S2C_RankLoad :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem > rris_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem > ris_;
   ::RankProtocol::RankItem* myself_;
   ::PROTOBUF_NAMESPACE_ID::int32 ret_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -822,7 +833,47 @@ inline void RankItem::set_role_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:RankProtocol.RankItem.role_id)
 }
 
-// string name = 2;
+// int32 rank = 2;
+inline void RankItem::clear_rank() {
+  rank_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::_internal_rank() const {
+  return rank_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::rank() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.RankItem.rank)
+  return _internal_rank();
+}
+inline void RankItem::_internal_set_rank(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  rank_ = value;
+}
+inline void RankItem::set_rank(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_rank(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.RankItem.rank)
+}
+
+// int32 score = 3;
+inline void RankItem::clear_score() {
+  score_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::_internal_score() const {
+  return score_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::score() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.RankItem.score)
+  return _internal_score();
+}
+inline void RankItem::_internal_set_score(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  score_ = value;
+}
+inline void RankItem::set_score(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_score(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.RankItem.score)
+}
+
+// string name = 4;
 inline void RankItem::clear_name() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -882,7 +933,7 @@ inline void RankItem::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:RankProtocol.RankItem.name)
 }
 
-// string avatarurl = 3;
+// string avatarurl = 5;
 inline void RankItem::clear_avatarurl() {
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -940,26 +991,6 @@ inline void RankItem::set_allocated_avatarurl(std::string* avatarurl) {
   }
   avatarurl_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), avatarurl);
   // @@protoc_insertion_point(field_set_allocated:RankProtocol.RankItem.avatarurl)
-}
-
-// int32 rank = 4;
-inline void RankItem::clear_rank() {
-  rank_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::_internal_rank() const {
-  return rank_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RankItem::rank() const {
-  // @@protoc_insertion_point(field_get:RankProtocol.RankItem.rank)
-  return _internal_rank();
-}
-inline void RankItem::_internal_set_rank(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  rank_ = value;
-}
-inline void RankItem::set_rank(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_rank(value);
-  // @@protoc_insertion_point(field_set:RankProtocol.RankItem.rank)
 }
 
 // -------------------------------------------------------------------
@@ -1050,43 +1081,43 @@ inline void S2C_RankLoad::set_allocated_myself(::RankProtocol::RankItem* myself)
   // @@protoc_insertion_point(field_set_allocated:RankProtocol.S2C_RankLoad.myself)
 }
 
-// repeated .RankProtocol.RankItem rris = 3;
-inline int S2C_RankLoad::_internal_rris_size() const {
-  return rris_.size();
+// repeated .RankProtocol.RankItem ris = 3;
+inline int S2C_RankLoad::_internal_ris_size() const {
+  return ris_.size();
 }
-inline int S2C_RankLoad::rris_size() const {
-  return _internal_rris_size();
+inline int S2C_RankLoad::ris_size() const {
+  return _internal_ris_size();
 }
-inline void S2C_RankLoad::clear_rris() {
-  rris_.Clear();
+inline void S2C_RankLoad::clear_ris() {
+  ris_.Clear();
 }
-inline ::RankProtocol::RankItem* S2C_RankLoad::mutable_rris(int index) {
-  // @@protoc_insertion_point(field_mutable:RankProtocol.S2C_RankLoad.rris)
-  return rris_.Mutable(index);
+inline ::RankProtocol::RankItem* S2C_RankLoad::mutable_ris(int index) {
+  // @@protoc_insertion_point(field_mutable:RankProtocol.S2C_RankLoad.ris)
+  return ris_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
-S2C_RankLoad::mutable_rris() {
-  // @@protoc_insertion_point(field_mutable_list:RankProtocol.S2C_RankLoad.rris)
-  return &rris_;
+S2C_RankLoad::mutable_ris() {
+  // @@protoc_insertion_point(field_mutable_list:RankProtocol.S2C_RankLoad.ris)
+  return &ris_;
 }
-inline const ::RankProtocol::RankItem& S2C_RankLoad::_internal_rris(int index) const {
-  return rris_.Get(index);
+inline const ::RankProtocol::RankItem& S2C_RankLoad::_internal_ris(int index) const {
+  return ris_.Get(index);
 }
-inline const ::RankProtocol::RankItem& S2C_RankLoad::rris(int index) const {
-  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankLoad.rris)
-  return _internal_rris(index);
+inline const ::RankProtocol::RankItem& S2C_RankLoad::ris(int index) const {
+  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankLoad.ris)
+  return _internal_ris(index);
 }
-inline ::RankProtocol::RankItem* S2C_RankLoad::_internal_add_rris() {
-  return rris_.Add();
+inline ::RankProtocol::RankItem* S2C_RankLoad::_internal_add_ris() {
+  return ris_.Add();
 }
-inline ::RankProtocol::RankItem* S2C_RankLoad::add_rris() {
-  // @@protoc_insertion_point(field_add:RankProtocol.S2C_RankLoad.rris)
-  return _internal_add_rris();
+inline ::RankProtocol::RankItem* S2C_RankLoad::add_ris() {
+  // @@protoc_insertion_point(field_add:RankProtocol.S2C_RankLoad.ris)
+  return _internal_add_ris();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
-S2C_RankLoad::rris() const {
-  // @@protoc_insertion_point(field_list:RankProtocol.S2C_RankLoad.rris)
-  return rris_;
+S2C_RankLoad::ris() const {
+  // @@protoc_insertion_point(field_list:RankProtocol.S2C_RankLoad.ris)
+  return ris_;
 }
 
 // -------------------------------------------------------------------

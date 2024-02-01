@@ -10,6 +10,7 @@ enum EC_LOGIN {
     HTTP_TT_RSP_FAIL        = 105,
     HTTP_TT_GET_FAIL        = 106,
     HTTP_TT_RSP_PARSE_FAIL  = 107,
+    PARSE_FROM_STRING_FAIL  = 108,
 };
 
 #endif

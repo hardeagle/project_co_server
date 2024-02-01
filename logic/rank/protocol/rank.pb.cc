@@ -119,9 +119,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_rank_2eproto::offsets[] PROTOB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, role_id_),
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, rank_),
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, score_),
   PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, name_),
   PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, avatarurl_),
-  PROTOBUF_FIELD_OFFSET(::RankProtocol::RankItem, rank_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::RankProtocol::C2S_RankLoad, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -134,7 +135,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_rank_2eproto::offsets[] PROTOB
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankLoad, ret_),
   PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankLoad, myself_),
-  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankLoad, rris_),
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankLoad, ris_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::RankProtocol::C2S_RankUpdate, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -150,10 +151,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_rank_2eproto::offsets[] PROTOB
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::RankProtocol::RankItem)},
-  { 9, -1, sizeof(::RankProtocol::C2S_RankLoad)},
-  { 14, -1, sizeof(::RankProtocol::S2C_RankLoad)},
-  { 22, -1, sizeof(::RankProtocol::C2S_RankUpdate)},
-  { 28, -1, sizeof(::RankProtocol::S2C_RankUpdate)},
+  { 10, -1, sizeof(::RankProtocol::C2S_RankLoad)},
+  { 15, -1, sizeof(::RankProtocol::S2C_RankLoad)},
+  { 23, -1, sizeof(::RankProtocol::C2S_RankUpdate)},
+  { 29, -1, sizeof(::RankProtocol::S2C_RankUpdate)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -165,14 +166,14 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_rank_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nrank.proto\022\014RankProtocol\"J\n\010RankItem\022\017"
-  "\n\007role_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\021\n\tavataru"
-  "rl\030\003 \001(\t\022\014\n\004rank\030\004 \001(\005\"\016\n\014C2S_RankLoad\"i"
-  "\n\014S2C_RankLoad\022\013\n\003ret\030\001 \001(\005\022&\n\006myself\030\002 "
-  "\001(\0132\026.RankProtocol.RankItem\022$\n\004rris\030\003 \003("
-  "\0132\026.RankProtocol.RankItem\"\037\n\016C2S_RankUpd"
-  "ate\022\r\n\005score\030\001 \001(\005\"\035\n\016S2C_RankUpdate\022\013\n\003"
-  "ret\030\001 \001(\005b\006proto3"
+  "\n\nrank.proto\022\014RankProtocol\"Y\n\010RankItem\022\017"
+  "\n\007role_id\030\001 \001(\004\022\014\n\004rank\030\002 \001(\005\022\r\n\005score\030\003"
+  " \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\tavatarurl\030\005 \001(\t\"\016\n"
+  "\014C2S_RankLoad\"h\n\014S2C_RankLoad\022\013\n\003ret\030\001 \001"
+  "(\005\022&\n\006myself\030\002 \001(\0132\026.RankProtocol.RankIt"
+  "em\022#\n\003ris\030\003 \003(\0132\026.RankProtocol.RankItem\""
+  "\037\n\016C2S_RankUpdate\022\r\n\005score\030\001 \001(\005\"\035\n\016S2C_"
+  "RankUpdate\022\013\n\003ret\030\001 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_rank_2eproto_deps[1] = {
 };
@@ -186,7 +187,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ran
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_rank_2eproto_once;
 static bool descriptor_table_rank_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_rank_2eproto = {
-  &descriptor_table_rank_2eproto_initialized, descriptor_table_protodef_rank_2eproto, "rank.proto", 297,
+  &descriptor_table_rank_2eproto_initialized, descriptor_table_protodef_rank_2eproto, "rank.proto", 311,
   &descriptor_table_rank_2eproto_once, descriptor_table_rank_2eproto_sccs, descriptor_table_rank_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_rank_2eproto::offsets,
   file_level_metadata_rank_2eproto, 5, file_level_enum_descriptors_rank_2eproto, file_level_service_descriptors_rank_2eproto,
@@ -222,8 +223,8 @@ RankItem::RankItem(const RankItem& from)
     avatarurl_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.avatarurl_);
   }
   ::memcpy(&role_id_, &from.role_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&rank_) -
-    reinterpret_cast<char*>(&role_id_)) + sizeof(rank_));
+    static_cast<size_t>(reinterpret_cast<char*>(&score_) -
+    reinterpret_cast<char*>(&role_id_)) + sizeof(score_));
   // @@protoc_insertion_point(copy_constructor:RankProtocol.RankItem)
 }
 
@@ -232,8 +233,8 @@ void RankItem::SharedCtor() {
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   avatarurl_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&role_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&rank_) -
-      reinterpret_cast<char*>(&role_id_)) + sizeof(rank_));
+      reinterpret_cast<char*>(&score_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(score_));
 }
 
 RankItem::~RankItem() {
@@ -264,8 +265,8 @@ void RankItem::Clear() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&role_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&rank_) -
-      reinterpret_cast<char*>(&role_id_)) + sizeof(rank_));
+      reinterpret_cast<char*>(&score_) -
+      reinterpret_cast<char*>(&role_id_)) + sizeof(score_));
   _internal_metadata_.Clear();
 }
 
@@ -283,24 +284,31 @@ const char* RankItem::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string name = 2;
+      // int32 rank = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          rank_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 score = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          score_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_name(), ptr, ctx, "RankProtocol.RankItem.name");
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string avatarurl = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+      // string avatarurl = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(_internal_mutable_avatarurl(), ptr, ctx, "RankProtocol.RankItem.avatarurl");
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 rank = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          rank_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -336,30 +344,36 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_role_id(), target);
   }
 
-  // string name = 2;
+  // int32 rank = 2;
+  if (this->rank() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_rank(), target);
+  }
+
+  // int32 score = 3;
+  if (this->score() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_score(), target);
+  }
+
+  // string name = 4;
   if (this->name().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "RankProtocol.RankItem.name");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_name(), target);
+        4, this->_internal_name(), target);
   }
 
-  // string avatarurl = 3;
+  // string avatarurl = 5;
   if (this->avatarurl().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_avatarurl().data(), static_cast<int>(this->_internal_avatarurl().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "RankProtocol.RankItem.avatarurl");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_avatarurl(), target);
-  }
-
-  // int32 rank = 4;
-  if (this->rank() != 0) {
-    stream->EnsureSpace(&target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_rank(), target);
+        5, this->_internal_avatarurl(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -378,14 +392,14 @@ size_t RankItem::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string name = 2;
+  // string name = 4;
   if (this->name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // string avatarurl = 3;
+  // string avatarurl = 5;
   if (this->avatarurl().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -399,11 +413,18 @@ size_t RankItem::ByteSizeLong() const {
         this->_internal_role_id());
   }
 
-  // int32 rank = 4;
+  // int32 rank = 2;
   if (this->rank() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_rank());
+  }
+
+  // int32 score = 3;
+  if (this->score() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_score());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -451,6 +472,9 @@ void RankItem::MergeFrom(const RankItem& from) {
   if (from.rank() != 0) {
     _internal_set_rank(from._internal_rank());
   }
+  if (from.score() != 0) {
+    _internal_set_score(from._internal_score());
+  }
 }
 
 void RankItem::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -480,6 +504,7 @@ void RankItem::InternalSwap(RankItem* other) {
     GetArenaNoVirtual());
   swap(role_id_, other->role_id_);
   swap(rank_, other->rank_);
+  swap(score_, other->score_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata RankItem::GetMetadata() const {
@@ -668,7 +693,7 @@ S2C_RankLoad::S2C_RankLoad()
 S2C_RankLoad::S2C_RankLoad(const S2C_RankLoad& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
-      rris_(from.rris_) {
+      ris_(from.ris_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from._internal_has_myself()) {
     myself_ = new ::RankProtocol::RankItem(*from.myself_);
@@ -710,7 +735,7 @@ void S2C_RankLoad::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  rris_.Clear();
+  ris_.Clear();
   if (GetArenaNoVirtual() == nullptr && myself_ != nullptr) {
     delete myself_;
   }
@@ -740,13 +765,13 @@ const char* S2C_RankLoad::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .RankProtocol.RankItem rris = 3;
+      // repeated .RankProtocol.RankItem ris = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_rris(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_ris(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
@@ -792,12 +817,12 @@ failure:
         2, _Internal::myself(this), target, stream);
   }
 
-  // repeated .RankProtocol.RankItem rris = 3;
+  // repeated .RankProtocol.RankItem ris = 3;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_rris_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->_internal_ris_size()); i < n; i++) {
     stream->EnsureSpace(&target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessageToArray(3, this->_internal_rris(i), target, stream);
+      InternalWriteMessageToArray(3, this->_internal_ris(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -816,9 +841,9 @@ size_t S2C_RankLoad::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .RankProtocol.RankItem rris = 3;
-  total_size += 1UL * this->_internal_rris_size();
-  for (const auto& msg : this->rris_) {
+  // repeated .RankProtocol.RankItem ris = 3;
+  total_size += 1UL * this->_internal_ris_size();
+  for (const auto& msg : this->ris_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -868,7 +893,7 @@ void S2C_RankLoad::MergeFrom(const S2C_RankLoad& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  rris_.MergeFrom(from.rris_);
+  ris_.MergeFrom(from.ris_);
   if (from.has_myself()) {
     _internal_mutable_myself()->::RankProtocol::RankItem::MergeFrom(from._internal_myself());
   }
@@ -898,7 +923,7 @@ bool S2C_RankLoad::IsInitialized() const {
 void S2C_RankLoad::InternalSwap(S2C_RankLoad* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  rris_.InternalSwap(&other->rris_);
+  ris_.InternalSwap(&other->ris_);
   swap(myself_, other->myself_);
   swap(ret_, other->ret_);
 }

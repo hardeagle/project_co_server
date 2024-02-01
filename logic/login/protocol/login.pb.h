@@ -47,7 +47,7 @@ struct TableStruct_login_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[11]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -67,6 +67,9 @@ extern C2S_LoginLoginDefaultTypeInternal _C2S_LoginLogin_default_instance_;
 class C2S_LoginOpenid;
 class C2S_LoginOpenidDefaultTypeInternal;
 extern C2S_LoginOpenidDefaultTypeInternal _C2S_LoginOpenid_default_instance_;
+class C2S_LoginUpdate;
+class C2S_LoginUpdateDefaultTypeInternal;
+extern C2S_LoginUpdateDefaultTypeInternal _C2S_LoginUpdate_default_instance_;
 class GameInfo;
 class GameInfoDefaultTypeInternal;
 extern GameInfoDefaultTypeInternal _GameInfo_default_instance_;
@@ -82,17 +85,22 @@ extern S2C_LoginLoginDefaultTypeInternal _S2C_LoginLogin_default_instance_;
 class S2C_LoginOpenid;
 class S2C_LoginOpenidDefaultTypeInternal;
 extern S2C_LoginOpenidDefaultTypeInternal _S2C_LoginOpenid_default_instance_;
+class S2C_LoginUpdate;
+class S2C_LoginUpdateDefaultTypeInternal;
+extern S2C_LoginUpdateDefaultTypeInternal _S2C_LoginUpdate_default_instance_;
 }  // namespace LoginProtocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::LoginProtocol::C2S_LoginCreate* Arena::CreateMaybeMessage<::LoginProtocol::C2S_LoginCreate>(Arena*);
 template<> ::LoginProtocol::C2S_LoginLoad* Arena::CreateMaybeMessage<::LoginProtocol::C2S_LoginLoad>(Arena*);
 template<> ::LoginProtocol::C2S_LoginLogin* Arena::CreateMaybeMessage<::LoginProtocol::C2S_LoginLogin>(Arena*);
 template<> ::LoginProtocol::C2S_LoginOpenid* Arena::CreateMaybeMessage<::LoginProtocol::C2S_LoginOpenid>(Arena*);
+template<> ::LoginProtocol::C2S_LoginUpdate* Arena::CreateMaybeMessage<::LoginProtocol::C2S_LoginUpdate>(Arena*);
 template<> ::LoginProtocol::GameInfo* Arena::CreateMaybeMessage<::LoginProtocol::GameInfo>(Arena*);
 template<> ::LoginProtocol::S2C_LoginCreate* Arena::CreateMaybeMessage<::LoginProtocol::S2C_LoginCreate>(Arena*);
 template<> ::LoginProtocol::S2C_LoginLoad* Arena::CreateMaybeMessage<::LoginProtocol::S2C_LoginLoad>(Arena*);
 template<> ::LoginProtocol::S2C_LoginLogin* Arena::CreateMaybeMessage<::LoginProtocol::S2C_LoginLogin>(Arena*);
 template<> ::LoginProtocol::S2C_LoginOpenid* Arena::CreateMaybeMessage<::LoginProtocol::S2C_LoginOpenid>(Arena*);
+template<> ::LoginProtocol::S2C_LoginUpdate* Arena::CreateMaybeMessage<::LoginProtocol::S2C_LoginUpdate>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace LoginProtocol {
 
@@ -1439,6 +1447,287 @@ class S2C_LoginOpenid :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C2S_LoginUpdate :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LoginProtocol.C2S_LoginUpdate) */ {
+ public:
+  C2S_LoginUpdate();
+  virtual ~C2S_LoginUpdate();
+
+  C2S_LoginUpdate(const C2S_LoginUpdate& from);
+  C2S_LoginUpdate(C2S_LoginUpdate&& from) noexcept
+    : C2S_LoginUpdate() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_LoginUpdate& operator=(const C2S_LoginUpdate& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_LoginUpdate& operator=(C2S_LoginUpdate&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const C2S_LoginUpdate& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const C2S_LoginUpdate* internal_default_instance() {
+    return reinterpret_cast<const C2S_LoginUpdate*>(
+               &_C2S_LoginUpdate_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(C2S_LoginUpdate& a, C2S_LoginUpdate& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_LoginUpdate* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C2S_LoginUpdate* New() const final {
+    return CreateMaybeMessage<C2S_LoginUpdate>(nullptr);
+  }
+
+  C2S_LoginUpdate* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C2S_LoginUpdate>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C2S_LoginUpdate& from);
+  void MergeFrom(const C2S_LoginUpdate& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_LoginUpdate* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "LoginProtocol.C2S_LoginUpdate";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_login_2eproto);
+    return ::descriptor_table_login_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRoleNameFieldNumber = 1,
+    kAvatarurlFieldNumber = 2,
+  };
+  // string role_name = 1;
+  void clear_role_name();
+  const std::string& role_name() const;
+  void set_role_name(const std::string& value);
+  void set_role_name(std::string&& value);
+  void set_role_name(const char* value);
+  void set_role_name(const char* value, size_t size);
+  std::string* mutable_role_name();
+  std::string* release_role_name();
+  void set_allocated_role_name(std::string* role_name);
+  private:
+  const std::string& _internal_role_name() const;
+  void _internal_set_role_name(const std::string& value);
+  std::string* _internal_mutable_role_name();
+  public:
+
+  // string avatarurl = 2;
+  void clear_avatarurl();
+  const std::string& avatarurl() const;
+  void set_avatarurl(const std::string& value);
+  void set_avatarurl(std::string&& value);
+  void set_avatarurl(const char* value);
+  void set_avatarurl(const char* value, size_t size);
+  std::string* mutable_avatarurl();
+  std::string* release_avatarurl();
+  void set_allocated_avatarurl(std::string* avatarurl);
+  private:
+  const std::string& _internal_avatarurl() const;
+  void _internal_set_avatarurl(const std::string& value);
+  std::string* _internal_mutable_avatarurl();
+  public:
+
+  // @@protoc_insertion_point(class_scope:LoginProtocol.C2S_LoginUpdate)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr role_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatarurl_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_login_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_LoginUpdate :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LoginProtocol.S2C_LoginUpdate) */ {
+ public:
+  S2C_LoginUpdate();
+  virtual ~S2C_LoginUpdate();
+
+  S2C_LoginUpdate(const S2C_LoginUpdate& from);
+  S2C_LoginUpdate(S2C_LoginUpdate&& from) noexcept
+    : S2C_LoginUpdate() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_LoginUpdate& operator=(const S2C_LoginUpdate& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_LoginUpdate& operator=(S2C_LoginUpdate&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const S2C_LoginUpdate& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2C_LoginUpdate* internal_default_instance() {
+    return reinterpret_cast<const S2C_LoginUpdate*>(
+               &_S2C_LoginUpdate_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(S2C_LoginUpdate& a, S2C_LoginUpdate& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_LoginUpdate* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2C_LoginUpdate* New() const final {
+    return CreateMaybeMessage<S2C_LoginUpdate>(nullptr);
+  }
+
+  S2C_LoginUpdate* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S2C_LoginUpdate>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S2C_LoginUpdate& from);
+  void MergeFrom(const S2C_LoginUpdate& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_LoginUpdate* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "LoginProtocol.S2C_LoginUpdate";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_login_2eproto);
+    return ::descriptor_table_login_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRetFieldNumber = 1,
+  };
+  // int32 ret = 1;
+  void clear_ret();
+  ::PROTOBUF_NAMESPACE_ID::int32 ret() const;
+  void set_ret(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_ret() const;
+  void _internal_set_ret(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:LoginProtocol.S2C_LoginUpdate)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::int32 ret_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_login_2eproto;
+};
 // ===================================================================
 
 
@@ -2282,9 +2571,161 @@ inline void S2C_LoginOpenid::set_allocated_openid(std::string* openid) {
   // @@protoc_insertion_point(field_set_allocated:LoginProtocol.S2C_LoginOpenid.openid)
 }
 
+// -------------------------------------------------------------------
+
+// C2S_LoginUpdate
+
+// string role_name = 1;
+inline void C2S_LoginUpdate::clear_role_name() {
+  role_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& C2S_LoginUpdate::role_name() const {
+  // @@protoc_insertion_point(field_get:LoginProtocol.C2S_LoginUpdate.role_name)
+  return _internal_role_name();
+}
+inline void C2S_LoginUpdate::set_role_name(const std::string& value) {
+  _internal_set_role_name(value);
+  // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginUpdate.role_name)
+}
+inline std::string* C2S_LoginUpdate::mutable_role_name() {
+  // @@protoc_insertion_point(field_mutable:LoginProtocol.C2S_LoginUpdate.role_name)
+  return _internal_mutable_role_name();
+}
+inline const std::string& C2S_LoginUpdate::_internal_role_name() const {
+  return role_name_.GetNoArena();
+}
+inline void C2S_LoginUpdate::_internal_set_role_name(const std::string& value) {
+  
+  role_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void C2S_LoginUpdate::set_role_name(std::string&& value) {
+  
+  role_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LoginProtocol.C2S_LoginUpdate.role_name)
+}
+inline void C2S_LoginUpdate::set_role_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  role_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginUpdate.role_name)
+}
+inline void C2S_LoginUpdate::set_role_name(const char* value, size_t size) {
+  
+  role_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LoginProtocol.C2S_LoginUpdate.role_name)
+}
+inline std::string* C2S_LoginUpdate::_internal_mutable_role_name() {
+  
+  return role_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* C2S_LoginUpdate::release_role_name() {
+  // @@protoc_insertion_point(field_release:LoginProtocol.C2S_LoginUpdate.role_name)
+  
+  return role_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void C2S_LoginUpdate::set_allocated_role_name(std::string* role_name) {
+  if (role_name != nullptr) {
+    
+  } else {
+    
+  }
+  role_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), role_name);
+  // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginUpdate.role_name)
+}
+
+// string avatarurl = 2;
+inline void C2S_LoginUpdate::clear_avatarurl() {
+  avatarurl_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& C2S_LoginUpdate::avatarurl() const {
+  // @@protoc_insertion_point(field_get:LoginProtocol.C2S_LoginUpdate.avatarurl)
+  return _internal_avatarurl();
+}
+inline void C2S_LoginUpdate::set_avatarurl(const std::string& value) {
+  _internal_set_avatarurl(value);
+  // @@protoc_insertion_point(field_set:LoginProtocol.C2S_LoginUpdate.avatarurl)
+}
+inline std::string* C2S_LoginUpdate::mutable_avatarurl() {
+  // @@protoc_insertion_point(field_mutable:LoginProtocol.C2S_LoginUpdate.avatarurl)
+  return _internal_mutable_avatarurl();
+}
+inline const std::string& C2S_LoginUpdate::_internal_avatarurl() const {
+  return avatarurl_.GetNoArena();
+}
+inline void C2S_LoginUpdate::_internal_set_avatarurl(const std::string& value) {
+  
+  avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void C2S_LoginUpdate::set_avatarurl(std::string&& value) {
+  
+  avatarurl_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:LoginProtocol.C2S_LoginUpdate.avatarurl)
+}
+inline void C2S_LoginUpdate::set_avatarurl(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:LoginProtocol.C2S_LoginUpdate.avatarurl)
+}
+inline void C2S_LoginUpdate::set_avatarurl(const char* value, size_t size) {
+  
+  avatarurl_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:LoginProtocol.C2S_LoginUpdate.avatarurl)
+}
+inline std::string* C2S_LoginUpdate::_internal_mutable_avatarurl() {
+  
+  return avatarurl_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* C2S_LoginUpdate::release_avatarurl() {
+  // @@protoc_insertion_point(field_release:LoginProtocol.C2S_LoginUpdate.avatarurl)
+  
+  return avatarurl_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void C2S_LoginUpdate::set_allocated_avatarurl(std::string* avatarurl) {
+  if (avatarurl != nullptr) {
+    
+  } else {
+    
+  }
+  avatarurl_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), avatarurl);
+  // @@protoc_insertion_point(field_set_allocated:LoginProtocol.C2S_LoginUpdate.avatarurl)
+}
+
+// -------------------------------------------------------------------
+
+// S2C_LoginUpdate
+
+// int32 ret = 1;
+inline void S2C_LoginUpdate::clear_ret() {
+  ret_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_LoginUpdate::_internal_ret() const {
+  return ret_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_LoginUpdate::ret() const {
+  // @@protoc_insertion_point(field_get:LoginProtocol.S2C_LoginUpdate.ret)
+  return _internal_ret();
+}
+inline void S2C_LoginUpdate::_internal_set_ret(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  ret_ = value;
+}
+inline void S2C_LoginUpdate::set_ret(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_ret(value);
+  // @@protoc_insertion_point(field_set:LoginProtocol.S2C_LoginUpdate.ret)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

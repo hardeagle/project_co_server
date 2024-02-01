@@ -50,3 +50,12 @@ message S2C_LoginOpenid {
     int32 ret = 1;
     string openid = 2;
 }
+
+message C2S_LoginUpdate {
+    string role_name = 1;
+    string avatarurl = 2;
+}
+
+message S2C_LoginUpdate {
+    int32 ret = 1;
+}
