@@ -42,26 +42,30 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     do {
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(msg.roleId()));
         auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(RankZsetKey(gameid), 0, 100);
-        std::set<uint64_t> ids;
+        std::set<std::string> keys;
         for (auto [id, score] : scores) {
             LOG(INFO) << "rank data id " << id << " score " << score;
-            ids.insert(id);
+            keys.insert(BaseRoleInfoSetKey(id));
         }
-        auto roles = ServerResource::get()->redisMgr()->mget<std::string>(ids);
+        auto roles = ServerResource::get()->redisMgr()->mget<std::string>(keys);
         for (auto& role : roles) {
             PublicProtocol::BaseRoleInfo bri;
-            bri.ParseFromString(role);
+            if (!bri.ParseFromString(role)) {
+                LOG(WARNING) << "parseFromeString fail";
+                continue;
+            }
 
             auto rri = resp.add_rris();
             rri->set_role_id(bri.role_id());
             rri->set_name(bri.name());
             rri->set_avatarurl(bri.avatarurl());
             rri->set_rank(scores[bri.role_id()]);   // ?
+            LOG(INFO) << "rri " << rri->DebugString();
         }
     } while(false);
 
     session->send(std::move(covertRspMsg(msg, resp)));
-    LOG(ERROR) << "doLoad end...";
+    LOG(ERROR) << "doLoad end... resp " << resp.DebugString();
     return true;
 }
 
