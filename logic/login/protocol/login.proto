@@ -22,7 +22,7 @@ message S2C_LoginLogin {
 }
 
 message C2S_LoginCreate {
-    string gameid = 1;
+    int32 gameid = 1;
     string loginname = 2;
     string role_name = 3;
     string avatarurl = 4;

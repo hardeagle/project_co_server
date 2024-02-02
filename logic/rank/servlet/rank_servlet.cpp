@@ -65,9 +65,10 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             LOG(INFO) << "ri " << ri->DebugString();
         }
     } while(false);
+    LOG(INFO) << "resp " << resp.DebugString();
 
     session->send(std::move(covertRspMsg(msg, resp)));
-    LOG(ERROR) << "doLoad end... resp " << resp.DebugString();
+    LOG(ERROR) << "doLoad end...";
     return true;
 }
 

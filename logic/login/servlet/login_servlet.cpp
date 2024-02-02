@@ -74,6 +74,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
+    LOG(INFO) << "req " << req.DebugString();
 
     LoginProtocol::S2C_LoginCreate resp;
     do {
