@@ -219,7 +219,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         bri.set_avatarurl(req.avatarurl());
         std::string serial;
         bri.SerializeToString(&serial);
-        ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(role_id), serial);
+        ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(roleid), serial);
     } while(false);
 
     session->send(std::move(covertRspMsg(msg, resp)));

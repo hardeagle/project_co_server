@@ -40,8 +40,10 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     }
     RankProtocol::S2C_RankLoad resp;
     do {
-        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(msg.roleId()));
-        auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(RankZsetKey(gameid), 0, 100);
+        auto roleid = msg.roleId();
+        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
+        auto rankkey = RankZsetKey(gameid, req.subtype());
+        auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(rankkey, 0, 100);
         std::set<std::string> keys;
         for (auto [id, score] : scores) {
             LOG(INFO) << "rank data id " << id << " score " << score;
@@ -63,6 +65,14 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             ri->set_avatarurl(bri.avatarurl());
             ri->set_score(scores[bri.role_id()]);   // ?
             LOG(INFO) << "ri " << ri->DebugString();
+        }
+
+        {
+            auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
+            auto score = ServerResource::get()->redisMgr()->zscore(rankkey, roleid);
+            auto myself = resp.mutable_myself();
+            myself->set_rank(rank + 1);
+            myself->set_score(score);
         }
     } while(false);
     LOG(INFO) << "resp " << resp.DebugString();
@@ -86,7 +96,10 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
     do {
         auto roleid = msg.roleId();
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
-        ServerResource::get()->redisMgr()->zadd(RankZsetKey(gameid), req.score(), roleid);
+        auto score = ServerResource::get()->redisMgr()->zscore(RankZsetKey(gameid, req.subtype()), roleid);
+        if (req.score() > score) {
+            ServerResource::get()->redisMgr()->zadd(RankZsetKey(gameid, req.subtype()), req.score(), roleid);
+        }
     } while(false);
 
     LOG(INFO) << "resp " << resp.DebugString();

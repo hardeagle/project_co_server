@@ -373,11 +373,24 @@ class C2S_RankLoad :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kSubtypeFieldNumber = 1,
+  };
+  // int32 subtype = 1;
+  void clear_subtype();
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype() const;
+  void set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_subtype() const;
+  void _internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:RankProtocol.C2S_RankLoad)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_rank_2eproto;
 };
@@ -654,9 +667,19 @@ class C2S_RankUpdate :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kScoreFieldNumber = 1,
+    kSubtypeFieldNumber = 1,
+    kScoreFieldNumber = 2,
   };
-  // int32 score = 1;
+  // int32 subtype = 1;
+  void clear_subtype();
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype() const;
+  void set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_subtype() const;
+  void _internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 score = 2;
   void clear_score();
   ::PROTOBUF_NAMESPACE_ID::int32 score() const;
   void set_score(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -670,6 +693,7 @@ class C2S_RankUpdate :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype_;
   ::PROTOBUF_NAMESPACE_ID::int32 score_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_rank_2eproto;
@@ -997,6 +1021,26 @@ inline void RankItem::set_allocated_avatarurl(std::string* avatarurl) {
 
 // C2S_RankLoad
 
+// int32 subtype = 1;
+inline void C2S_RankLoad::clear_subtype() {
+  subtype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_RankLoad::_internal_subtype() const {
+  return subtype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_RankLoad::subtype() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.C2S_RankLoad.subtype)
+  return _internal_subtype();
+}
+inline void C2S_RankLoad::_internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  subtype_ = value;
+}
+inline void C2S_RankLoad::set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_subtype(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.C2S_RankLoad.subtype)
+}
+
 // -------------------------------------------------------------------
 
 // S2C_RankLoad
@@ -1124,7 +1168,27 @@ S2C_RankLoad::ris() const {
 
 // C2S_RankUpdate
 
-// int32 score = 1;
+// int32 subtype = 1;
+inline void C2S_RankUpdate::clear_subtype() {
+  subtype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_RankUpdate::_internal_subtype() const {
+  return subtype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C2S_RankUpdate::subtype() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.C2S_RankUpdate.subtype)
+  return _internal_subtype();
+}
+inline void C2S_RankUpdate::_internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  subtype_ = value;
+}
+inline void C2S_RankUpdate::set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_subtype(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.C2S_RankUpdate.subtype)
+}
+
+// int32 score = 2;
 inline void C2S_RankUpdate::clear_score() {
   score_ = 0;
 }

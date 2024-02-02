@@ -11,6 +11,6 @@ std::string BaseRoleInfoSetKey(uint64_t id);
 
 std::string RoleIdToGameIdSetKey(uint64_t id);
 
-std::string RankZsetKey(uint32_t gameid);
+std::string RankZsetKey(uint32_t gameid, uint32_t subtype);
 
 #endif

@@ -26,8 +26,10 @@ std::string RoleIdToGameIdSetKey(uint64_t id) {
     return key;
 }
 
-std::string RankZsetKey(uint32_t id) {
+std::string RankZsetKey(uint32_t id, uint32_t subtype) {
     std::string key = PREFIX + "game_zset_";
     key += std::to_string(id);
+    key += "_";
+    key += std::to_string(subtype);
     return key;
 }

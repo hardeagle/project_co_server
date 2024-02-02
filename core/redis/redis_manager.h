@@ -299,11 +299,11 @@ public:
             LOG(ERROR) << "get fail";
             return 0;
         }
-        return rc->exec("zscore", key, member).get();
+        return rc->exec("zscore", key, member).template get<uint32_t>();
     }
 
-    template<typename T>
-    T zrevrank(const std::string& key, T& member) {
+    template<typename T, typename U>
+    T zrevrank(const std::string& key, U& member) {
         auto rc = get();
         if (!rc) {
             LOG(ERROR) << "get fail";
