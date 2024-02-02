@@ -33,9 +33,13 @@ GateServer::GateServer()
 
 GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
     auto it = m_gpSessions.find(type);
-    if (it != m_gpSessions.end()) {
-        return it->second.begin()->second;
+    if (it == m_gpSessions.end()) {
+        return nullptr;
     }
+    if (it->second.size() == 0) {
+        return nullptr;
+    }
+    return it->second.begin()->second;
 
     // 断线重连
     // auto servers = m_agent.services();
@@ -52,7 +56,6 @@ GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
     //         return gps;
     //     }
     // }
-    return nullptr;
 }
 
 GateSession::ptr GateServer::getSession(uint64_t id) {
@@ -207,8 +210,9 @@ void GateServer::discoverServer() {
             LOG(INFO) << "onMessage " << msg.strInfo();
             s->send(std::move(msg));
         });
-        gps->setOnClose([&, st, id](uint64_t) {
-            m_gpSessions[st].erase(id);
+        gps->setOnClose([&, st, sid = si.id](uint64_t) {
+            LOG(INFO) << "onClose st " << st << " sid " << sid << " size " << m_gpSessions[st].size();
+            m_gpSessions[st].erase(sid);
         });
         gps->run();
         m_gpSessions[st][si.id] = gps;
