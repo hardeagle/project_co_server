@@ -204,16 +204,9 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
-
+    
     LoginProtocol::S2C_LoginUpdate resp;
     do {
-        auto role_id = ServerResource::get()->idMgr()->generateId();
-        if (role_id <= 0) {
-            LOG(ERROR) << "general id fail, role id " << role_id;
-            resp.set_ret(EC_LOGIN::GENERATE_ID_FAIL);
-            break;
-        }
-
         auto roleid = msg.roleId();
         auto val = ServerResource::get()->redisMgr()->get<std::string>(BaseRoleInfoSetKey(roleid));
         PublicProtocol::BaseRoleInfo bri;
@@ -222,7 +215,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             resp.set_ret(EC_LOGIN::PARSE_FROM_STRING_FAIL);
             break;
         }
-        bri.set_name(req.role_name());
+                bri.set_name(req.role_name());
         bri.set_avatarurl(req.avatarurl());
         std::string serial;
         bri.SerializeToString(&serial);
