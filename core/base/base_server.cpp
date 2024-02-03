@@ -199,4 +199,9 @@ void BaseServer::discoverServer() {
     // });
 }
 
+std::shared_ptr<co::CoTimer> BaseServer::timerMgr() { 
+    return m_workRoutineMgr->timerMgr();
+}
+
+
 }

@@ -46,6 +46,8 @@ public:
 
     virtual void beforeRun() {}
 
+    std::shared_ptr<co::CoTimer> timerMgr();
+
     std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 
     std::shared_ptr<ServletDispatchRange> servlet() { return m_servlet; }
@@ -68,8 +70,6 @@ private:
     ppconsul::Consul m_consul;
     ppconsul::agent::Agent m_agent;
     ppconsul::kv::Kv m_kv;
-
-    co_timer m_timer;
 
     std::shared_ptr<RpcManager> m_rpcManager;
 

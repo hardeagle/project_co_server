@@ -47,10 +47,13 @@ public:
 
     void dispatch(std::shared_ptr<Session> session, Message&& msg);
 
+    std::shared_ptr<co::CoTimer> timerMgr() { return m_timer; }
+
 private:
     std::shared_ptr<ServletDispatchRange> m_servlet;
 
     co::Scheduler* m_scheduler;
+    std::shared_ptr<co::CoTimer> m_timer;
     std::unordered_map<uint32_t, WorkRoutine::ptr> m_wrs;
 };
 

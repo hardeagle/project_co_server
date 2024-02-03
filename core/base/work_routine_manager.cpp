@@ -42,10 +42,10 @@ void WorkRoutine::run() {
     }
 }
 
-
 WorkRoutineManager::WorkRoutineManager(std::shared_ptr<ServletDispatchRange> servlet)
     : m_servlet(servlet) {
     m_scheduler = co::Scheduler::Create();
+    m_timer = std::make_shared<co::CoTimer>(std::chrono::milliseconds(1), m_scheduler);
 }
 
 void WorkRoutineManager::run() {
