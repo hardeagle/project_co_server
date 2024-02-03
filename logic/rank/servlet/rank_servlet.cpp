@@ -92,6 +92,7 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
+    LOG(INFO) << "doUpdate req " << req.DebugString() << " subtype " << req.subtype() << " score " << req.score();
 
     RankProtocol::S2C_RankUpdate resp;
     do {

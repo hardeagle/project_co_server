@@ -215,7 +215,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
             resp.set_ret(EC_LOGIN::PARSE_FROM_STRING_FAIL);
             break;
         }
-                bri.set_name(req.role_name());
+        bri.set_name(req.role_name());
         bri.set_avatarurl(req.avatarurl());
         std::string serial;
         bri.SerializeToString(&serial);
