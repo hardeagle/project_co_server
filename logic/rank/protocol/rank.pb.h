@@ -502,11 +502,12 @@ class S2C_RankLoad :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRisFieldNumber = 3,
-    kMyselfFieldNumber = 2,
+    kRisFieldNumber = 4,
+    kMyselfFieldNumber = 3,
     kRetFieldNumber = 1,
+    kSubtypeFieldNumber = 2,
   };
-  // repeated .RankProtocol.RankItem ris = 3;
+  // repeated .RankProtocol.RankItem ris = 4;
   int ris_size() const;
   private:
   int _internal_ris_size() const;
@@ -524,7 +525,7 @@ class S2C_RankLoad :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
       ris() const;
 
-  // .RankProtocol.RankItem myself = 2;
+  // .RankProtocol.RankItem myself = 3;
   bool has_myself() const;
   private:
   bool _internal_has_myself() const;
@@ -548,6 +549,15 @@ class S2C_RankLoad :
   void _internal_set_ret(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 subtype = 2;
+  void clear_subtype();
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype() const;
+  void set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_subtype() const;
+  void _internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:RankProtocol.S2C_RankLoad)
  private:
   class _Internal;
@@ -556,6 +566,7 @@ class S2C_RankLoad :
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem > ris_;
   ::RankProtocol::RankItem* myself_;
   ::PROTOBUF_NAMESPACE_ID::int32 ret_;
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_rank_2eproto;
 };
@@ -1065,7 +1076,27 @@ inline void S2C_RankLoad::set_ret(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:RankProtocol.S2C_RankLoad.ret)
 }
 
-// .RankProtocol.RankItem myself = 2;
+// int32 subtype = 2;
+inline void S2C_RankLoad::clear_subtype() {
+  subtype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_RankLoad::_internal_subtype() const {
+  return subtype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_RankLoad::subtype() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankLoad.subtype)
+  return _internal_subtype();
+}
+inline void S2C_RankLoad::_internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  subtype_ = value;
+}
+inline void S2C_RankLoad::set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_subtype(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.S2C_RankLoad.subtype)
+}
+
+// .RankProtocol.RankItem myself = 3;
 inline bool S2C_RankLoad::_internal_has_myself() const {
   return this != internal_default_instance() && myself_ != nullptr;
 }
@@ -1125,7 +1156,7 @@ inline void S2C_RankLoad::set_allocated_myself(::RankProtocol::RankItem* myself)
   // @@protoc_insertion_point(field_set_allocated:RankProtocol.S2C_RankLoad.myself)
 }
 
-// repeated .RankProtocol.RankItem ris = 3;
+// repeated .RankProtocol.RankItem ris = 4;
 inline int S2C_RankLoad::_internal_ris_size() const {
   return ris_.size();
 }

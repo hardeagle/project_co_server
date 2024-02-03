@@ -40,6 +40,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     }
     RankProtocol::S2C_RankLoad resp;
     do {
+        resp.set_subtype(req.subtype());
         auto roleid = msg.roleId();
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
         auto rankkey = RankZsetKey(gameid, req.subtype());

@@ -16,8 +16,9 @@ message C2S_RankLoad {
 
 message S2C_RankLoad {
     int32 ret = 1;
-    RankItem myself = 2;
-    repeated RankItem ris = 3;
+    int32 subtype = 2;
+    RankItem myself = 3;
+    repeated RankItem ris = 4;
 }
 
 message C2S_RankUpdate {
