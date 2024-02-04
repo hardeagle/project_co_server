@@ -46,7 +46,7 @@ public:
 
     virtual void beforeRun() {}
 
-    std::shared_ptr<co::CoTimer> timerMgr();
+    std::shared_ptr<co::CoTimer> timer();
 
     std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 

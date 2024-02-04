@@ -47,7 +47,7 @@ public:
 
     void dispatch(std::shared_ptr<Session> session, Message&& msg);
 
-    std::shared_ptr<co::CoTimer> timerMgr() { return m_timer; }
+    std::shared_ptr<co::CoTimer> timer() { return m_timer; }
 
 private:
     std::shared_ptr<ServletDispatchRange> m_servlet;

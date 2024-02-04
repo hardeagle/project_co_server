@@ -11,7 +11,7 @@
 void RankServer::beforeRun() {
     initByConfig("./json/login_server.json");
 
-    ServerResource::get()->init(timerMgr());
+    ServerResource::get()->init(timer());
 
     initServlet();
 }
