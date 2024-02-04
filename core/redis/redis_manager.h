@@ -363,6 +363,16 @@ public:
         return rc->exec("hgetall", key).template get<K, V>();
     }
 
+    template<typename T>
+    void del(std::set<T>& keys) {
+        auto rc = get();
+        if (!rc) {
+            LOG(ERROR) << "get fail";
+            return;
+        }
+        rc->exec<T>("del", keys);
+    }
+
 private:
     RedisConnection::ptr get() {
         return m_pool.Get();
