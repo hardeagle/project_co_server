@@ -1,5 +1,5 @@
 {
-    "logtostderr": 1,
+    "logtostderr": 0,
     "alsologtostderr": 1,
     "colorlogtostderr": 1,
     "log_prefix": 1,
