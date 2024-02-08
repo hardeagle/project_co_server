@@ -16,3 +16,4 @@ bin/rank_server
 bin/test
 bin/core.
 bin/log/
+bin/nohup.out

@@ -28,7 +28,7 @@ void RankServer::initServlet() {
 }
 
 void RankServer::initTimer() {
-    ServerResource::get()->timerMgr()->addDailyTimer(0, 0, 0, [] {
+    ServerResource::get()->timerMgr()->addDailyTimer(23, 59, 59, [] {
         std::set<std::string> keys;
         auto results = ServerResource::get()->redisMgr()->hgetall<int32_t, std::string>("pcs_game_info_hash");
         for (auto [key, val] : results) {
