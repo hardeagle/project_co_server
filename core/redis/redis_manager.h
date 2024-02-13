@@ -120,6 +120,36 @@ public:
         return {};
     }
 
+    template<typename K, typename V, bool>
+    std::unordered_map<K, V> get() {
+        try {
+            if (!checkReply(m_reply)) {
+                LOG(ERROR) << "reply error";
+                return {};
+            }
+            if (m_reply->type == REDIS_REPLY_NIL) {
+                return {};
+            }
+            if (m_reply->type != REDIS_REPLY_ARRAY) {
+                return {};
+            }
+            if ((m_reply->elements & 0x1) != 0) {
+                return {};
+            }
+            std::unordered_map<K, V> vals;
+            for (size_t i = 0; i < m_reply->elements; i += 2) {
+                K key = boost::lexical_cast<K>(std::string(m_reply->element[i]->str, m_reply->element[i]->len));
+                V val = boost::lexical_cast<V>(std::string(m_reply->element[i + 1]->str, m_reply->element[i + 1]->len));
+                vals[key] = val;
+            }
+            return vals;
+        } catch(...) {
+            LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
+            return {};
+        }
+        return {};
+    }
+
 private:
     bool checkReply(redisReply* reply) {
         if (!reply) {
@@ -313,13 +343,13 @@ public:
     }
 
     template<typename K, typename V>
-    std::map<K, V> zrevrange(const std::string& key, int start, int stop) {
+    std::unordered_map<K, V> zrevrange(const std::string& key, int start, int stop) {
         auto rc = get();
         if (!rc) {
             LOG(ERROR) << "get fail";
             return {};
         }
-        return rc->exec("zrevrange", key, start, stop, "withscores").template get<K, V>();
+        return rc->exec("zrevrange", key, start, stop, "withscores").template get<K, V, true>();
     }
 
     // hash-----------------------------------------------------------------------------------

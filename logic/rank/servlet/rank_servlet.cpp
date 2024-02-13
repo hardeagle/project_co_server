@@ -1,5 +1,7 @@
 #include "rank_servlet.h"
 
+#include <memory>
+
 #include <json/json.h>
 
 #include "log/glog.h"
@@ -51,20 +53,29 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             keys.insert(BaseRoleInfoSetKey(id));
         }
         auto index = 0;
+        std::map<uint64_t, std::shared_ptr<PublicProtocol::BaseRoleInfo>> bris;
         auto roles = ServerResource::get()->redisMgr()->mget<std::string>(keys);
         for (auto& role : roles) {
-            PublicProtocol::BaseRoleInfo bri;
-            if (!bri.ParseFromString(role)) {
+            auto bri = std::make_shared<PublicProtocol::BaseRoleInfo>();
+            if (!bri->ParseFromString(role)) {
                 LOG(WARNING) << "parseFromeString fail";
                 continue;
             }
+            bris[bri->role_id()] = bri;
+        }
 
+        for (auto [id, score]: scores) {
+            auto bri = bris[id];
+            if (!bri) {
+                LOG(WARNING) << "Invalid id " << id;
+                continue;
+            }
             auto ri = resp.add_ris();
-            ri->set_role_id(bri.role_id());
+            ri->set_role_id(bri->role_id());
             ri->set_rank(++index);
-            ri->set_name(bri.name());
-            ri->set_avatarurl(bri.avatarurl());
-            ri->set_score(scores[bri.role_id()]);   // ?
+            ri->set_name(bri->name());
+            ri->set_avatarurl(bri->avatarurl());
+            ri->set_score(scores[bri->role_id()]);   // ?
             LOG(INFO) << "ri " << ri->DebugString();
         }
 

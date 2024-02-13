@@ -44,14 +44,14 @@ public:
     Message(const Message& other) noexcept {
         m_data = other.m_data;
         m_capacity = other.m_capacity;
-        LOG(ERROR) << "copy";
+        // LOG(ERROR) << "copy";
     }
 
     Message& operator=(const Message& other) noexcept {
         if (this != std::addressof(other)) {
             m_data = other.m_data;
             m_capacity = other.m_capacity;
-            LOG(ERROR) << "assign";
+            // LOG(ERROR) << "assign";
         }
         return *this;
     }
