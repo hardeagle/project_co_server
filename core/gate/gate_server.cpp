@@ -125,6 +125,7 @@ void GateServer::run() {
             });
             gs->setOnClose([&](uint64_t id) {
                 m_wsSessions.erase(id);
+                m_sessionIdToRoleIds.erase(id);
             });
             m_wsSessions[gs->id()] = gs;
             gs->start();

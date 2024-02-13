@@ -48,9 +48,9 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
         auto rankkey = RankZsetKey(gameid, req.subtype());
         auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(rankkey, 0, 100);
         std::set<std::string> keys;
-        for (auto [id, score] : scores) {
-            LOG(INFO) << "rank data id " << id << " score " << score;
-            keys.insert(BaseRoleInfoSetKey(id));
+        for (const auto& val : scores) {
+            LOG(INFO) << "rank data id " << val.first << " score " << val.second;
+            keys.insert(BaseRoleInfoSetKey(val.first));
         }
         auto index = 0;
         std::map<uint64_t, std::shared_ptr<PublicProtocol::BaseRoleInfo>> bris;
@@ -64,10 +64,10 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             bris[bri->role_id()] = bri;
         }
 
-        for (auto [id, score]: scores) {
-            auto bri = bris[id];
+        for (const auto& val: scores) {
+            auto bri = bris[val.first];
             if (!bri) {
-                LOG(WARNING) << "Invalid id " << id;
+                LOG(WARNING) << "Invalid id " << val.first;
                 continue;
             }
             auto ri = resp.add_ris();
@@ -75,7 +75,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             ri->set_rank(++index);
             ri->set_name(bri->name());
             ri->set_avatarurl(bri->avatarurl());
-            ri->set_score(scores[bri->role_id()]);   // ?
+            ri->set_score(val.second);   // ?
             LOG(INFO) << "ri " << ri->DebugString();
         }
 

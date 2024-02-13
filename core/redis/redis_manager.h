@@ -121,7 +121,7 @@ public:
     }
 
     template<typename K, typename V, bool>
-    std::unordered_map<K, V> get() {
+    std::list<std::pair<K, V>> get() {
         try {
             if (!checkReply(m_reply)) {
                 LOG(ERROR) << "reply error";
@@ -136,11 +136,11 @@ public:
             if ((m_reply->elements & 0x1) != 0) {
                 return {};
             }
-            std::unordered_map<K, V> vals;
+            std::list<std::pair<K, V>> vals;
             for (size_t i = 0; i < m_reply->elements; i += 2) {
                 K key = boost::lexical_cast<K>(std::string(m_reply->element[i]->str, m_reply->element[i]->len));
                 V val = boost::lexical_cast<V>(std::string(m_reply->element[i + 1]->str, m_reply->element[i + 1]->len));
-                vals[key] = val;
+                vals.push_back(std::make_pair(key,val));
             }
             return vals;
         } catch(...) {
@@ -343,7 +343,7 @@ public:
     }
 
     template<typename K, typename V>
-    std::unordered_map<K, V> zrevrange(const std::string& key, int start, int stop) {
+    std::list<std::pair<K, V>> zrevrange(const std::string& key, int start, int stop) {
         auto rc = get();
         if (!rc) {
             LOG(ERROR) << "get fail";
