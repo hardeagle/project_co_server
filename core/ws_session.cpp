@@ -75,7 +75,6 @@ void WsSession::sync_read() {
 		}
 
 		icount++;
-		LOG(WARNING) << "---rlen " << rlen << " index " << index;
 		rlen += index;
 		index = 0;
 		while (index < rlen) {
@@ -89,7 +88,6 @@ void WsSession::sync_read() {
 			}
 
 			auto size = len + pos;
-			LOG(WARNING) << "size " << size;
             Message msg(size - Message::HEAD_LEN);
             memcpy(msg.data(), &datas[0], size);
 			//msg.write(&datas[0], size);
@@ -99,9 +97,9 @@ void WsSession::sync_read() {
             }
 
 			index = index + len + pos;
-			LOG(WARNING) << "loop, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount << " datas " << datas;
+			// LOG(WARNING) << "loop, wsft " << wsft << " len " << len << " pos " << pos << " rlen " << rlen << " index " << index << " count " << count++ << " icount " << icount << " datas " << datas;
 		}
-		LOG(WARNING) << "once read, len " << rlen << " index " << index;
+		// LOG(WARNING) << "once read, len " << rlen << " index " << index;
 	}
 }
 

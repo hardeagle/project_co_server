@@ -28,7 +28,7 @@ GateServer::GateServer()
     , m_kv(m_consul)
     , m_timer(std::chrono::milliseconds(1), &co_sched) {
     auto ip = getIP();
-    LOG(ERROR) << "ip " << ip;
+    LOG(INFO) << "ip " << ip;
 }
 
 GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
@@ -201,12 +201,12 @@ void GateServer::discoverServer() {
                 LOG(ERROR) << "Invalid session " << session_id;
                 return;
             }
-            if (msg.msgId() == 1002 || msg.msgId() == 1004) {
+            if (msg.msgId() == 1002 || msg.msgId() == 1004 || msg.msgId() == 1008) {
                 if (msg.roleId() != 0) {
                     m_sessionIdToRoleIds[session_id] = msg.roleId();
                 }
             } else if (m_sessionIdToRoleIds.find(session_id) == m_sessionIdToRoleIds.end()) {
-                LOG(ERROR) << "dispatch error, session id " << session_id;
+                LOG(ERROR) << "dispatch error, session id " << session_id << " msg id " << msg.msgId() << " msg receiver id " << msg.receiverId();
             }
             LOG(INFO) << "onMessage " << msg.strInfo();
             s->send(std::move(msg));

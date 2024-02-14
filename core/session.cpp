@@ -145,12 +145,12 @@ void Session::sync_read() {
             }
         }
 
-        LOG(WARNING) << "---rlen " << rlen << " index " << index;
+        // LOG(WARNING) << "---rlen " << rlen << " index " << index;
         rlen += index;
         index = 0;
         while (index < rlen) {
             auto p = (uint16_t*)(&buffs[index]);
-            LOG(INFO) << "p " << p << " data size " << *p;
+            // LOG(INFO) << "p " << p << " data size " << *p;
             auto size = *p;
             if (size > MAX_SIZE) {
                 LOG(ERROR) << "overflow , size " << size << " MAX_SIZE" << MAX_SIZE;
@@ -160,17 +160,17 @@ void Session::sync_read() {
                 LOG(WARNING) << "warning " << " rlen " << rlen << " index " << index << " size " << size; // 还需要做下处理，粘包
                 break;
             }
-            LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
+            // LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
             Message msg(size - Message::HEAD_LEN);
             memcpy(msg.data(), &buffs[index], size);
             if (m_onMessageCB != nullptr) {
-                LOG(INFO) << "msg " << msg.strInfo();
+                // LOG(INFO) << "msg " << msg.strInfo();
                 m_onMessageCB(std::move(msg));
             }
             index += size;
-            LOG(WARNING) << "loop, len " << rlen << " index " << index;
+            // LOG(WARNING) << "loop, len " << rlen << " index " << index;
         }
-        LOG(WARNING) << "once read, len " << rlen << " index " << index;
+        // LOG(WARNING) << "once read, len " << rlen << " index " << index;
     }
 }
 
@@ -182,7 +182,7 @@ void Session::sync_write() {
 
         Message msg;
         m_wMsgs >> msg;
-        LOG(INFO) << "sync_write " << msg.strInfo();
+        // LOG(INFO) << "sync_write " << msg.strInfo();
         write(m_fd, msg.data(), msg.size());
     }
 }

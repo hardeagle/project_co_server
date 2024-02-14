@@ -72,8 +72,8 @@ void BaseServer::run() {
                 continue;
             }
             uint16_t body_size = *((uint16_t*)buf);
-            LOG(INFO) << "rlen " << rlen;
-            LOG(INFO) << "size " << body_size;
+            // LOG(INFO) << "rlen " << rlen;
+            // LOG(INFO) << "size " << body_size;
             uint16_t sender_type = *((uint16_t*)&buf[2]);
             uint16_t receiver_type = *((uint16_t*)&buf[4]);
             if (receiver_type != type()) {

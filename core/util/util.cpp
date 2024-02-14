@@ -41,7 +41,7 @@ uint16_t getTypeByName(const std::string& name) {
 }
 
 Message&& covertRspMsg(Message& msg, const google::protobuf::Message& gpm) {
-    LOG(INFO) << "covertRspMsg begin " << msg.strInfo();
+    // LOG(INFO) << "covertRspMsg begin " << msg.strInfo();
     auto nsize = gpm.ByteSizeLong();
     if (nsize > msg.size()) {
         msg.prepare(nsize - msg.size());
@@ -49,7 +49,7 @@ Message&& covertRspMsg(Message& msg, const google::protobuf::Message& gpm) {
     gpm.SerializeToArray(msg.pdata(), nsize);
     msg.length(Message::HEAD_LEN + nsize);
     msg.msgId(msg.msgId() + 1);
-    LOG(INFO) << "covertRspMsg end " << msg.strInfo();
+    // LOG(INFO) << "covertRspMsg end " << msg.strInfo();
     return std::move(msg);
 }
 
