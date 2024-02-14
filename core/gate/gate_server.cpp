@@ -126,6 +126,20 @@ void GateServer::run() {
             gs->setOnClose([&](uint64_t id) {
                 m_wsSessions.erase(id);
                 m_sessionIdToRoleIds.erase(id);
+
+                LOG(INFO) << "gws close id " << id << " m_wsSessions size " << m_wsSessions.size() << " m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
+                for (const auto& pair : m_gpSessions) {
+                    for (const auto& gps : pair.second) {
+                        Message msg(0);
+                        msg.msgId(0);
+                        msg.roleId(0);
+                        msg.sessionId(id);
+                        msg.senderId(gps.second->sender());
+                        msg.receiverId(gps.second->receiver());
+                        gps.second->send(std::move(msg));
+                        LOG(INFO) << "close, msg  " << msg.strInfo();
+                    }
+                }
             });
             m_wsSessions[gs->id()] = gs;
             gs->start();
@@ -208,7 +222,7 @@ void GateServer::discoverServer() {
             } else if (m_sessionIdToRoleIds.find(session_id) == m_sessionIdToRoleIds.end()) {
                 LOG(ERROR) << "dispatch error, session id " << session_id << " msg id " << msg.msgId() << " msg receiver id " << msg.receiverId();
             }
-            LOG(INFO) << "onMessage " << msg.strInfo();
+            // LOG(INFO) << "onMessage " << msg.strInfo();
             s->send(std::move(msg));
         });
         gps->setOnClose([&, st, sid = si.id](uint64_t) {

@@ -63,6 +63,9 @@ void WsSession::sync_read() {
 		rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
 		if (0 == rlen) {
 			LOG(WARNING) << "close";
+			if (m_onCloseCB != nullptr) {
+                m_onCloseCB(id());
+            }
 			break;
 		} else if (-1 == rlen) {
 			if (errno == EINTR || errno==EAGAIN) {

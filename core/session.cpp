@@ -59,7 +59,7 @@ void Session::run() {
 }
 
 void Session::send(Message&& msg) {
-    LOG(INFO) << "send msg " << msg.strInfo();
+    // LOG(INFO) << "send msg " << msg.strInfo();
     if (m_wMsgs.size() == s_limit) {
         LOG(WARNING) << "m_wMsgs full";
     }

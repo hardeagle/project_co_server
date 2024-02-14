@@ -16,6 +16,9 @@ public:
 
     GatePeerSession();
 
+    uint16_t sender() { return m_sender; }
+    uint16_t receiver() { return m_receiver; }
+
     bool sync_connect(const std::string& ip, uint16_t port, uint16_t sender, uint16_t receiver);
 
 private:
