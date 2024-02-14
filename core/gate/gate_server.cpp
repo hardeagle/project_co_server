@@ -115,12 +115,12 @@ void GateServer::run() {
                     return;
                 }
                 msg.sessionId(gs_id);
-                LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
+                // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
                 auto it = m_sessionIdToRoleIds.find(gs_id);
                 if (it != m_sessionIdToRoleIds.end()) {
                     msg.roleId(it->second);
                 }
-                LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
+                // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
                 gps->send(std::move(msg));
             });
             gs->setOnClose([&](uint64_t id) {

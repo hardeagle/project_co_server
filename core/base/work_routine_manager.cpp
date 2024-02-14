@@ -70,15 +70,10 @@ void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message&& msg) {
         go co_scheduler(m_scheduler) [routine] {
             routine->run();
         };
-        LOG(INFO) << "m_wrs size " << m_wrs.size();
     }
     m_wrs[id]->push(std::move(msg));
     if (msg.msgId() == 0) {
-        LOG(INFO) << "del work routine size before " << m_wrs.size();
         m_wrs.erase(id);
-        for (const auto& wrs : m_wrs) {
-            LOG(INFO) << "close id " << wrs.first;
-        }
         LOG(INFO) << "del work routine size after " << m_wrs.size();
     }
 }
