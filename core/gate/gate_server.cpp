@@ -187,7 +187,9 @@ void GateServer::consulServer() {
 
 void GateServer::discoverServer() {
     auto servers = m_agent.services();
-    for (auto [id, si] : servers) {
+    for (auto& pair : servers) {
+        auto& id = pair.first;
+        auto& si = pair.second;
         LOG(INFO) << "discoverServer id " << id << " name " << si.name;
         if (id == m_serverId) {
             continue;
@@ -236,6 +238,14 @@ void GateServer::discoverServer() {
     m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
         discoverServer();
     });
+
+    LOG(INFO) << "m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
+    LOG(INFO) << "m_sessions size " << m_sessions.size();
+    LOG(INFO) << "m_wsSessions size " << m_wsSessions.size();
+    for (const auto& pair : m_gpSessions) {
+        LOG(INFO) << "m_gpSessions type " << pair.first << " m_gpSessions size " << pair.second.size();
+    } 
+    LOG(INFO) << co::CoDebugger::getInstance().GetAllInfo().c_str();
 }
 
 }
