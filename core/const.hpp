@@ -4,12 +4,18 @@
 namespace Eayew {
 
 enum ServerType {
-    GATE = 1,
-    LOGIN = 2,
-    GAME = 3,
-    CHAT = 4,
-    RANK = 5,
-    TASK = 6,
+    EST_GATE = 1,
+    EST_LOGIN = 2,
+    EST_GAME = 3,
+    EST_CHAT = 4,
+    EST_RANK = 5,
+    EST_TASK = 6,
+};
+
+enum CloseMsgId {
+    ECMI_WebsocketSession    = 101,
+    ECMI_GatePeerSession     = 102,
+    ECMI_WorkRoutine         = 103,
 };
 
 }

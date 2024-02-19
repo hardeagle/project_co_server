@@ -62,7 +62,9 @@ public:
 
     bool sync_connect(const std::string& ip, uint16_t port);
 
-    virtual void start(bool accept = true) {}
+    bool closeMsg(uint16_t msgid, uint64_t sessionid);
+
+    virtual bool start(bool accept = true) { return true; }
     virtual void run();
 
     virtual void send(Message&& msg);

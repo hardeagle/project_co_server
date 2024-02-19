@@ -9,6 +9,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/const.hpp"
 #include "core/message.h"
 #include "core/rpc/rpc_manager.h"
 
@@ -23,7 +24,7 @@
 namespace Eayew {
 
 GateServer::GateServer()
-    : m_type(ServerType::GATE)
+    : m_type(ServerType::EST_GATE)
     , m_agent(m_consul)
     , m_kv(m_consul)
     , m_timer(std::chrono::milliseconds(1), &co_sched) {
@@ -98,52 +99,53 @@ void GateServer::run() {
             int fd = accept(accept_fd, (sockaddr*)&addr, &len);
             if (-1 == fd) {
                 if (EAGAIN == errno || EINTR == errno) {
+                    close(fd);
                     continue;
                 }
                 LOG(ERROR) << "accept error";
+                close(fd);
                 return;
             }
 
             LOG(INFO) << "accept success, fd " << fd;
-            auto gs = std::make_shared<GateWsSession>(fd);
-            auto gs_id = gs->id();
-            gs->setOnMessage([&, gs_id, self = shared_from_this()](Message&& msg) {
+            auto gws = std::make_shared<GateWsSession>(fd);
+            if (!gws->start()) {
+                LOG(WARNING) << "illegal ws client";
+                close(fd);
+                continue;
+            }
+            auto gws_id = gws->id();
+            gws->setOnMessage([&, gws_id, self = shared_from_this()](Message&& msg) {
                 uint16_t receiver_id = msg.receiverId();
                 auto gps = getGatePeerSession(receiver_id);
                 if (!gps) {
                     LOG(ERROR) << "Invalid receiver " << receiver_id;
                     return;
                 }
-                msg.sessionId(gs_id);
+                msg.sessionId(gws_id);
                 // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
-                auto it = m_sessionIdToRoleIds.find(gs_id);
+                auto it = m_sessionIdToRoleIds.find(gws_id);
                 if (it != m_sessionIdToRoleIds.end()) {
                     msg.roleId(it->second);
                 }
                 // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
                 gps->send(std::move(msg));
             });
-            gs->setOnClose([&](uint64_t id) {
+            gws->setOnClose([&](uint64_t id) {
+                m_wsSessions[id]->closeMsg(CloseMsgId::ECMI_WebsocketSession, id);
+
                 m_wsSessions.erase(id);
                 m_sessionIdToRoleIds.erase(id);
 
                 LOG(INFO) << "gws close id " << id << " m_wsSessions size " << m_wsSessions.size() << " m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
                 for (const auto& pair : m_gpSessions) {
                     for (const auto& gps : pair.second) {
-                        Message msg(0);
-                        msg.msgId(0);
-                        msg.roleId(0);
-                        msg.sessionId(id);
-                        msg.senderId(gps.second->sender());
-                        msg.receiverId(gps.second->receiver());
-                        gps.second->send(std::move(msg));
-                        LOG(INFO) << "close, msg  " << msg.strInfo();
+                        gps.second->closeMsg(CloseMsgId::ECMI_WorkRoutine, id);
                     }
                 }
             });
-            m_wsSessions[gs->id()] = gs;
-            gs->start();
-            gs->run();
+            m_wsSessions[gws->id()] = gws;
+            gws->run();
         }
     };
 
@@ -217,7 +219,7 @@ void GateServer::discoverServer() {
                 LOG(ERROR) << "Invalid session " << session_id;
                 return;
             }
-            if (msg.msgId() == 1002 || msg.msgId() == 1004 || msg.msgId() == 1008) {
+            if ((msg.receiverId() == ServerType::EST_LOGIN) && (msg.msgId() == 1002 || msg.msgId() == 1004 || msg.msgId() == 1008)) {
                 if (msg.roleId() != 0) {
                     m_sessionIdToRoleIds[session_id] = msg.roleId();
                 }

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
+#include "core/const.hpp"
 #include "core/message.h"
 #include "core/servlet.h"
 #include "core/session.h"
@@ -72,7 +73,7 @@ void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message&& msg) {
         };
     }
     m_wrs[id]->push(std::move(msg));
-    if (msg.msgId() == 0) {
+    if (msg.msgId() == CloseMsgId::ECMI_WorkRoutine) {
         m_wrs.erase(id);
         LOG(INFO) << "del work routine size after " << m_wrs.size();
     }

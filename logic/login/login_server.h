@@ -10,7 +10,7 @@ class LoginServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<LoginServer>;
 
-    LoginServer() : Eayew::BaseServer(Eayew::ServerType::LOGIN) {}
+    LoginServer() : Eayew::BaseServer(Eayew::ServerType::EST_LOGIN) {}
 
 protected:
     virtual void beforeRun() override;

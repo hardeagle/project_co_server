@@ -8,7 +8,7 @@ class ChatServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<ChatServer>;
 
-    ChatServer() : Eayew::BaseServer(Eayew::ServerType::CHAT) {}
+    ChatServer() : Eayew::BaseServer(Eayew::ServerType::EST_CHAT) {}
 
     void beforeRun();
 

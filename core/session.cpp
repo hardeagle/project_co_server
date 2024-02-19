@@ -6,6 +6,7 @@
 
 #include <libgo/libgo.h>
 
+#include "core/message.h"
 #include "core/util/util.h"
 
 #include "log/glog.h"
@@ -43,9 +44,20 @@ bool Session::sync_connect(const std::string& ip, uint16_t port) {
         LOG(ERROR) << "connect fail, port " << m_port;
         return false;
     }
-    m_id = (uint64_t(1) << 48) + (uint64_t(getCurSecond()) << 16) + (m_fd & 0xFFFF);
+    m_id = (uint64_t(m_port) << 48) + (uint64_t(getCurSecond()) << 16) + (m_fd & 0xFFFF);
     LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
     return true;
+}
+
+bool Session::closeMsg(uint16_t msgid, uint64_t sessionid) {
+    Message msg(0);
+    msg.msgId(msgid);
+    msg.roleId(0); 
+    msg.sessionId(sessionid);
+    msg.senderId(this->sender());
+    msg.receiverId(this->receiver());
+    this->send(std::move(msg));
+    LOG(INFO) << "close, msg  " << msg.strInfo();
 }
 
 void Session::run() {
@@ -134,6 +146,7 @@ void Session::sync_read() {
             if (m_onCloseCB != nullptr) {
                 m_onCloseCB(id());
             }
+            close(m_fd);
             return;
         } else if (-1 == rlen) {
             if (errno == EINTR || errno==EAGAIN) {

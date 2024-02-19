@@ -2,6 +2,7 @@
 #include "ws_session.h"
 
 //#include "md5/md5.h"
+#include "core/const.hpp"
 #include "core/util/base64.h"
 #include "core/util/sha1.h"
 
@@ -20,18 +21,22 @@ WsSession::WsSession(uint32_t fd)
 
 }
 
-void WsSession::start(bool accept) {
+bool WsSession::start(bool accept) {
     if (accept) {
         static constexpr size_t HANDSHAKE_STREAMBUF_SIZE = 8192;
         char buffs[HANDSHAKE_STREAMBUF_SIZE] = {};
         auto rlen = read(m_fd, &buffs[0], HANDSHAKE_STREAMBUF_SIZE);
-        // LOG(INFO) << "rlen " << rlen;
+        LOG(INFO) << "WsSession start rlen " << rlen;
+		if (rlen == 0) {
+			return false;
+		}
         auto wsft = parseHandshake((unsigned char*)(&buffs[0]), HANDSHAKE_STREAMBUF_SIZE);
-        // LOG(INFO) << "wstf  " << wsft;
+        LOG(INFO) << "WsSession start wstf " << wsft;
         auto resp = answerHandshake();
-        // LOG(INFO) << "resp  " << resp;
+        LOG(INFO) << "WsSession start resp " << resp;
         write(m_fd, resp.data(), resp.size());
     }
+	return true;
 }
 
 void WsSession::run() {
@@ -66,6 +71,7 @@ void WsSession::sync_read() {
 			if (m_onCloseCB != nullptr) {
                 m_onCloseCB(id());
             }
+			close(m_fd);
 			break;
 		} else if (-1 == rlen) {
 			if (errno == EINTR || errno==EAGAIN) {
@@ -117,6 +123,10 @@ void WsSession::sync_write() {
         Message msg;
         m_wMsgs >> msg;
         LOG(INFO) << "sync_write " << msg.strInfo();
+		if (msg.msgId() == CloseMsgId::ECMI_WebsocketSession) {
+			LOG(WARNING) << "wssession exit";
+			break;
+		}
 
 		char datas[MAX_SIZE] = {};
 		auto len = this->makeFrame(Eayew::WebSocketFrameType::BINARY_FRAME, (unsigned char*)msg.data(), msg.length(),  (unsigned char*)&datas[0]);

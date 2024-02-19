@@ -8,7 +8,7 @@ class TaskServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<TaskServer>;
 
-    RankServer() : Eayew::BaseServer(Eayew::ServerType::TASK) {}
+    RankServer() : Eayew::BaseServer(Eayew::ServerType::EST_TASK) {}
 
     virtual void beforeRun() override;
 

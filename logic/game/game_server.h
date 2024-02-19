@@ -8,7 +8,7 @@ class GameServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<GameServer>;
 
-    GameServer() : Eayew::BaseServer(Eayew::ServerType::GAME) {}
+    GameServer() : Eayew::BaseServer(Eayew::ServerType::EST_GAME) {}
 
     virtual void beforeRun() override;
 

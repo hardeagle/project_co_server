@@ -25,10 +25,10 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances
 
 const char descriptor_table_protodef_rank_5fid_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rrank_id.proto\022\014RankProtocol*\217\001\n\002ID\022\010\n\004"
-  "ZERO\020\000\022\023\n\rC2S_RANK_BASE\020\200\200\024\022\023\n\rC2S_RANK_"
-  "LOAD\020\201\200\024\022\023\n\rS2C_RANK_LOAD\020\202\200\024\022\025\n\017C2S_RAN"
-  "K_UPDATE\020\203\200\024\022\025\n\017S2C_RANK_UPDATE\020\204\200\024\022\022\n\014C"
-  "2S_RANK_TOP\020\350\207\024b\006proto3"
+  "ZERO\020\000\022\023\n\rC2S_RANK_BASE\020\350\207\024\022\023\n\rC2S_RANK_"
+  "LOAD\020\351\207\024\022\023\n\rS2C_RANK_LOAD\020\352\207\024\022\025\n\017C2S_RAN"
+  "K_UPDATE\020\353\207\024\022\025\n\017S2C_RANK_UPDATE\020\354\207\024\022\022\n\014C"
+  "2S_RANK_TOP\020\320\217\024b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_rank_5fid_2eproto_deps[1] = {
 };
@@ -53,12 +53,12 @@ const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ID_descriptor() {
 bool ID_IsValid(int value) {
   switch (value) {
     case 0:
-    case 327680:
-    case 327681:
-    case 327682:
-    case 327683:
-    case 327684:
     case 328680:
+    case 328681:
+    case 328682:
+    case 328683:
+    case 328684:
+    case 329680:
       return true;
     default:
       return false;

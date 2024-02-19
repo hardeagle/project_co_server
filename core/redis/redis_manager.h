@@ -239,8 +239,8 @@ public:
     RedisManager(const std::string& ip, uint16_t port)
         : m_pool([=] {
             return new RedisConnection(ip, port);
-        }, NULL, 1024, 1000) {
-        m_pool.Reserve(1000);
+        }, NULL, 1024, 128) {
+        m_pool.Reserve(128);
     }
 
     // string-------------------------------------------------------------------

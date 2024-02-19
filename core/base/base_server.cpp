@@ -68,7 +68,8 @@ void BaseServer::run() {
             char buf[len];
             int rlen = read(fd, buf, len);
             if (rlen != len) {
-                //LOG(ERROR) << "Invalid rpc connect, rlen " << rlen << " ,fd " << fd;
+                // LOG(ERROR) << "Invalid rpc connect, rlen " << rlen << " ,fd " << fd;
+                close(fd);
                 continue;
             }
             uint16_t body_size = *((uint16_t*)buf);
@@ -78,6 +79,7 @@ void BaseServer::run() {
             uint16_t receiver_type = *((uint16_t*)&buf[4]);
             if (receiver_type != type()) {
                 LOG(ERROR) << "Invalid server type " << receiver_type << " type " << type();
+                close(fd);
                 continue;
             }
 
@@ -158,7 +160,7 @@ void BaseServer::initByConfig(const std::string& file) {
 
 void BaseServer::consulServer() {
     m_agent.registerService(std::to_string(m_type),
-        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(1), std::chrono::milliseconds(1)},
+        ppconsul::agent::TcpCheck{m_ip, m_port, std::chrono::seconds(10), std::chrono::milliseconds(1)},
         ppconsul::agent::kw::deregisterCriticalServiceAfter = std::chrono::minutes(1),
         ppconsul::agent::kw::address = m_ip,
         ppconsul::agent::kw::port = m_port,

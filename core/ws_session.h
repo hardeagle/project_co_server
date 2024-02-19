@@ -45,7 +45,7 @@ public:
 
 	WsSession(uint32_t fd);
 
-    virtual void start(bool accept = true) override;
+    virtual bool start(bool accept = true) override;
 	virtual void run();
 
 private:

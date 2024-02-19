@@ -8,7 +8,7 @@ class RankServer : public Eayew::BaseServer {
 public:
     using ptr = std::shared_ptr<RankServer>;
 
-    RankServer() : Eayew::BaseServer(Eayew::ServerType::RANK) {}
+    RankServer() : Eayew::BaseServer(Eayew::ServerType::EST_RANK) {}
 
     virtual ~RankServer() {}
 
