@@ -182,7 +182,7 @@ void GateServer::consulServer() {
         ppconsul::agent::kw::id = m_serverId
     );
 
-    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
+    m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
         discoverServer();
     });
 }
