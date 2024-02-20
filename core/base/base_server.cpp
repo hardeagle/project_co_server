@@ -205,5 +205,9 @@ std::shared_ptr<co::CoTimer> BaseServer::timer() {
     return m_workRoutineMgr->timer();
 }
 
+std::shared_ptr<Session> BaseServer::getSession(uint32_t st) {
+    auto it = m_sessions.find(st);
+    return it != m_sessions.end() ? it->second : Session::ptr();
+}
 
 }

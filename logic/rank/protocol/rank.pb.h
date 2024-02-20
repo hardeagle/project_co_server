@@ -47,7 +47,7 @@ struct TableStruct_rank_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,6 +58,9 @@ namespace RankProtocol {
 class C2S_RankLoad;
 class C2S_RankLoadDefaultTypeInternal;
 extern C2S_RankLoadDefaultTypeInternal _C2S_RankLoad_default_instance_;
+class C2S_RankMyself;
+class C2S_RankMyselfDefaultTypeInternal;
+extern C2S_RankMyselfDefaultTypeInternal _C2S_RankMyself_default_instance_;
 class C2S_RankUpdate;
 class C2S_RankUpdateDefaultTypeInternal;
 extern C2S_RankUpdateDefaultTypeInternal _C2S_RankUpdate_default_instance_;
@@ -67,15 +70,24 @@ extern RankItemDefaultTypeInternal _RankItem_default_instance_;
 class S2C_RankLoad;
 class S2C_RankLoadDefaultTypeInternal;
 extern S2C_RankLoadDefaultTypeInternal _S2C_RankLoad_default_instance_;
+class S2C_RankMyself;
+class S2C_RankMyselfDefaultTypeInternal;
+extern S2C_RankMyselfDefaultTypeInternal _S2C_RankMyself_default_instance_;
+class S2C_RankNotify;
+class S2C_RankNotifyDefaultTypeInternal;
+extern S2C_RankNotifyDefaultTypeInternal _S2C_RankNotify_default_instance_;
 class S2C_RankUpdate;
 class S2C_RankUpdateDefaultTypeInternal;
 extern S2C_RankUpdateDefaultTypeInternal _S2C_RankUpdate_default_instance_;
 }  // namespace RankProtocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::RankProtocol::C2S_RankLoad* Arena::CreateMaybeMessage<::RankProtocol::C2S_RankLoad>(Arena*);
+template<> ::RankProtocol::C2S_RankMyself* Arena::CreateMaybeMessage<::RankProtocol::C2S_RankMyself>(Arena*);
 template<> ::RankProtocol::C2S_RankUpdate* Arena::CreateMaybeMessage<::RankProtocol::C2S_RankUpdate>(Arena*);
 template<> ::RankProtocol::RankItem* Arena::CreateMaybeMessage<::RankProtocol::RankItem>(Arena*);
 template<> ::RankProtocol::S2C_RankLoad* Arena::CreateMaybeMessage<::RankProtocol::S2C_RankLoad>(Arena*);
+template<> ::RankProtocol::S2C_RankMyself* Arena::CreateMaybeMessage<::RankProtocol::S2C_RankMyself>(Arena*);
+template<> ::RankProtocol::S2C_RankNotify* Arena::CreateMaybeMessage<::RankProtocol::S2C_RankNotify>(Arena*);
 template<> ::RankProtocol::S2C_RankUpdate* Arena::CreateMaybeMessage<::RankProtocol::S2C_RankUpdate>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace RankProtocol {
@@ -837,6 +849,406 @@ class S2C_RankUpdate :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_rank_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C2S_RankMyself :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:RankProtocol.C2S_RankMyself) */ {
+ public:
+  C2S_RankMyself();
+  virtual ~C2S_RankMyself();
+
+  C2S_RankMyself(const C2S_RankMyself& from);
+  C2S_RankMyself(C2S_RankMyself&& from) noexcept
+    : C2S_RankMyself() {
+    *this = ::std::move(from);
+  }
+
+  inline C2S_RankMyself& operator=(const C2S_RankMyself& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2S_RankMyself& operator=(C2S_RankMyself&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const C2S_RankMyself& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const C2S_RankMyself* internal_default_instance() {
+    return reinterpret_cast<const C2S_RankMyself*>(
+               &_C2S_RankMyself_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(C2S_RankMyself& a, C2S_RankMyself& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2S_RankMyself* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C2S_RankMyself* New() const final {
+    return CreateMaybeMessage<C2S_RankMyself>(nullptr);
+  }
+
+  C2S_RankMyself* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C2S_RankMyself>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C2S_RankMyself& from);
+  void MergeFrom(const C2S_RankMyself& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2S_RankMyself* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "RankProtocol.C2S_RankMyself";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_rank_2eproto);
+    return ::descriptor_table_rank_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:RankProtocol.C2S_RankMyself)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_rank_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_RankMyself :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:RankProtocol.S2C_RankMyself) */ {
+ public:
+  S2C_RankMyself();
+  virtual ~S2C_RankMyself();
+
+  S2C_RankMyself(const S2C_RankMyself& from);
+  S2C_RankMyself(S2C_RankMyself&& from) noexcept
+    : S2C_RankMyself() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_RankMyself& operator=(const S2C_RankMyself& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_RankMyself& operator=(S2C_RankMyself&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const S2C_RankMyself& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2C_RankMyself* internal_default_instance() {
+    return reinterpret_cast<const S2C_RankMyself*>(
+               &_S2C_RankMyself_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(S2C_RankMyself& a, S2C_RankMyself& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_RankMyself* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2C_RankMyself* New() const final {
+    return CreateMaybeMessage<S2C_RankMyself>(nullptr);
+  }
+
+  S2C_RankMyself* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S2C_RankMyself>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S2C_RankMyself& from);
+  void MergeFrom(const S2C_RankMyself& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_RankMyself* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "RankProtocol.S2C_RankMyself";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_rank_2eproto);
+    return ::descriptor_table_rank_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMyselfFieldNumber = 1,
+  };
+  // repeated .RankProtocol.RankItem myself = 1;
+  int myself_size() const;
+  private:
+  int _internal_myself_size() const;
+  public:
+  void clear_myself();
+  ::RankProtocol::RankItem* mutable_myself(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
+      mutable_myself();
+  private:
+  const ::RankProtocol::RankItem& _internal_myself(int index) const;
+  ::RankProtocol::RankItem* _internal_add_myself();
+  public:
+  const ::RankProtocol::RankItem& myself(int index) const;
+  ::RankProtocol::RankItem* add_myself();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
+      myself() const;
+
+  // @@protoc_insertion_point(class_scope:RankProtocol.S2C_RankMyself)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem > myself_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_rank_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S2C_RankNotify :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:RankProtocol.S2C_RankNotify) */ {
+ public:
+  S2C_RankNotify();
+  virtual ~S2C_RankNotify();
+
+  S2C_RankNotify(const S2C_RankNotify& from);
+  S2C_RankNotify(S2C_RankNotify&& from) noexcept
+    : S2C_RankNotify() {
+    *this = ::std::move(from);
+  }
+
+  inline S2C_RankNotify& operator=(const S2C_RankNotify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S2C_RankNotify& operator=(S2C_RankNotify&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const S2C_RankNotify& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2C_RankNotify* internal_default_instance() {
+    return reinterpret_cast<const S2C_RankNotify*>(
+               &_S2C_RankNotify_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(S2C_RankNotify& a, S2C_RankNotify& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S2C_RankNotify* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2C_RankNotify* New() const final {
+    return CreateMaybeMessage<S2C_RankNotify>(nullptr);
+  }
+
+  S2C_RankNotify* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S2C_RankNotify>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S2C_RankNotify& from);
+  void MergeFrom(const S2C_RankNotify& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2C_RankNotify* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "RankProtocol.S2C_RankNotify";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_rank_2eproto);
+    return ::descriptor_table_rank_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRisFieldNumber = 2,
+    kSubtypeFieldNumber = 1,
+  };
+  // repeated .RankProtocol.RankItem ris = 2;
+  int ris_size() const;
+  private:
+  int _internal_ris_size() const;
+  public:
+  void clear_ris();
+  ::RankProtocol::RankItem* mutable_ris(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
+      mutable_ris();
+  private:
+  const ::RankProtocol::RankItem& _internal_ris(int index) const;
+  ::RankProtocol::RankItem* _internal_add_ris();
+  public:
+  const ::RankProtocol::RankItem& ris(int index) const;
+  ::RankProtocol::RankItem* add_ris();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
+      ris() const;
+
+  // int32 subtype = 1;
+  void clear_subtype();
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype() const;
+  void set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_subtype() const;
+  void _internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:RankProtocol.S2C_RankNotify)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem > ris_;
+  ::PROTOBUF_NAMESPACE_ID::int32 subtype_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_rank_2eproto;
+};
 // ===================================================================
 
 
@@ -1263,9 +1675,125 @@ inline void S2C_RankUpdate::set_ret(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:RankProtocol.S2C_RankUpdate.ret)
 }
 
+// -------------------------------------------------------------------
+
+// C2S_RankMyself
+
+// -------------------------------------------------------------------
+
+// S2C_RankMyself
+
+// repeated .RankProtocol.RankItem myself = 1;
+inline int S2C_RankMyself::_internal_myself_size() const {
+  return myself_.size();
+}
+inline int S2C_RankMyself::myself_size() const {
+  return _internal_myself_size();
+}
+inline void S2C_RankMyself::clear_myself() {
+  myself_.Clear();
+}
+inline ::RankProtocol::RankItem* S2C_RankMyself::mutable_myself(int index) {
+  // @@protoc_insertion_point(field_mutable:RankProtocol.S2C_RankMyself.myself)
+  return myself_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
+S2C_RankMyself::mutable_myself() {
+  // @@protoc_insertion_point(field_mutable_list:RankProtocol.S2C_RankMyself.myself)
+  return &myself_;
+}
+inline const ::RankProtocol::RankItem& S2C_RankMyself::_internal_myself(int index) const {
+  return myself_.Get(index);
+}
+inline const ::RankProtocol::RankItem& S2C_RankMyself::myself(int index) const {
+  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankMyself.myself)
+  return _internal_myself(index);
+}
+inline ::RankProtocol::RankItem* S2C_RankMyself::_internal_add_myself() {
+  return myself_.Add();
+}
+inline ::RankProtocol::RankItem* S2C_RankMyself::add_myself() {
+  // @@protoc_insertion_point(field_add:RankProtocol.S2C_RankMyself.myself)
+  return _internal_add_myself();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
+S2C_RankMyself::myself() const {
+  // @@protoc_insertion_point(field_list:RankProtocol.S2C_RankMyself.myself)
+  return myself_;
+}
+
+// -------------------------------------------------------------------
+
+// S2C_RankNotify
+
+// int32 subtype = 1;
+inline void S2C_RankNotify::clear_subtype() {
+  subtype_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_RankNotify::_internal_subtype() const {
+  return subtype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S2C_RankNotify::subtype() const {
+  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankNotify.subtype)
+  return _internal_subtype();
+}
+inline void S2C_RankNotify::_internal_set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  subtype_ = value;
+}
+inline void S2C_RankNotify::set_subtype(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_subtype(value);
+  // @@protoc_insertion_point(field_set:RankProtocol.S2C_RankNotify.subtype)
+}
+
+// repeated .RankProtocol.RankItem ris = 2;
+inline int S2C_RankNotify::_internal_ris_size() const {
+  return ris_.size();
+}
+inline int S2C_RankNotify::ris_size() const {
+  return _internal_ris_size();
+}
+inline void S2C_RankNotify::clear_ris() {
+  ris_.Clear();
+}
+inline ::RankProtocol::RankItem* S2C_RankNotify::mutable_ris(int index) {
+  // @@protoc_insertion_point(field_mutable:RankProtocol.S2C_RankNotify.ris)
+  return ris_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >*
+S2C_RankNotify::mutable_ris() {
+  // @@protoc_insertion_point(field_mutable_list:RankProtocol.S2C_RankNotify.ris)
+  return &ris_;
+}
+inline const ::RankProtocol::RankItem& S2C_RankNotify::_internal_ris(int index) const {
+  return ris_.Get(index);
+}
+inline const ::RankProtocol::RankItem& S2C_RankNotify::ris(int index) const {
+  // @@protoc_insertion_point(field_get:RankProtocol.S2C_RankNotify.ris)
+  return _internal_ris(index);
+}
+inline ::RankProtocol::RankItem* S2C_RankNotify::_internal_add_ris() {
+  return ris_.Add();
+}
+inline ::RankProtocol::RankItem* S2C_RankNotify::add_ris() {
+  // @@protoc_insertion_point(field_add:RankProtocol.S2C_RankNotify.ris)
+  return _internal_add_ris();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::RankProtocol::RankItem >&
+S2C_RankNotify::ris() const {
+  // @@protoc_insertion_point(field_list:RankProtocol.S2C_RankNotify.ris)
+  return ris_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

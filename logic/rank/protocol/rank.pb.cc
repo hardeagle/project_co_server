@@ -36,6 +36,18 @@ class S2C_RankUpdateDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_RankUpdate> _instance;
 } _S2C_RankUpdate_default_instance_;
+class C2S_RankMyselfDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<C2S_RankMyself> _instance;
+} _C2S_RankMyself_default_instance_;
+class S2C_RankMyselfDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_RankMyself> _instance;
+} _S2C_RankMyself_default_instance_;
+class S2C_RankNotifyDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<S2C_RankNotify> _instance;
+} _S2C_RankNotify_default_instance_;
 }  // namespace RankProtocol
 static void InitDefaultsscc_info_C2S_RankLoad_rank_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -50,6 +62,20 @@ static void InitDefaultsscc_info_C2S_RankLoad_rank_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_C2S_RankLoad_rank_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_C2S_RankLoad_rank_2eproto}, {}};
+
+static void InitDefaultsscc_info_C2S_RankMyself_rank_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::RankProtocol::_C2S_RankMyself_default_instance_;
+    new (ptr) ::RankProtocol::C2S_RankMyself();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::RankProtocol::C2S_RankMyself::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_C2S_RankMyself_rank_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_C2S_RankMyself_rank_2eproto}, {}};
 
 static void InitDefaultsscc_info_C2S_RankUpdate_rank_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -94,6 +120,36 @@ static void InitDefaultsscc_info_S2C_RankLoad_rank_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_S2C_RankLoad_rank_2eproto}, {
       &scc_info_RankItem_rank_2eproto.base,}};
 
+static void InitDefaultsscc_info_S2C_RankMyself_rank_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::RankProtocol::_S2C_RankMyself_default_instance_;
+    new (ptr) ::RankProtocol::S2C_RankMyself();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::RankProtocol::S2C_RankMyself::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_S2C_RankMyself_rank_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_S2C_RankMyself_rank_2eproto}, {
+      &scc_info_RankItem_rank_2eproto.base,}};
+
+static void InitDefaultsscc_info_S2C_RankNotify_rank_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::RankProtocol::_S2C_RankNotify_default_instance_;
+    new (ptr) ::RankProtocol::S2C_RankNotify();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::RankProtocol::S2C_RankNotify::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_S2C_RankNotify_rank_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_S2C_RankNotify_rank_2eproto}, {
+      &scc_info_RankItem_rank_2eproto.base,}};
+
 static void InitDefaultsscc_info_S2C_RankUpdate_rank_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -108,7 +164,7 @@ static void InitDefaultsscc_info_S2C_RankUpdate_rank_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_S2C_RankUpdate_rank_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_S2C_RankUpdate_rank_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_rank_2eproto[5];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_rank_2eproto[8];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_rank_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_rank_2eproto = nullptr;
 
@@ -151,6 +207,24 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_rank_2eproto::offsets[] PROTOB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankUpdate, ret_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::C2S_RankMyself, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankMyself, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankMyself, myself_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankNotify, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankNotify, subtype_),
+  PROTOBUF_FIELD_OFFSET(::RankProtocol::S2C_RankNotify, ris_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::RankProtocol::RankItem)},
@@ -158,6 +232,9 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 16, -1, sizeof(::RankProtocol::S2C_RankLoad)},
   { 25, -1, sizeof(::RankProtocol::C2S_RankUpdate)},
   { 32, -1, sizeof(::RankProtocol::S2C_RankUpdate)},
+  { 38, -1, sizeof(::RankProtocol::C2S_RankMyself)},
+  { 43, -1, sizeof(::RankProtocol::S2C_RankMyself)},
+  { 49, -1, sizeof(::RankProtocol::S2C_RankNotify)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -166,6 +243,9 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_S2C_RankLoad_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_C2S_RankUpdate_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_S2C_RankUpdate_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_C2S_RankMyself_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_S2C_RankMyself_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::RankProtocol::_S2C_RankNotify_default_instance_),
 };
 
 const char descriptor_table_protodef_rank_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -177,25 +257,31 @@ const char descriptor_table_protodef_rank_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "myself\030\003 \001(\0132\026.RankProtocol.RankItem\022#\n\003"
   "ris\030\004 \003(\0132\026.RankProtocol.RankItem\"0\n\016C2S"
   "_RankUpdate\022\017\n\007subtype\030\001 \001(\005\022\r\n\005score\030\002 "
-  "\001(\005\"\035\n\016S2C_RankUpdate\022\013\n\003ret\030\001 \001(\005b\006prot"
-  "o3"
+  "\001(\005\"\035\n\016S2C_RankUpdate\022\013\n\003ret\030\001 \001(\005\"\020\n\016C2"
+  "S_RankMyself\"8\n\016S2C_RankMyself\022&\n\006myself"
+  "\030\001 \003(\0132\026.RankProtocol.RankItem\"F\n\016S2C_Ra"
+  "nkNotify\022\017\n\007subtype\030\001 \001(\005\022#\n\003ris\030\002 \003(\0132\026"
+  ".RankProtocol.RankItemb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_rank_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_rank_2eproto_sccs[5] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_rank_2eproto_sccs[8] = {
   &scc_info_C2S_RankLoad_rank_2eproto.base,
+  &scc_info_C2S_RankMyself_rank_2eproto.base,
   &scc_info_C2S_RankUpdate_rank_2eproto.base,
   &scc_info_RankItem_rank_2eproto.base,
   &scc_info_S2C_RankLoad_rank_2eproto.base,
+  &scc_info_S2C_RankMyself_rank_2eproto.base,
+  &scc_info_S2C_RankNotify_rank_2eproto.base,
   &scc_info_S2C_RankUpdate_rank_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_rank_2eproto_once;
 static bool descriptor_table_rank_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_rank_2eproto = {
-  &descriptor_table_rank_2eproto_initialized, descriptor_table_protodef_rank_2eproto, "rank.proto", 362,
-  &descriptor_table_rank_2eproto_once, descriptor_table_rank_2eproto_sccs, descriptor_table_rank_2eproto_deps, 5, 0,
+  &descriptor_table_rank_2eproto_initialized, descriptor_table_protodef_rank_2eproto, "rank.proto", 510,
+  &descriptor_table_rank_2eproto_once, descriptor_table_rank_2eproto_sccs, descriptor_table_rank_2eproto_deps, 8, 0,
   schemas, file_default_instances, TableStruct_rank_2eproto::offsets,
-  file_level_metadata_rank_2eproto, 5, file_level_enum_descriptors_rank_2eproto, file_level_service_descriptors_rank_2eproto,
+  file_level_metadata_rank_2eproto, 8, file_level_enum_descriptors_rank_2eproto, file_level_service_descriptors_rank_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1396,6 +1482,573 @@ void S2C_RankUpdate::InternalSwap(S2C_RankUpdate* other) {
 }
 
 
+// ===================================================================
+
+void C2S_RankMyself::InitAsDefaultInstance() {
+}
+class C2S_RankMyself::_Internal {
+ public:
+};
+
+C2S_RankMyself::C2S_RankMyself()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:RankProtocol.C2S_RankMyself)
+}
+C2S_RankMyself::C2S_RankMyself(const C2S_RankMyself& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:RankProtocol.C2S_RankMyself)
+}
+
+void C2S_RankMyself::SharedCtor() {
+}
+
+C2S_RankMyself::~C2S_RankMyself() {
+  // @@protoc_insertion_point(destructor:RankProtocol.C2S_RankMyself)
+  SharedDtor();
+}
+
+void C2S_RankMyself::SharedDtor() {
+}
+
+void C2S_RankMyself::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const C2S_RankMyself& C2S_RankMyself::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_C2S_RankMyself_rank_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void C2S_RankMyself::Clear() {
+// @@protoc_insertion_point(message_clear_start:RankProtocol.C2S_RankMyself)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+const char* C2S_RankMyself::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      default: {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* C2S_RankMyself::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:RankProtocol.C2S_RankMyself)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RankProtocol.C2S_RankMyself)
+  return target;
+}
+
+size_t C2S_RankMyself::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:RankProtocol.C2S_RankMyself)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void C2S_RankMyself::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:RankProtocol.C2S_RankMyself)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C2S_RankMyself* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C2S_RankMyself>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:RankProtocol.C2S_RankMyself)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:RankProtocol.C2S_RankMyself)
+    MergeFrom(*source);
+  }
+}
+
+void C2S_RankMyself::MergeFrom(const C2S_RankMyself& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:RankProtocol.C2S_RankMyself)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void C2S_RankMyself::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:RankProtocol.C2S_RankMyself)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void C2S_RankMyself::CopyFrom(const C2S_RankMyself& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RankProtocol.C2S_RankMyself)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool C2S_RankMyself::IsInitialized() const {
+  return true;
+}
+
+void C2S_RankMyself::InternalSwap(C2S_RankMyself* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata C2S_RankMyself::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void S2C_RankMyself::InitAsDefaultInstance() {
+}
+class S2C_RankMyself::_Internal {
+ public:
+};
+
+S2C_RankMyself::S2C_RankMyself()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:RankProtocol.S2C_RankMyself)
+}
+S2C_RankMyself::S2C_RankMyself(const S2C_RankMyself& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      myself_(from.myself_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:RankProtocol.S2C_RankMyself)
+}
+
+void S2C_RankMyself::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_S2C_RankMyself_rank_2eproto.base);
+}
+
+S2C_RankMyself::~S2C_RankMyself() {
+  // @@protoc_insertion_point(destructor:RankProtocol.S2C_RankMyself)
+  SharedDtor();
+}
+
+void S2C_RankMyself::SharedDtor() {
+}
+
+void S2C_RankMyself::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const S2C_RankMyself& S2C_RankMyself::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_S2C_RankMyself_rank_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void S2C_RankMyself::Clear() {
+// @@protoc_insertion_point(message_clear_start:RankProtocol.S2C_RankMyself)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  myself_.Clear();
+  _internal_metadata_.Clear();
+}
+
+const char* S2C_RankMyself::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // repeated .RankProtocol.RankItem myself = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_myself(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* S2C_RankMyself::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:RankProtocol.S2C_RankMyself)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .RankProtocol.RankItem myself = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_myself_size()); i < n; i++) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessageToArray(1, this->_internal_myself(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RankProtocol.S2C_RankMyself)
+  return target;
+}
+
+size_t S2C_RankMyself::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:RankProtocol.S2C_RankMyself)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .RankProtocol.RankItem myself = 1;
+  total_size += 1UL * this->_internal_myself_size();
+  for (const auto& msg : this->myself_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void S2C_RankMyself::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:RankProtocol.S2C_RankMyself)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S2C_RankMyself* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S2C_RankMyself>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:RankProtocol.S2C_RankMyself)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:RankProtocol.S2C_RankMyself)
+    MergeFrom(*source);
+  }
+}
+
+void S2C_RankMyself::MergeFrom(const S2C_RankMyself& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:RankProtocol.S2C_RankMyself)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  myself_.MergeFrom(from.myself_);
+}
+
+void S2C_RankMyself::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:RankProtocol.S2C_RankMyself)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void S2C_RankMyself::CopyFrom(const S2C_RankMyself& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RankProtocol.S2C_RankMyself)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_RankMyself::IsInitialized() const {
+  return true;
+}
+
+void S2C_RankMyself::InternalSwap(S2C_RankMyself* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  myself_.InternalSwap(&other->myself_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_RankMyself::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void S2C_RankNotify::InitAsDefaultInstance() {
+}
+class S2C_RankNotify::_Internal {
+ public:
+};
+
+S2C_RankNotify::S2C_RankNotify()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:RankProtocol.S2C_RankNotify)
+}
+S2C_RankNotify::S2C_RankNotify(const S2C_RankNotify& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      ris_(from.ris_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  subtype_ = from.subtype_;
+  // @@protoc_insertion_point(copy_constructor:RankProtocol.S2C_RankNotify)
+}
+
+void S2C_RankNotify::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_S2C_RankNotify_rank_2eproto.base);
+  subtype_ = 0;
+}
+
+S2C_RankNotify::~S2C_RankNotify() {
+  // @@protoc_insertion_point(destructor:RankProtocol.S2C_RankNotify)
+  SharedDtor();
+}
+
+void S2C_RankNotify::SharedDtor() {
+}
+
+void S2C_RankNotify::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const S2C_RankNotify& S2C_RankNotify::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_S2C_RankNotify_rank_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void S2C_RankNotify::Clear() {
+// @@protoc_insertion_point(message_clear_start:RankProtocol.S2C_RankNotify)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ris_.Clear();
+  subtype_ = 0;
+  _internal_metadata_.Clear();
+}
+
+const char* S2C_RankNotify::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 subtype = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          subtype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .RankProtocol.RankItem ris = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_ris(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* S2C_RankNotify::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:RankProtocol.S2C_RankNotify)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 subtype = 1;
+  if (this->subtype() != 0) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_subtype(), target);
+  }
+
+  // repeated .RankProtocol.RankItem ris = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_ris_size()); i < n; i++) {
+    stream->EnsureSpace(&target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessageToArray(2, this->_internal_ris(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:RankProtocol.S2C_RankNotify)
+  return target;
+}
+
+size_t S2C_RankNotify::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:RankProtocol.S2C_RankNotify)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .RankProtocol.RankItem ris = 2;
+  total_size += 1UL * this->_internal_ris_size();
+  for (const auto& msg : this->ris_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // int32 subtype = 1;
+  if (this->subtype() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_subtype());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void S2C_RankNotify::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:RankProtocol.S2C_RankNotify)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S2C_RankNotify* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S2C_RankNotify>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:RankProtocol.S2C_RankNotify)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:RankProtocol.S2C_RankNotify)
+    MergeFrom(*source);
+  }
+}
+
+void S2C_RankNotify::MergeFrom(const S2C_RankNotify& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:RankProtocol.S2C_RankNotify)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  ris_.MergeFrom(from.ris_);
+  if (from.subtype() != 0) {
+    _internal_set_subtype(from._internal_subtype());
+  }
+}
+
+void S2C_RankNotify::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:RankProtocol.S2C_RankNotify)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void S2C_RankNotify::CopyFrom(const S2C_RankNotify& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:RankProtocol.S2C_RankNotify)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S2C_RankNotify::IsInitialized() const {
+  return true;
+}
+
+void S2C_RankNotify::InternalSwap(S2C_RankNotify* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ris_.InternalSwap(&other->ris_);
+  swap(subtype_, other->subtype_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S2C_RankNotify::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace RankProtocol
 PROTOBUF_NAMESPACE_OPEN
@@ -1413,6 +2066,15 @@ template<> PROTOBUF_NOINLINE ::RankProtocol::C2S_RankUpdate* Arena::CreateMaybeM
 }
 template<> PROTOBUF_NOINLINE ::RankProtocol::S2C_RankUpdate* Arena::CreateMaybeMessage< ::RankProtocol::S2C_RankUpdate >(Arena* arena) {
   return Arena::CreateInternal< ::RankProtocol::S2C_RankUpdate >(arena);
+}
+template<> PROTOBUF_NOINLINE ::RankProtocol::C2S_RankMyself* Arena::CreateMaybeMessage< ::RankProtocol::C2S_RankMyself >(Arena* arena) {
+  return Arena::CreateInternal< ::RankProtocol::C2S_RankMyself >(arena);
+}
+template<> PROTOBUF_NOINLINE ::RankProtocol::S2C_RankMyself* Arena::CreateMaybeMessage< ::RankProtocol::S2C_RankMyself >(Arena* arena) {
+  return Arena::CreateInternal< ::RankProtocol::S2C_RankMyself >(arena);
+}
+template<> PROTOBUF_NOINLINE ::RankProtocol::S2C_RankNotify* Arena::CreateMaybeMessage< ::RankProtocol::S2C_RankNotify >(Arena* arena) {
+  return Arena::CreateInternal< ::RankProtocol::S2C_RankNotify >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -18,6 +18,11 @@ enum CloseMsgId {
     ECMI_WorkRoutine         = 103,
 };
 
+enum MsgType {
+    EMT_NOTIFY_ROLE_ID      = 0xF,
+    EMT_NOTIFY_SESSION_ID   = 0xFF,
+};
+
 }
 
 #endif

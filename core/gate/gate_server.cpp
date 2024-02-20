@@ -213,6 +213,13 @@ void GateServer::discoverServer() {
             continue;
         }
         gps->setOnMessage([&](Message&& msg) {
+            if (msg.roleId() == Eayew::MsgType::EMT_NOTIFY_ROLE_ID && msg.sessionId() == Eayew::MsgType::EMT_NOTIFY_SESSION_ID) {
+                for (const auto& ws : m_wsSessions) {
+                    ws.second->send(std::move(msg));
+                }
+                return;
+            }
+
             auto session_id = msg.sessionId();
             auto s = getWsSession(session_id);
             if (!s) {

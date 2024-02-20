@@ -24,11 +24,13 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_rank_5fid_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rrank_id.proto\022\014RankProtocol*\217\001\n\002ID\022\010\n\004"
+  "\n\rrank_id.proto\022\014RankProtocol*\324\001\n\002ID\022\010\n\004"
   "ZERO\020\000\022\023\n\rC2S_RANK_BASE\020\350\207\024\022\023\n\rC2S_RANK_"
   "LOAD\020\351\207\024\022\023\n\rS2C_RANK_LOAD\020\352\207\024\022\025\n\017C2S_RAN"
-  "K_UPDATE\020\353\207\024\022\025\n\017S2C_RANK_UPDATE\020\354\207\024\022\022\n\014C"
-  "2S_RANK_TOP\020\320\217\024b\006proto3"
+  "K_UPDATE\020\353\207\024\022\025\n\017S2C_RANK_UPDATE\020\354\207\024\022\025\n\017C"
+  "2S_RANK_MYSELF\020\355\207\024\022\025\n\017S2C_RANK_MYSELF\020\356\207"
+  "\024\022\025\n\017S2C_RANK_NOTIFY\020\360\207\024\022\022\n\014C2S_RANK_TOP"
+  "\020\320\217\024b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_rank_5fid_2eproto_deps[1] = {
 };
@@ -37,7 +39,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ran
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_rank_5fid_2eproto_once;
 static bool descriptor_table_rank_5fid_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_rank_5fid_2eproto = {
-  &descriptor_table_rank_5fid_2eproto_initialized, descriptor_table_protodef_rank_5fid_2eproto, "rank_id.proto", 183,
+  &descriptor_table_rank_5fid_2eproto_initialized, descriptor_table_protodef_rank_5fid_2eproto, "rank_id.proto", 252,
   &descriptor_table_rank_5fid_2eproto_once, descriptor_table_rank_5fid_2eproto_sccs, descriptor_table_rank_5fid_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_rank_5fid_2eproto::offsets,
   file_level_metadata_rank_5fid_2eproto, 0, file_level_enum_descriptors_rank_5fid_2eproto, file_level_service_descriptors_rank_5fid_2eproto,
@@ -58,6 +60,9 @@ bool ID_IsValid(int value) {
     case 328682:
     case 328683:
     case 328684:
+    case 328685:
+    case 328686:
+    case 328688:
     case 329680:
       return true;
     default:

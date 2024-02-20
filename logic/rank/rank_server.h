@@ -19,6 +19,11 @@ private:
     void initServlet();
 
     void initTimer();
+
+    void notifyRank(uint32_t gameid, uint32_t subtype);
+    void notifyTodayRank();
+    void notifyLevelRank();
+    void notifyScoreRank();
 };
 
 #endif

@@ -144,7 +144,7 @@ EC_LOGIN ttOpenid(std::string& openid, GameInfo::ptr gi, const std::string& code
         Json::Value root;
         Json::Reader reader;
         if (reader.parse(res->body, root)) {
-            LOG(INFO) << "parse resp " << root;
+            // LOG(INFO) << "parse resp " << root;
             auto ret = root["error"].asInt64();
             if (ret != 0) {
                 LOG(ERROR) << "resp error ret " << ret;

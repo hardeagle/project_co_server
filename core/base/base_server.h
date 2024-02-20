@@ -52,6 +52,8 @@ public:
 
     std::shared_ptr<ServletDispatchRange> servlet() { return m_servlet; }
 
+    std::shared_ptr<Session> getSession(uint32_t st);
+
 private:
     void consulServer();
 

@@ -24,6 +24,8 @@ bool RankServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
             return doLoad(session, std::move(msg));
         case RankProtocol::ID::C2S_RANK_UPDATE:
             return doUpdate(session, std::move(msg));
+        case RankProtocol::ID::C2S_RANK_MYSELF:
+            return doMyself(session, std::move(msg));
         default:
             LOG(ERROR) << "invalid id " << id;
             return true;
@@ -49,7 +51,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
         auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(rankkey, 0, 100);
         std::set<std::string> keys;
         for (const auto& val : scores) {
-            LOG(INFO) << "rank data id " << val.first << " score " << val.second;
+            // LOG(INFO) << "rank data id " << val.first << " score " << val.second;
             keys.insert(BaseRoleInfoSetKey(val.first));
         }
         auto index = 0;
@@ -76,7 +78,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             ri->set_name(bri->name());
             ri->set_avatarurl(bri->avatarurl());
             ri->set_score(val.second);   // ?
-            LOG(INFO) << "ri " << ri->DebugString();
+            // LOG(INFO) << "ri " << ri->DebugString();
         }
 
         {
@@ -87,7 +89,7 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
             myself->set_score(score);
         }
     } while(false);
-    LOG(INFO) << "resp " << resp.DebugString();
+    // LOG(INFO) << "resp " << resp.DebugString();
 
     session->send(std::move(covertRspMsg(msg, resp)));
     LOG(ERROR) << "doLoad end...";
@@ -121,3 +123,31 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
     return true;
 }
 
+bool RankServlet::doMyself(Eayew::Session::ptr session, Eayew::Message&& msg) {
+    LOG(INFO) << "doMyself begin...";
+    LOG(WARNING) << msg.strInfo();
+    RankProtocol::C2S_RankMyself req;
+    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+        LOG(ERROR) << "ParseFromArray fail";
+        return false;
+    }
+    RankProtocol::S2C_RankMyself resp;
+    do {
+        auto roleid = msg.roleId();
+        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
+        for (uint32_t i = 1; i <= 3; ++i) {
+            auto rankkey = RankZsetKey(gameid, i);
+            auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
+            auto score = ServerResource::get()->redisMgr()->zscore(rankkey, roleid);
+            auto myself = resp.add_myself();
+            myself->set_role_id(i);
+            myself->set_rank(rank + 1);
+            myself->set_score(score);
+        }
+    } while(false);
+    LOG(INFO) << "resp " << resp.DebugString();
+
+    session->send(std::move(covertRspMsg(msg, resp)));
+    LOG(ERROR) << "doMyself end...";
+    return true;
+}

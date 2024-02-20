@@ -88,6 +88,7 @@ public:
             LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
             return {};
         }
+        return {};
     }
 
     template<typename K, typename V>

@@ -29,3 +29,15 @@ message C2S_RankUpdate {
 message S2C_RankUpdate {
     int32 ret = 1;
 }
+
+message C2S_RankMyself {
+}
+
+message S2C_RankMyself {
+    repeated RankItem myself = 1;
+}
+
+message S2C_RankNotify {
+    int32 subtype = 1;
+    repeated RankItem ris = 2;
+}

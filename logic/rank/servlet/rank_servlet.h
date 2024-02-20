@@ -13,6 +13,7 @@ public:
 private:
     bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
     bool doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg);
+    bool doMyself(Eayew::Session::ptr session, Eayew::Message&& msg);
 };
 
 #endif

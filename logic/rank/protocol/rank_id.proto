@@ -10,5 +10,8 @@ enum ID {
     S2C_RANK_LOAD           = 328682;
     C2S_RANK_UPDATE         = 328683;
     S2C_RANK_UPDATE         = 328684;
+    C2S_RANK_MYSELF         = 328685;
+    S2C_RANK_MYSELF         = 328686;
+    S2C_RANK_NOTIFY         = 328688;
     C2S_RANK_TOP            = 329680;
 }
