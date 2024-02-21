@@ -19,7 +19,7 @@ std::string serverId(const std::string& name, u_int16_t type, const std::string&
 
 uint16_t getTypeByName(const std::string& name);
 
-Message&& covertRspMsg(Message& msg, const google::protobuf::Message& gpm);
+Message::ptr covertRspMsg(Message::ptr msg, const google::protobuf::Message& gpm);
 
 std::string getIP();
 

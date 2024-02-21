@@ -86,8 +86,8 @@ void BaseServer::run() {
             LOG(INFO) << "accept successs, fd " << fd << " sender type " << sender_type << " receiver type " << receiver_type << " buf " << buf;
 
             auto s = std::make_shared<Session>(fd);
-            s->setOnMessage([=](Message&& msg) {
-                m_workRoutineMgr->dispatch(s, std::move(msg));
+            s->setOnMessage([=](Message::ptr msg) {
+                m_workRoutineMgr->dispatch(s, msg);
             });
             s->setOnClose([&](uint64_t id) {
                 m_sessions.erase(id);

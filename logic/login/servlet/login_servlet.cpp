@@ -21,19 +21,19 @@
 #include "logic/login/protocol/login.pb.h"
 #include "logic/login/server_resource.h"
 
-bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
-    auto id = msg.realMsgId();
+bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
+    auto id = msg->realMsgId();
     switch (id) {
         case LoginProtocol::ID::C2S_LOGIN_LOGIN:
-            return doLogin(session, std::move(msg));
+            return doLogin(session, msg);
         case LoginProtocol::ID::C2S_LOGIN_CREATE:
-            return doCreate(session, std::move(msg));
+            return doCreate(session, msg);
         case LoginProtocol::ID::C2S_LOGIN_LOAD:
-            return doLoad(session, std::move(msg));
+            return doLoad(session, msg);
         case LoginProtocol::ID::C2S_LOGIN_OPENID:
-            return doOpenid(session, std::move(msg));
+            return doOpenid(session, msg);
         case LoginProtocol::ID::C2S_LOGIN_UPDATE:
-            return doUpdate(session, std::move(msg));
+            return doUpdate(session, msg);
         default:
             LOG(ERROR) << "invalid id " << id;
             return true;
@@ -42,10 +42,10 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) 
     return true;
 }
 
-bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doLogin begin...";
     LoginProtocol::C2S_LoginLogin req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -59,18 +59,18 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message&& msg) {
             break;
         }
         resp.set_role_id(role_id);
-        msg.roleId(role_id);
+        msg->roleId(role_id);
     } while (false);
     
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(INFO) << "doLogin end...";
     return true;
 }
 
-bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doCreate begin...";
     LoginProtocol::C2S_LoginCreate req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -88,7 +88,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         ServerResource::get()->redisMgr()->set(RoleIdToGameIdSetKey(role_id), req.gameid());
 
         resp.set_role_id(role_id);
-        msg.roleId(role_id);
+        msg->roleId(role_id);
 
         PublicProtocol::BaseRoleInfo bri;
         bri.set_role_id(role_id);
@@ -99,16 +99,15 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(role_id), serial);
     } while(false);
 
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(INFO) << "doCreate end...";
     return true;
 }
 
-bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doLoad begin...";
-    LOG(WARNING) << msg.strInfo();
     LoginProtocol::C2S_LoginLoad req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -117,7 +116,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
     } while(false);
 
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(ERROR) << "doLoad end...";
     return true;
 }
@@ -162,11 +161,10 @@ EC_LOGIN ttOpenid(std::string& openid, GameInfo::ptr gi, const std::string& code
     return EC_LOGIN::SUCCESS;
 }
 
-bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doOpenid begin...";
-    LOG(WARNING) << msg.strInfo();
     LoginProtocol::C2S_LoginOpenid req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -192,22 +190,22 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message&& msg) {
     } while(false);
 
     LOG(INFO) << "resp " << resp.DebugString();
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(ERROR) << "doOpenid end...";
     return true;
 }
 
-bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doUpdate begin...";
     LoginProtocol::C2S_LoginUpdate req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
     
     LoginProtocol::S2C_LoginUpdate resp;
     do {
-        auto roleid = msg.roleId();
+        auto roleid = msg->roleId();
         auto val = ServerResource::get()->redisMgr()->get<std::string>(BaseRoleInfoSetKey(roleid));
         PublicProtocol::BaseRoleInfo bri;
         if (!bri.ParseFromString(val)) {
@@ -222,7 +220,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
         ServerResource::get()->redisMgr()->set(BaseRoleInfoSetKey(roleid), serial);
     } while(false);
 
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(INFO) << "doUpdate end...";
     return true;
 }

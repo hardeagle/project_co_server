@@ -8,11 +8,11 @@
 
 class ChatServlet : public Eayew::Servlet {
 public:
-    virtual bool doRequest(Eayew::Session::ptr session, Eayew::Message&& msg);
+    virtual bool doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg);
 
 private:
-    bool doLoad(Eayew::Session::ptr session, Eayew::Message&& msg);
-    bool doChat(Eayew::Session::ptr session, Eayew::Message&& msg);
+    bool doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg);
+    bool doChat(Eayew::Session::ptr session, Eayew::Message::ptr msg);
 };
 
 #endif

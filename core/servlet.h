@@ -17,7 +17,7 @@ public:
 
     virtual ~Servlet() {}
 
-    virtual bool doRequest(Session::ptr session, Message&& msg) {
+    virtual bool doRequest(Session::ptr session, Message::ptr msg) {
         return true;
     }
 };
@@ -52,7 +52,7 @@ public:
         m_servlets.insert(element);
     }
 
-    bool doRequest(Session::ptr session, Message&& msg);
+    bool doRequest(Session::ptr session, Message::ptr msg);
 
 private:
     std::set<Element> m_servlets;

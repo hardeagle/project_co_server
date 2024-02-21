@@ -60,8 +60,8 @@ void RpcManager::call(int type, std::string& req) {
         LOG(ERROR) << "getClient fail";
         return;
     }
-    Message msg(0);
-    rs->send(std::move(msg));
+    // Message msg(0);
+    // rs->send(std::move(msg));
 }
 
 void RpcManager::call(int type, std::string& req, std::string& rsp) {
@@ -71,14 +71,14 @@ void RpcManager::call(int type, std::string& req, std::string& rsp) {
         return;
     }
 
-    int rpc_id = nextRpcId();
-    Message msg(0);
-    rs->send(std::move(msg));
+    // int rpc_id = nextRpcId();
+    // Message msg(0);
+    // rs->send(std::move(msg));
 
-    co_chan<std::string> channel;
-    m_channels[rpc_id] = channel;
-    channel >> rsp;
-    m_channels.erase(rpc_id);
+    // co_chan<std::string> channel;
+    // m_channels[rpc_id] = channel;
+    // channel >> rsp;
+    // m_channels.erase(rpc_id);
 }
 
 void RpcManager::dispatch(std::string& buf) {

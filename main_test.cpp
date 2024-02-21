@@ -104,44 +104,44 @@ int main(int argc, char* argv[]) {
             int port = 9101;
             auto con = std::make_shared<Connection>();
             con->sync_connect(ip, port, 1, 2);
-            con->setOnMessage([](Eayew::Message&& msg){
-                LOG(INFO) << "msg " << msg.strInfo();
+            con->setOnMessage([](Eayew::Message::ptr msg){
+                LOG(INFO) << "msg " << msg->strInfo();
             });
             con->run();
             cons.push_back(con);
 
-            for (int j = 0; j < 10000; ++j) {
-                std::string str("1");
-                for (int k = 0; k < 100; ++k) {
-                    str += "1";
-                }
-                //LOG(WARNING) << "msg " << msg;
+            // for (int j = 0; j < 10000; ++j) {
+            //     std::string str("1");
+            //     for (int k = 0; k < 100; ++k) {
+            //         str += "1";
+            //     }
+            //     //LOG(WARNING) << "msg " << msg;
 
-                // LoginProtocol::C2S_LoginLogin req;
-                // req.set_loginname(msg);
-                // std::string data;
-                // req.SerializeToString(&data);
-                // con->sync_write(1001, 2, data);
+            //     // LoginProtocol::C2S_LoginLogin req;
+            //     // req.set_loginname(msg);
+            //     // std::string data;
+            //     // req.SerializeToString(&data);
+            //     // con->sync_write(1001, 2, data);
 
-                LoginProtocol::C2S_LoginCreate req;
-                req.set_loginname(str);
-                req.set_role_name(str);
-                req.set_avatarurl("123");
-                std::string data;
-                req.SerializeToString(&data);
+            //     LoginProtocol::C2S_LoginCreate req;
+            //     req.set_loginname(str);
+            //     req.set_role_name(str);
+            //     req.set_avatarurl("123");
+            //     std::string data;
+            //     req.SerializeToString(&data);
 
-                Eayew::Message msg(data.size());
-                msg.senderId(1);
-                msg.receiverId(2);
-                msg.msgId(1003);
-                msg.roleId(0);
-                msg.write(data.data(), data.size());
-                LOG(INFO) << "msg " << msg.strInfo();
-                con->send(std::move(msg));
+            //     Eayew::Message msg(data.size());
+            //     msg.senderId(1);
+            //     msg.receiverId(2);
+            //     msg.msgId(1003);
+            //     msg.roleId(0);
+            //     msg.write(data.data(), data.size());
+            //     LOG(INFO) << "msg " << msg.strInfo();
+            //     con->send(std::move(msg));
 
-                //co_sleep(200);
-                //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;
-            }
+            //     //co_sleep(200);
+            //     //LOG(ERROR) << "send,  , fd " << con->fd() << " ,i " << i << " ,j " << j;
+            // }
         };
     }
 

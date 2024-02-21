@@ -21,20 +21,20 @@ public:
 
     uint32_t id() { return m_id; }
 
-    void setOnMessage(std::function<void(Message&& msg)> cb) {
+    void setOnMessage(std::function<void(Message::ptr msg)> cb) {
         m_onMessageCB = cb;
     }
 
-    void push(Message&& msg);
+    void push(Message::ptr msg);
 
     void run();
 
 private:
     uint32_t m_id;
 
-    co_chan<Message> m_rMsgs;
+    co_chan<Message::ptr> m_rMsgs;
 
-    std::function<void(Message&& msg)> m_onMessageCB;
+    std::function<void(Message::ptr msg)> m_onMessageCB;
 };
 
 class WorkRoutineManager {
@@ -45,7 +45,7 @@ public:
 
     void run();
 
-    void dispatch(std::shared_ptr<Session> session, Message&& msg);
+    void dispatch(std::shared_ptr<Session> session, Message::ptr msg);
 
     std::shared_ptr<co::CoTimer> timer() { return m_timer; }
 

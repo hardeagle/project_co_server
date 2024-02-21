@@ -20,12 +20,12 @@ WorkRoutine::WorkRoutine(uint32_t id)
     , m_rMsgs(s_limit) {
 }
 
-void WorkRoutine::push(Message&& msg) {
+void WorkRoutine::push(Message::ptr msg) {
     if (m_rMsgs.size() == s_limit) {
         LOG(WARNING) << "work routine full";
     }
 
-    m_rMsgs << std::move(msg);
+    m_rMsgs << msg;
 }
 
 void WorkRoutine::run() {
@@ -34,14 +34,14 @@ void WorkRoutine::run() {
             LOG(WARNING) << "work routine empty";
         }
 
-        Message msg;
+        Message::ptr msg;
         m_rMsgs >> msg;
-        if (msg.msgId() == CloseMsgId::ECMI_WorkRoutine) {
+        if (msg->msgId() == CloseMsgId::ECMI_WorkRoutine) {
             LOG(INFO) << "exit work routine";
             break;
         }
         if (m_onMessageCB != nullptr) {
-            m_onMessageCB(std::move(msg));
+            m_onMessageCB(msg);
         }
         //m_servlet->doRequest(m_session, std::move(msg));
     }
@@ -60,20 +60,20 @@ void WorkRoutineManager::run() {
     t.detach();
 }
 
-void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message&& msg) {
-    auto id = msg.sessionId();
+void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message::ptr msg) {
+    auto id = msg->sessionId();
     if (m_wrs.find(id) == m_wrs.end()) {
         auto routine = std::make_shared<WorkRoutine>(id);
-        routine->setOnMessage([&, s](Message&& m) {
-            m_servlet->doRequest(s, std::move(m));
+        routine->setOnMessage([&, s](Message::ptr m) {
+            m_servlet->doRequest(s, m);
         });
         m_wrs[id] = routine;
         go co_scheduler(m_scheduler) [routine] {
             routine->run();
         };
     }
-    m_wrs[id]->push(std::move(msg));
-    if (msg.msgId() == CloseMsgId::ECMI_WorkRoutine) {
+    m_wrs[id]->push(msg);
+    if (msg->msgId() == CloseMsgId::ECMI_WorkRoutine) {
         m_wrs.erase(id);
         LOG(INFO) << "del work routine size after " << m_wrs.size();
     }

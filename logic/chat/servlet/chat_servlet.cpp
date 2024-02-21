@@ -12,13 +12,13 @@
 #include "logic/chat/protocol/chat.pb.h"
 
 
-bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
-    auto id = msg.realMsgId();
+bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
+    auto id = msg->realMsgId();
     switch (id) {
         case ChatProtocol::ID::C2S_CHAT_LOAD:
-            return doLoad(session, std::move(msg));
+            return doLoad(session, msg);
         case ChatProtocol::ID::C2S_CHAT_CHAT:
-            return doChat(session, std::move(msg));
+            return doChat(session, msg);
         default:
             LOG(ERROR) << "invalid id " << id;
             return true;
@@ -27,10 +27,10 @@ bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message&& msg) {
     return true;
 }
 
-bool ChatServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool ChatServlet::doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doLoad begin...";
     ChatProtocol::C2S_ChatLoad req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -39,15 +39,15 @@ bool ChatServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
     do {
     } while (false);
     
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(INFO) << "doLoad end...";
     return true;
 }
 
-bool ChatServlet::doChat(Eayew::Session::ptr session, Eayew::Message&& msg) {
+bool ChatServlet::doChat(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
     LOG(INFO) << "doChat begin...";
     ChatProtocol::C2S_ChatChat req;
-    if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
+    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
         LOG(ERROR) << "ParseFromArray fail";
         return false;
     }
@@ -57,7 +57,7 @@ bool ChatServlet::doChat(Eayew::Session::ptr session, Eayew::Message&& msg) {
     do {
     } while(false);
 
-    session->send(std::move(covertRspMsg(msg, resp)));
+    session->send(covertRspMsg(msg, resp));
     LOG(INFO) << "doChat end...";
     return true;
 }

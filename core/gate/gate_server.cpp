@@ -115,21 +115,21 @@ void GateServer::run() {
                 continue;
             }
             auto gws_id = gws->id();
-            gws->setOnMessage([&, gws_id, self = shared_from_this()](Message&& msg) {
-                uint16_t receiver_id = msg.receiverId();
+            gws->setOnMessage([&, gws_id, self = shared_from_this()](Message::ptr msg) {
+                uint16_t receiver_id = msg->receiverId();
                 auto gps = getGatePeerSession(receiver_id);
                 if (!gps) {
                     LOG(ERROR) << "Invalid receiver " << receiver_id;
                     return;
                 }
-                msg.sessionId(gws_id);
+                msg->sessionId(gws_id);
                 // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
                 auto it = m_sessionIdToRoleIds.find(gws_id);
                 if (it != m_sessionIdToRoleIds.end()) {
-                    msg.roleId(it->second);
+                    msg->roleId(it->second);
                 }
                 // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
-                gps->send(std::move(msg));
+                gps->send(msg);
             });
             gws->setOnClose([&](uint64_t id) {
                 m_wsSessions[id]->closeMsg(CloseMsgId::ECMI_WebsocketSession, id);
@@ -212,29 +212,29 @@ void GateServer::discoverServer() {
             LOG(WARNING) << "sync connect fail";
             continue;
         }
-        gps->setOnMessage([&](Message&& msg) {
-            if (msg.roleId() == Eayew::MsgType::EMT_NOTIFY_ROLE_ID && msg.sessionId() == Eayew::MsgType::EMT_NOTIFY_SESSION_ID) {
+        gps->setOnMessage([&](Message::ptr msg) {
+            if (msg->roleId() == Eayew::MsgType::EMT_NOTIFY_ROLE_ID && msg->sessionId() == Eayew::MsgType::EMT_NOTIFY_SESSION_ID) {
                 for (const auto& ws : m_wsSessions) {
-                    ws.second->send(std::move(msg));
+                    ws.second->send(msg);
                 }
                 return;
             }
 
-            auto session_id = msg.sessionId();
+            auto session_id = msg->sessionId();
             auto s = getWsSession(session_id);
             if (!s) {
                 LOG(ERROR) << "Invalid session " << session_id;
                 return;
             }
-            if ((msg.receiverId() == ServerType::EST_LOGIN) && (msg.msgId() == 1002 || msg.msgId() == 1004 || msg.msgId() == 1008)) {
-                if (msg.roleId() != 0) {
-                    m_sessionIdToRoleIds[session_id] = msg.roleId();
+            if ((msg->receiverId() == ServerType::EST_LOGIN) && (msg->msgId() == 1002 || msg->msgId() == 1004 || msg->msgId() == 1008)) {
+                if (msg->roleId() != 0) {
+                    m_sessionIdToRoleIds[session_id] = msg->roleId();
                 }
             } else if (m_sessionIdToRoleIds.find(session_id) == m_sessionIdToRoleIds.end()) {
-                LOG(ERROR) << "dispatch error, session id " << session_id << " msg id " << msg.msgId() << " msg receiver id " << msg.receiverId();
+                LOG(ERROR) << "dispatch error, session id " << session_id << " msg id " << msg->msgId() << " msg receiver id " << msg->receiverId();
             }
             // LOG(INFO) << "onMessage " << msg.strInfo();
-            s->send(std::move(msg));
+            s->send(msg);
         });
         gps->setOnClose([&, st, sid = si.id](uint64_t) {
             LOG(INFO) << "onClose st " << st << " sid " << sid << " size " << m_gpSessions[st].size();

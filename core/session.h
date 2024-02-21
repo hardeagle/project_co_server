@@ -57,7 +57,7 @@ public:
     uint16_t receiver() { return m_receiver; }
     void receiver(uint16_t v) { m_receiver = v; }
 
-    void setOnMessage(std::function<void(Message&&)>);
+    void setOnMessage(std::function<void(Message::ptr)>);
     void setOnClose(std::function<void(uint64_t)>);
 
     bool sync_connect(const std::string& ip, uint16_t port);
@@ -67,7 +67,7 @@ public:
     virtual bool start(bool accept = true) { return true; }
     virtual void run();
 
-    virtual void send(Message&& msg);
+    virtual void send(Message::ptr msg);
 
 protected:
 
@@ -76,7 +76,7 @@ private:
     void sync_write();
 
 protected:
-    std::function<void(Message&&)> m_onMessageCB;
+    std::function<void(Message::ptr)> m_onMessageCB;
     std::function<void(uint64_t)> m_onCloseCB;
 
     uint64_t m_id;
@@ -88,8 +88,8 @@ protected:
     uint16_t m_sender;
     uint16_t m_receiver;
 
-    co_chan<Message> m_rMsgs;
-    co_chan<Message> m_wMsgs;
+    co_chan<Message::ptr> m_rMsgs;
+    co_chan<Message::ptr> m_wMsgs;
 };
 
 }

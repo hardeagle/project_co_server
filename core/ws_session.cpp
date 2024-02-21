@@ -97,12 +97,12 @@ void WsSession::sync_read() {
 			}
 
 			auto size = len + pos;
-            Message msg(size - Message::HEAD_LEN);
-            memcpy(msg.data(), &datas[0], size);
+            auto msg = std::make_shared<Message>(size - Message::HEAD_LEN);
+            memcpy(msg->data(), &datas[0], size);
 			//msg.write(&datas[0], size);
             if (m_onMessageCB != nullptr) {
-                LOG(INFO) << "msg " << msg.strInfo();
-                m_onMessageCB(std::move(msg));
+                LOG(INFO) << "msg " << msg->strInfo();
+                m_onMessageCB(msg);
             }
 
 			index = index + len + pos;
@@ -120,16 +120,16 @@ void WsSession::sync_write() {
         //     LOG(WARNING) << "m_wMsgs empty";
         // }
 
-        Message msg;
+        Message::ptr msg;
         m_wMsgs >> msg;
-        LOG(INFO) << "sync_write " << msg.strInfo();
-		if (msg.msgId() == CloseMsgId::ECMI_WebsocketSession) {
+        LOG(INFO) << "sync_write " << msg->strInfo();
+		if (msg->msgId() == CloseMsgId::ECMI_WebsocketSession) {
 			LOG(WARNING) << "wssession exit";
 			break;
 		}
 
 		char datas[MAX_SIZE] = {};
-		auto len = this->makeFrame(Eayew::WebSocketFrameType::BINARY_FRAME, (unsigned char*)msg.data(), msg.length(),  (unsigned char*)&datas[0]);
+		auto len = this->makeFrame(Eayew::WebSocketFrameType::BINARY_FRAME, (unsigned char*)msg->data(), msg->length(),  (unsigned char*)&datas[0]);
         write(m_fd, datas, len);
     }
 }

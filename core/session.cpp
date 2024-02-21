@@ -24,7 +24,7 @@ Session::Session(uint32_t fd)
     }
 }
 
-void Session::setOnMessage(std::function<void(Message&& msg)> cb) {
+void Session::setOnMessage(std::function<void(Message::ptr msg)> cb) {
     m_onMessageCB = cb;
 }
 
@@ -50,14 +50,15 @@ bool Session::sync_connect(const std::string& ip, uint16_t port) {
 }
 
 bool Session::closeMsg(uint16_t msgid, uint64_t sessionid) {
-    Message msg(0);
-    msg.msgId(msgid);
-    msg.roleId(0); 
-    msg.sessionId(sessionid);
-    msg.senderId(this->sender());
-    msg.receiverId(this->receiver());
-    this->send(std::move(msg));
-    LOG(INFO) << "close, msg  " << msg.strInfo();
+    auto msg = std::make_shared<Message>(0);
+    msg->msgId(msgid);
+    msg->roleId(0); 
+    msg->sessionId(sessionid);
+    msg->senderId(this->sender());
+    msg->receiverId(this->receiver());
+    this->send(msg);
+    LOG(INFO) << "close, msg  " << msg->strInfo();
+    return true;
 }
 
 void Session::run() {
@@ -70,7 +71,7 @@ void Session::run() {
     };
 }
 
-void Session::send(Message&& msg) {
+void Session::send(Message::ptr msg) {
     // LOG(INFO) << "send msg " << msg.strInfo();
     if (m_wMsgs.size() == s_limit) {
         LOG(WARNING) << "m_wMsgs full";
@@ -174,11 +175,11 @@ void Session::sync_read() {
                 break;
             }
             // LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
-            Message msg(size - Message::HEAD_LEN);
-            memcpy(msg.data(), &buffs[index], size);
+            auto msg = std::make_shared<Message>(size - Message::HEAD_LEN);
+            memcpy(msg->data(), &buffs[index], size);
             if (m_onMessageCB != nullptr) {
                 // LOG(INFO) << "msg " << msg.strInfo();
-                m_onMessageCB(std::move(msg));
+                m_onMessageCB(msg);
             }
             index += size;
             // LOG(WARNING) << "loop, len " << rlen << " index " << index;
@@ -193,10 +194,10 @@ void Session::sync_write() {
             LOG(WARNING) << "m_wMsgs empty";
         }
 
-        Message msg;
+        Message::ptr msg;
         m_wMsgs >> msg;
         // LOG(INFO) << "sync_write " << msg.strInfo();
-        write(m_fd, msg.data(), msg.size());
+        write(m_fd, msg->data(), msg->size());
     }
 }
 

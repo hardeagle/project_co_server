@@ -94,17 +94,17 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
     auto s = getSession(Eayew::ServerType::EST_GATE);
     if (s) {
         auto nsize = ntf.ByteSizeLong();
-        Eayew::Message msg(nsize);
-        ntf.SerializeToArray(msg.pdata(), nsize);
+        auto msg = std::make_shared<Eayew::Message>(nsize);
+        ntf.SerializeToArray(msg->pdata(), nsize);
 
         uint16_t msgid = RankProtocol::S2C_RANK_NOTIFY & 0XFFFF;
-        msg.msgId(msgid);
-        msg.roleId(Eayew::MsgType::EMT_NOTIFY_ROLE_ID); 
-        msg.sessionId(Eayew::MsgType::EMT_NOTIFY_SESSION_ID);
-        msg.senderId(Eayew::ServerType::EST_GATE);
-        msg.receiverId(Eayew::ServerType::EST_RANK);
+        msg->msgId(msgid);
+        msg->roleId(Eayew::MsgType::EMT_NOTIFY_ROLE_ID); 
+        msg->sessionId(Eayew::MsgType::EMT_NOTIFY_SESSION_ID);
+        msg->senderId(Eayew::ServerType::EST_GATE);
+        msg->receiverId(Eayew::ServerType::EST_RANK);
         // LOG(INFO) << "notify msg " << msg.strInfo();
-        s->send(std::move(msg));
+        s->send(msg);
     }
 }
 
