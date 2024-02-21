@@ -42,15 +42,15 @@ void RankServer::initTimer() {
     });
 
     ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
-        notifyTodayRank();
+    notifyTodayRank();
     }, false);
 
     ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
-        notifyLevelRank();
+    notifyLevelRank();
     }, false);
 
     ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
-        notifyScoreRank();
+    notifyScoreRank();
     }, false);
 }
 
@@ -91,8 +91,9 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
         ri->set_score(val.second);   // ?
         // LOG(INFO) << "ri " << ri->DebugString();
     }
+    ntf.set_subtype(subtype);
 
-    auto s = getSession(uint32_t(Eayew::ServerType::EST_GATE));
+    auto s = getSession(Eayew::ServerType::EST_GATE);
     if (s) {
         auto nsize = ntf.ByteSizeLong();
         Eayew::Message msg(nsize);
