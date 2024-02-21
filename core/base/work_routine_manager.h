@@ -54,7 +54,7 @@ private:
 
     co::Scheduler* m_scheduler;
     std::shared_ptr<co::CoTimer> m_timer;
-    std::unordered_map<uint64_t, WorkRoutine::ptr> m_wrs;
+    std::map<uint64_t, WorkRoutine::ptr> m_wrs;
 };
 
 }

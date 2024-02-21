@@ -36,8 +36,8 @@ void WorkRoutine::run() {
 
         Message msg;
         m_rMsgs >> msg;
-        if (msg.msgId() == 0) {
-            LOG(INFO) << " exit work routine";
+        if (msg.msgId() == CloseMsgId::ECMI_WorkRoutine) {
+            LOG(INFO) << "exit work routine";
             break;
         }
         if (m_onMessageCB != nullptr) {

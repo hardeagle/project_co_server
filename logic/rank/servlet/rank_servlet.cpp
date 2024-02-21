@@ -99,7 +99,6 @@ bool RankServlet::doLoad(Eayew::Session::ptr session, Eayew::Message&& msg) {
 
 bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message&& msg) {
     LOG(INFO) << "doUpdate begin...";
-    LOG(WARNING) << msg.strInfo();
     RankProtocol::C2S_RankUpdate req;
     if (!req.ParseFromArray(msg.pdata(), msg.psize())) {
         LOG(ERROR) << "ParseFromArray fail";
