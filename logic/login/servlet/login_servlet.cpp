@@ -63,7 +63,7 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message::ptr msg)
     } while (false);
     
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doLogin end...";
+    LOG(INFO) << "doLogin end... resp " << resp.DebugString();
     return true;
 }
 
@@ -100,7 +100,7 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message::ptr msg
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doCreate end...";
+    LOG(INFO) << "doCreate end... resp " << resp.DebugString();
     return true;
 }
 
@@ -117,7 +117,7 @@ bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg) 
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(ERROR) << "doLoad end...";
+    LOG(ERROR) << "doLoad end... resp " << resp.DebugString();
     return true;
 }
 
@@ -189,9 +189,8 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg
         resp.set_openid(openid);
     } while(false);
 
-    LOG(INFO) << "resp " << resp.DebugString();
     session->send(covertRspMsg(msg, resp));
-    LOG(ERROR) << "doOpenid end...";
+    LOG(ERROR) << "doOpenid end... resp " << resp.DebugString();
     return true;
 }
 
@@ -221,7 +220,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doUpdate end...";
+    LOG(INFO) << "doUpdate end... resp " << resp.DebugString();
     return true;
 }
 

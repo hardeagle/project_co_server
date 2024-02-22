@@ -133,8 +133,8 @@ bool RankServlet::doMyself(Eayew::Session::ptr session, Eayew::Message::ptr msg)
         auto roleid = msg->roleId();
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
         for (uint32_t i = 1; i <= 3; ++i) {
-            auto rankkey = RankZsetKey(gameid, i);
-            auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
+        auto rankkey = RankZsetKey(gameid, i);
+                    auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
             auto score = ServerResource::get()->redisMgr()->zscore(rankkey, roleid);
             auto myself = resp.add_myself();
             myself->set_role_id(i);
@@ -142,7 +142,7 @@ bool RankServlet::doMyself(Eayew::Session::ptr session, Eayew::Message::ptr msg)
             myself->set_score(score);
         }
     } while(false);
-    // LOG(INFO) << "resp " << resp.DebugString();
+    LOG(INFO) << "resp " << resp.DebugString();
 
     session->send(covertRspMsg(msg, resp));
     LOG(ERROR) << "doMyself end...";
