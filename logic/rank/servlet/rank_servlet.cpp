@@ -109,7 +109,7 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg)
         auto roleid = msg->roleId();
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
         auto score = ServerResource::get()->redisMgr()->zscore(RankZsetKey(gameid, req.subtype()), roleid);
-        LOG(INFO) << "roleid " << roleid << " subtype " << req.subtype() << " origin score " << score << " cur score " << req.score();
+        LOG(INFO) << "gameid " << gameid << " roleid " << roleid << " subtype " << req.subtype() << " origin score " << score << " cur score " << req.score();
         if (req.score() > score) {
             ServerResource::get()->redisMgr()->zadd(RankZsetKey(gameid, req.subtype()), req.score(), roleid);
         }
@@ -130,14 +130,18 @@ bool RankServlet::doMyself(Eayew::Session::ptr session, Eayew::Message::ptr msg)
     }
     RankProtocol::S2C_RankMyself resp;
     do {
+		return true;
         auto roleid = msg->roleId();
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
+        if (roleid == 0 || gameid != 3) {
+            LOG(INFO) << "gameid " << gameid << " roleid " << roleid;
+            break;
+        }
         for (uint32_t i = 1; i <= 3; ++i) {
         auto rankkey = RankZsetKey(gameid, i);
-                    auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
+            auto rank = ServerResource::get()->redisMgr()->zrevrank<uint32_t, uint64_t>(rankkey, roleid);
             auto score = ServerResource::get()->redisMgr()->zscore(rankkey, roleid);
             auto myself = resp.add_myself();
-            myself->set_role_id(i);
             myself->set_rank(rank + 1);
             myself->set_score(score);
         }

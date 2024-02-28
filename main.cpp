@@ -300,6 +300,18 @@ void insertGameInfo() {
         gi.SerializeToString(&str);
         redisMgr.hset(key, gi.gameid(), str);
     }
+
+    {
+        LoginProtocol::GameInfo gi;
+        gi.set_gameid(14);
+        gi.set_platform(1);
+        gi.set_name("all_happy");
+        gi.set_appid("ttb069c6d42f5463fe02");
+        gi.set_secret("5e059ccf72ade5e99680bb38087a7854dea54855");
+        std::string str;
+        gi.SerializeToString(&str);
+        redisMgr.hset(key, gi.gameid(), str);
+    }
 }
 
 int main(int argc, char* argv[]) {
