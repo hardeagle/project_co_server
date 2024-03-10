@@ -87,6 +87,7 @@ void BaseServer::run() {
 
             auto s = std::make_shared<Session>(fd);
             s->setOnMessage([=](Message::ptr msg) {
+                LOG(INFO) << "on message " << msg->strInfo();
                 m_workRoutineMgr->dispatch(s, msg);
             });
             s->setOnClose([&](uint64_t id) {

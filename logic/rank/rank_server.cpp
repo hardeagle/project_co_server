@@ -59,7 +59,7 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
     auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(rankkey, 0, 2);
     std::set<std::string> keys;
     for (const auto& val : scores) {
-        // LOG(INFO) << "rank data id " << val.first << " score " << val.second;
+        LOG(INFO) << "rank data id " << val.first << " score " << val.second;
         keys.insert(BaseRoleInfoSetKey(val.first));
     }
     auto index = 0;
