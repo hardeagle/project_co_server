@@ -107,7 +107,9 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg)
     RankProtocol::S2C_RankUpdate resp;
     do {
         auto roleid = msg->roleId();
-        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(RoleIdToGameIdSetKey(roleid));
+        auto key = RoleIdToGameIdSetKey(roleid);
+        LOG(INFO) << "key " << key;
+        auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(key);
         auto score = ServerResource::get()->redisMgr()->zscore(RankZsetKey(gameid, req.subtype()), roleid);
         LOG(INFO) << "gameid " << gameid << " roleid " << roleid << " subtype " << req.subtype() << " origin score " << score << " cur score " << req.score();
         if (req.score() > score) {

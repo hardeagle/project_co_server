@@ -41,17 +41,17 @@ void RankServer::initTimer() {
         LOG(INFO) << "Del rank complete";
     });
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
-    notifyTodayRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
+    //     notifyTodayRank();
+    // }, false);
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
-    notifyLevelRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
+    //     notifyLevelRank();
+    // }, false);
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
-    notifyScoreRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
+    //     notifyScoreRank();
+    // }, false);
 }
 
 void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {

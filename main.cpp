@@ -303,6 +303,18 @@ void insertGameInfo() {
 
     {
         LoginProtocol::GameInfo gi;
+        gi.set_gameid(5);
+        gi.set_platform(1);
+        gi.set_name("arrow_legend");
+        gi.set_appid("ttf54183fc6a703de302");
+        gi.set_secret("108892c20b9775087d541ee586eb150163adc2a4");
+        std::string str;
+        gi.SerializeToString(&str);
+        redisMgr.hset(key, gi.gameid(), str);
+    }
+
+    {
+        LoginProtocol::GameInfo gi;
         gi.set_gameid(14);
         gi.set_platform(1);
         gi.set_name("all_happy");
