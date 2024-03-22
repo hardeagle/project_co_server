@@ -41,17 +41,17 @@ void RankServer::initTimer() {
         LOG(INFO) << "Del rank complete";
     });
 
-    // ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
-    //     notifyTodayRank();
-    // }, false);
+    ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
+        notifyTodayRank();
+    }, false);
 
-    // ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
-    //     notifyLevelRank();
-    // }, false);
+    ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
+        notifyLevelRank();
+    }, false);
 
-    // ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
-    //     notifyScoreRank();
-    // }, false);
+    ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
+        notifyScoreRank();
+    }, false);
 }
 
 void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
@@ -103,7 +103,7 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
         msg->sessionId(Eayew::MsgType::EMT_NOTIFY_SESSION_ID);
         msg->senderId(Eayew::ServerType::EST_GATE);
         msg->receiverId(Eayew::ServerType::EST_RANK);
-        // LOG(INFO) << "notify msg " << msg.strInfo();
+        LOG(INFO) << "notify msg " << msg->strInfo();
         s->send(msg);
     }
 }

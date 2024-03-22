@@ -73,11 +73,11 @@ void Session::run() {
 
 void Session::send(Message::ptr msg) {
     // LOG(INFO) << "send msg " << msg.strInfo();
-    if (m_wMsgs.size() == s_limit) {
-        LOG(WARNING) << "m_wMsgs full";
-    }
+    // if (m_wMsgs.size() == s_limit) {
+    //     LOG(WARNING) << "m_wMsgs full";
+    // }
 
-    m_wMsgs << std::move(msg);
+    m_wMsgs << msg;
 }
 
 // // head + body

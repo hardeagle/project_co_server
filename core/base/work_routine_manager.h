@@ -17,24 +17,28 @@ class WorkRoutine : public std::enable_shared_from_this<WorkRoutine> {
 public:
     using ptr = std::shared_ptr<WorkRoutine>;
 
-    WorkRoutine(uint32_t id);
+    WorkRoutine(uint64_t id);
 
-    uint32_t id() { return m_id; }
+    uint64_t id() { return m_id; }
 
     void setOnMessage(std::function<void(Message::ptr msg)> cb) {
         m_onMessageCB = cb;
     }
 
+    void setOnExit(std::function<void(uint64_t id)> cb) {
+        m_onExitCB = cb;
+    }
     void push(Message::ptr msg);
 
     void run();
 
 private:
-    uint32_t m_id;
+    uint64_t m_id;
 
     co_chan<Message::ptr> m_rMsgs;
 
     std::function<void(Message::ptr msg)> m_onMessageCB;
+    std::function<void(uint64_t id)> m_onExitCB;
 };
 
 class WorkRoutineManager {

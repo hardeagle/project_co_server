@@ -15,29 +15,32 @@ const static uint32_t s_limit = 40960;
 
 namespace Eayew {
 
-WorkRoutine::WorkRoutine(uint32_t id)
+WorkRoutine::WorkRoutine(uint64_t id)
     : m_id(id)
     , m_rMsgs(s_limit) {
 }
 
 void WorkRoutine::push(Message::ptr msg) {
-    if (m_rMsgs.size() == s_limit) {
-        LOG(WARNING) << "work routine full";
-    }
+    // if (m_rMsgs.size() == s_limit) {
+    //     LOG(WARNING) << "work routine full";
+    // }
 
     m_rMsgs << msg;
 }
 
 void WorkRoutine::run() {
     for (;;) {
-        if (m_rMsgs.size() == 0) {
-            LOG(WARNING) << "work routine empty";
-        }
+        // if (m_rMsgs.size() == 0) {
+        //     LOG(WARNING) << "work routine empty";
+        // }
 
         Message::ptr msg;
         m_rMsgs >> msg;
         if (msg->msgId() == CloseMsgId::ECMI_WorkRoutine) {
             LOG(INFO) << "exit work routine";
+            if (m_onExitCB != nullptr) {
+                m_onExitCB(m_id);
+            }
             break;
         }
         if (m_onMessageCB != nullptr) {
@@ -67,16 +70,16 @@ void WorkRoutineManager::dispatch(std::shared_ptr<Session> s, Message::ptr msg) 
         routine->setOnMessage([&, s](Message::ptr m) {
             m_servlet->doRequest(s, m);
         });
+        routine->setOnExit([&](uint64_t id) {
+            m_wrs.erase(id);
+            LOG(INFO) << "del work routine size after " << m_wrs.size();
+        });
         m_wrs[id] = routine;
         go co_scheduler(m_scheduler) [routine] {
             routine->run();
         };
     }
     m_wrs[id]->push(msg);
-    if (msg->msgId() == CloseMsgId::ECMI_WorkRoutine) {
-        m_wrs.erase(id);
-        LOG(INFO) << "del work routine size after " << m_wrs.size();
-    }
 }
 
 }

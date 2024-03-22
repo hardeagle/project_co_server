@@ -32,6 +32,9 @@ bool WsSession::start(bool accept) {
 		}
         auto wsft = parseHandshake((unsigned char*)(&buffs[0]), HANDSHAKE_STREAMBUF_SIZE);
         LOG(INFO) << "WsSession start wstf " << wsft;
+		if (wsft != OPENING_FRAME) {
+			return false;
+		}
         auto resp = answerHandshake();
         LOG(INFO) << "WsSession start resp " << resp;
         write(m_fd, resp.data(), resp.size());
