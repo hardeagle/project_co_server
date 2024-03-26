@@ -82,6 +82,10 @@ void WsSession::sync_read() {
 				continue;
 			} else {
 				LOG(ERROR) << "errno " << errno;
+				if (m_onCloseCB != nullptr) {
+					m_onCloseCB(id());
+				}
+				close(m_fd);
 				break;
 			}
 		}
