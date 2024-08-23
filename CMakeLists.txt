@@ -50,7 +50,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/protocol TEST_SRC_LIST)
 
 
 #set(CMAKE_CXX_FLAGS "-std=c++2a -g -O0 ${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "-std=c++17 -g -O0 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++17 -Og ${CMAKE_CXX_FLAGS}")
 
 
 add_executable(co_server main.cpp ${SRC_LIST} ${TEST_SRC_LIST})

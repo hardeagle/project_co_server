@@ -110,10 +110,12 @@ bool RankServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg)
         auto key = RoleIdToGameIdSetKey(roleid);
         LOG(INFO) << "key " << key;
         auto gameid = ServerResource::get()->redisMgr()->get<uint32_t>(key);
-        auto score = ServerResource::get()->redisMgr()->zscore(RankZsetKey(gameid, req.subtype()), roleid);
+        auto rkey = RankZsetKey(gameid, req.subtype());
+        LOG(INFO) << "rkey " << rkey << " roleid " << roleid;
+        auto score = ServerResource::get()->redisMgr()->zscore(rkey, roleid);
         LOG(INFO) << "gameid " << gameid << " roleid " << roleid << " subtype " << req.subtype() << " origin score " << score << " cur score " << req.score();
         if (req.score() > score) {
-            ServerResource::get()->redisMgr()->zadd(RankZsetKey(gameid, req.subtype()), req.score(), roleid);
+            ServerResource::get()->redisMgr()->zadd(rkey, req.score(), roleid);
         }
     } while(false);
 
