@@ -3,10 +3,11 @@
 
 #include <atomic>
 #include <memory>
+#include <map>
 #include <string>
 #include <unordered_map>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 namespace Eayew {
 
@@ -40,7 +41,7 @@ private:
 
     std::unordered_map<int, std::shared_ptr<RpcSession> > m_rpcSessions;
 
-    std::map<int, co_chan<std::string> > m_channels;
+    std::map<int, co::chan<std::string> > m_channels;
 };
 
 }

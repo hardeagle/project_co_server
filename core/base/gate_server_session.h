@@ -5,8 +5,6 @@
 
 #include <google/protobuf/message.h>
 
-#include <libgo/libgo.h>
-
 #include "core/message.h"
 #include "core/session.h"
 

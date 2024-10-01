@@ -4,13 +4,13 @@
 
 #include "core/servlet.h"
 
-#include "logic/chat/protocol/chat_id.pb.h"
+#include "logic/protocol/chat_id.pb.h"
 #include "logic/chat/servlet/chat_servlet.h"
 
 void ChatServer::beforeRun() {
-    LOG(INFO) << "ChatServer begin...";
+    LOG << "ChatServer begin...";
     initByConfig("./json/chat_server.json");
-    LOG(INFO) << "ChatServer end...";
+    LOG << "ChatServer end...";
 
     initServlet();
 }

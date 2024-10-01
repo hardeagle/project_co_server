@@ -4,7 +4,7 @@
 #include <map>
 #include <memory>
 
-#include "logic/login/protocol/login.pb.h"
+#include "logic/protocol/login.pb.h"
 
 class GameInfo {
 public:

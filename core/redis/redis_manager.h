@@ -8,7 +8,7 @@
 
 #include <hiredis/hiredis.h>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 #include  "log/glog.h"
 
@@ -35,7 +35,7 @@ public:
     T get() {
         try {
             if (!checkReply(m_reply)) {
-                LOG(ERROR) << "reply error";
+                ELOG << "reply error";
                 return {};
             }
             if (m_reply->type == REDIS_REPLY_NIL) {
@@ -51,7 +51,7 @@ public:
                 return boost::lexical_cast<T>(std::string(m_reply->element[0]->str, m_reply->element[0]->len));
             }
         } catch(...) {
-            LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
+            ELOG << "get fail " << boost::current_exception_diagnostic_information();
             return {};
         }
         return {};
@@ -61,7 +61,7 @@ public:
     std::set<T> get() {
         try {
             if (!checkReply(m_reply)) {
-                LOG(ERROR) << "reply error";
+                ELOG << "reply error";
                 return {};
             }
             if (m_reply->type == REDIS_REPLY_NIL) {
@@ -85,7 +85,7 @@ public:
                 return vals;
             }
         } catch(...) {
-            LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
+            ELOG << "get fail " << boost::current_exception_diagnostic_information();
             return {};
         }
         return {};
@@ -95,7 +95,7 @@ public:
     std::map<K, V> get() {
         try {
             if (!checkReply(m_reply)) {
-                LOG(ERROR) << "reply error";
+                ELOG << "reply error";
                 return {};
             }
             if (m_reply->type == REDIS_REPLY_NIL) {
@@ -115,7 +115,7 @@ public:
             }
             return vals;
         } catch(...) {
-            LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
+            ELOG << "get fail " << boost::current_exception_diagnostic_information();
             return {};
         }
         return {};
@@ -125,7 +125,7 @@ public:
     std::list<std::pair<K, V>> get() {
         try {
             if (!checkReply(m_reply)) {
-                LOG(ERROR) << "reply error";
+                ELOG << "reply error";
                 return {};
             }
             if (m_reply->type == REDIS_REPLY_NIL) {
@@ -145,7 +145,7 @@ public:
             }
             return vals;
         } catch(...) {
-            LOG(ERROR) << "get fail " << boost::current_exception_diagnostic_information();
+            ELOG << "get fail " << boost::current_exception_diagnostic_information();
             return {};
         }
         return {};
@@ -154,11 +154,11 @@ public:
 private:
     bool checkReply(redisReply* reply) {
         if (!reply) {
-            LOG(ERROR) << "reply is null!";
+            ELOG << "reply is null!";
             return false;
         }
         if (reply->type == REDIS_REPLY_ERROR) {
-            LOG(ERROR) << "redis reply error:" << std::string(reply->str, reply->len);
+            ELOG << "redis reply error:" << std::string(reply->str, reply->len);
             return false;
         }
         return true;
@@ -173,13 +173,15 @@ public:
     using ptr = std::shared_ptr<RedisConnection>;
 
     RedisConnection(const std::string& ip, uint16_t port) {
+        LOG << "ip " << ip << " port " << port;
         m_ctx = redisConnect(ip.data(), port);
         if (m_ctx == NULL || m_ctx->err) {
             if (m_ctx) {
-                LOG(ERROR) << "RedisConnection error: " << m_ctx->err;
+                ELOG << "RedisConnection error: " << m_ctx->err;
                 redisFree(m_ctx);
+                m_ctx = NULL;
             } else {
-                LOG(ERROR) << "RedisConnection error, can't allocate redis context";
+                ELOG << "RedisConnection error, can't allocate redis context";
             }
         }
     }
@@ -187,11 +189,16 @@ public:
     ~RedisConnection() {
         if (m_ctx) {
             redisFree(m_ctx);
+            m_ctx = NULL;
         }
     }
 
     template<typename T>
     RedisResult exec(std::string cmd, std::set<T>& params) {
+        if (m_ctx == NULL || m_ctx->err) {
+            return RedisResult();
+        }
+
         std::vector<std::string> cmds;
         cmds.emplace_back(std::move(boost::lexical_cast<std::string>(cmd)));
         for (auto& val: params) {
@@ -210,8 +217,15 @@ public:
 
     template<typename ...Args>
     RedisResult exec(Args... args) {
+        if (m_ctx == NULL || m_ctx->err) {
+            return RedisResult();;
+        }
+
         std::vector<std::string> cmds;
         convert(cmds, args...);
+        for (const auto& val : cmds) {
+            LOG << "val " << val;
+        }
         size_t argc = cmds.size();
         std::vector<const char*> argvs(argc);
         std::vector<size_t> argvs_len(argc);
@@ -224,9 +238,14 @@ public:
     }
 
 private:
+    template<typename T, typename U, typename ...Args>
+    void convert(std::vector<T>& vecs, U val,  Args... args) {
+        vecs.push_back(boost::lexical_cast<std::string>(val));
+        convert(vecs, args...);
+    }
+
     template<typename T, typename ...Args>
-    void convert(std::vector<T>& vecs, Args... args) {
-        (..., vecs.emplace_back(std::move(boost::lexical_cast<T>(args))));
+    void convert(std::vector<T>& vecs) {
     }
 
 private:
@@ -238,52 +257,49 @@ public:
     using ptr = std::shared_ptr<RedisManager>;
 
     RedisManager(const std::string& ip, uint16_t port)
-        : m_pool([=] {
-            return new RedisConnection(ip, port);
-        }, NULL, 1024, 128) {
-        m_pool.Reserve(128);
+        : m_pool(
+            [ip, port]() {
+                LOG << "RedisManager ip " << ip << " port " << port; 
+                return (void*) new Eayew::RedisConnection(ip, port); }, // ccb
+            [](void* p) { delete (Eayew::RedisConnection*) p; }, // dcb
+            128
+        ) {
     }
+
+    // RedisManager(const std::string& ip, uint16_t port)
+    //     : m_pool([&]() { return (void*) co::make<RedisConnection>(ip, port); }, // ccb
+    //             [](void* p) { co::del((RedisConnection*)p); },        // dcb
+    //             128                                    // max capacity
+    //             ) {
+    // }
+
+    // RedisManager(const std::string& ip, uint16_t port) {
+    // }
 
     // string-------------------------------------------------------------------
     template<typename T>
     void set(const std::string& key, const T& val) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return;
-        }
-        rc->exec("set", key, val);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec("set", key, val);
     }
 
     template<typename T>
     T get(const std::string& key) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return {};
-        }
-        return rc->exec("get", key).template get<T>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("get", key).template get<T>();
     }
 
     template<typename T, typename U>
     std::set<T> mget(std::set<U>& keys) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return {};
-        }
-        return rc->exec<U>("mget", keys).template get<T, true>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec<U>("mget", keys).template get<T, true>();
     }
 
     // set ---------------------------------------------------------------------
     template<typename T>
     bool sadd(const std::string& key, const T& member) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return false;
-        }
-        rc->exec("sadd", key, member);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec("sadd", key, member);
         return true;
     }
 
@@ -292,125 +308,76 @@ public:
         if (members.empty()) {
             return true;
         }
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return false;
-        }
-        rc->exec("srem", key, members);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec("srem", key, members);
         return true;
     }
 
     template<typename T>
     std::set<T> smembers(const std::string& key) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return {};
-        }
-        return rc->exec("smembers", key).get<T>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("smembers", key).get<T>();
     }
 
     // sorted set------------------------------------------------------
     template<typename T>
     bool zadd(const std::string& key, int score, const T& member) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return false;
-        }
-        rc->exec("zadd", key, score, member);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec("zadd", key, score, member);
         return true;
     }
 
     template<typename T>
     uint32_t zscore(const std::string& key, const T& member) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return 0;
-        }
-        return rc->exec("zscore", key, member).template get<uint32_t>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("zscore", key, member).template get<uint32_t>();
     }
 
     template<typename T, typename U>
     T zrevrank(const std::string& key, U& member) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return false;
-        }
-        return rc->exec("zrevrank", key, member).template get<T>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("zrevrank", key, member).template get<T>();
     }
 
     template<typename K, typename V>
     std::list<std::pair<K, V>> zrevrange(const std::string& key, int start, int stop) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return {};
-        }
-        return rc->exec("zrevrange", key, start, stop, "withscores").template get<K, V, true>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("zrevrange", key, start, stop, "withscores").template get<K, V, true>();
     }
 
     // hash-----------------------------------------------------------------------------------
     template<typename T>
     uint64_t hincrby(const std::string& key, const T& field, uint32_t increment) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return 0;
-        }
-        return rc->exec("hincrby", key, field, increment).template get<uint64_t>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("hincrby", key, field, increment).template get<uint64_t>();
     }
 
     template<typename T, typename U>
     void hset(const std::string& key, const T& field, const U& val) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return;
-        }
-        rc->exec("hset", key, field, val);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec("hset", key, field, val);
     }
 
     template<typename T, typename U>
     U hget(const std::string& key, const T& field) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return {};
-        }
-        return rc->exec("hget", key, field).get();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("hget", key, field).get();
     }
 
     template<typename K, typename V>
     std::map<K, V> hgetall(const std::string& key) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "hgetall fail";
-            return {};
-        }
-        return rc->exec("hgetall", key).template get<K, V>();
+        co::pool_guard<RedisConnection> pg(m_pool);
+        return pg.get()->exec("hgetall", key).template get<K, V>();
     }
 
     template<typename T>
     void del(std::set<T>& keys) {
-        auto rc = get();
-        if (!rc) {
-            LOG(ERROR) << "get fail";
-            return;
-        }
-        rc->exec<T>("del", keys);
+        co::pool_guard<RedisConnection> pg(m_pool);
+        pg.get()->exec<T>("del", keys);
     }
 
 private:
-    RedisConnection::ptr get() {
-        return m_pool.Get();
-    }
-
-private:
-    co::ConnectionPool<RedisConnection> m_pool;
+    co::pool m_pool;
 };
 
 

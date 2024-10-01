@@ -234,7 +234,7 @@ public:
     }
 
     size_t size() const noexcept {
-        //LOG(INFO) << " m_writePos " << m_writePos << " m_readPos " << m_readPos;
+        //LOG << " m_writePos " << m_writePos << " m_readPos " << m_readPos;
         return m_writePos - m_readPos;
     }
 

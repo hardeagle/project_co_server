@@ -3,8 +3,11 @@
 
 #include <memory>
 
+#include <co/co.h>
+
 namespace Eayew {
     class RedisManager;
+    class TimerManager;
 }
 
 class AccountManager;
@@ -20,7 +23,7 @@ public:
         return res;
     }
 
-    void init();
+    void init(co::Sched* sched);
 
     std::shared_ptr<Eayew::RedisManager> redisMgr() {
         return m_redisMgr;
@@ -46,6 +49,10 @@ public:
         return m_idMgr;
     }
 
+    std::shared_ptr<Eayew::TimerManager> timeMgr() {
+        return m_timeMgr;
+    }
+
 private:
     std::shared_ptr<Eayew::RedisManager> m_redisMgr;
     std::shared_ptr<Eayew::RedisManager> m_pikaMgr;
@@ -54,7 +61,7 @@ private:
     std::shared_ptr<AccountManager> m_accountMgr;
     std::shared_ptr<GameInfoManager> m_gameInfoMgr;
     std::shared_ptr<IdManager> m_idMgr;
-
+    std::shared_ptr<Eayew::TimerManager> m_timeMgr;
 };
 
 #endif

@@ -14,7 +14,7 @@ RpcServerSession::RpcServerSession(int fd)
 }
 
 void RpcServerSession::run() {
-    go std::bind(&RpcServerSession::sync_read, shared_from_this());
+    // go std::bind(&RpcServerSession::sync_read, shared_from_this());
 }
 
 void RpcServerSession::operator<<(std::string& buffer) {
@@ -27,14 +27,14 @@ void RpcServerSession::sync_read() {
         char head_buf[head_len];
         int rlen = read(m_fd, head_buf, head_len);
         if (rlen != head_len) {
-            LOG(ERROR) << "Invalid head length, rlen " << rlen << " head_len " << head_len;
+            ELOG << "Invalid head length, rlen " << rlen << " head_len " << head_len;
             return;
         }
         int body_len = 0;
         char body_buf[2048];
         rlen = read(m_fd, body_buf, body_len);
         if (rlen != body_len) {
-            LOG(ERROR) << "Invalid body length";
+            ELOG << "Invalid body length";
             return;
         }
         // parse

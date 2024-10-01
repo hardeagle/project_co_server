@@ -24,7 +24,7 @@ public:
 private:
     std::vector<uint32_t> m_stepIds;
     std::vector<uint64_t> m_maxIds;
-    std::vector<std::atomic_uint32_t> m_curIds;
+    std::vector<std::atomic<uint32_t>> m_curIds;
 };
 
 #endif

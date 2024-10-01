@@ -4,7 +4,7 @@
 #include <functional>
 #include <memory.h>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 #include "core/message.h"
 
@@ -35,7 +35,7 @@ public:
 private:
     uint64_t m_id;
 
-    co_chan<Message::ptr> m_rMsgs;
+    co::chan<Message::ptr> m_rMsgs;
 
     std::function<void(Message::ptr msg)> m_onMessageCB;
     std::function<void(uint64_t id)> m_onExitCB;
@@ -47,18 +47,19 @@ public:
 
     WorkRoutineManager(std::shared_ptr<ServletDispatchRange> servlet);
 
+    void sched(co::Sched* s) { m_sched = s; }
+
     void run();
 
     void dispatch(std::shared_ptr<Session> session, Message::ptr msg);
 
-    std::shared_ptr<co::CoTimer> timer() { return m_timer; }
 
 private:
     std::shared_ptr<ServletDispatchRange> m_servlet;
 
-    co::Scheduler* m_scheduler;
-    std::shared_ptr<co::CoTimer> m_timer;
     std::map<uint64_t, WorkRoutine::ptr> m_wrs;
+
+    co::Sched* m_sched;
 };
 
 }

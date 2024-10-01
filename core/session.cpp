@@ -4,14 +4,10 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#include <libgo/libgo.h>
-
 #include "core/message.h"
 #include "core/util/util.h"
 
-#include "log/glog.h"
-
-const static uint32_t s_limit = 40960;
+const static uint32_t s_limit = 4096;
 
 namespace Eayew {
 
@@ -41,43 +37,52 @@ bool Session::sync_connect(const std::string& ip, uint16_t port) {
     addr.sin_port = htons(m_port);
     addr.sin_addr.s_addr = inet_addr(m_ip.data());
     if (-1 == connect(m_fd, (sockaddr*)&addr, sizeof(addr))) {
-        LOG(ERROR) << "connect fail, port " << m_port;
+        ELOG << "connect fail, port " << m_port;
         return false;
     }
     m_id = (uint64_t(m_port) << 48) + (uint64_t(getCurSecond()) << 16) + (m_fd & 0xFFFF);
-    LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
+    LOG << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
     return true;
 }
 
 bool Session::closeMsg(uint16_t msgid, uint64_t sessionid) {
-    auto msg = std::make_shared<Message>(0);
+    auto msg = co::make_shared<Message>(0);
     msg->msgId(msgid);
     msg->roleId(0); 
     msg->sessionId(sessionid);
     msg->senderId(this->sender());
     msg->receiverId(this->receiver());
     this->send(msg);
-    LOG(INFO) << "close, msg  " << msg->strInfo();
+    LOG << "close, msg  " << msg->strInfo();
     return true;
 }
 
 void Session::run() {
-    go [this, self = shared_from_this()] {
+    if (m_rSched == nullptr) {
+        LOG << "nullptr";
+    }
+    LOG << "run begin...";
+    m_rSched->go([this, self = shared_from_this()] {
         sync_read();
-    };
+    });
 
-    go [this, self = shared_from_this()] {
+    LOG << "run mid...";
+
+    m_wSched->go([this, self = shared_from_this()] {
         sync_write();
-    };
+    });
+    LOG << "run end...";
 }
 
 void Session::send(Message::ptr msg) {
-    // LOG(INFO) << "send msg " << msg.strInfo();
+    LOG << "begin...";
+    LOG << "send msg " << msg->strInfo();
     // if (m_wMsgs.size() == s_limit) {
-    //     LOG(WARNING) << "m_wMsgs full";
+    //     WLOG << "m_wMsgs full";
     // }
 
     m_wMsgs << msg;
+    LOG << "end...";
 }
 
 // // head + body
@@ -86,14 +91,14 @@ void Session::send(Message::ptr msg) {
 //         Message msg;
 //         auto head_len = Message::LEN_SIZE;
 //         if (!Eayew::eio(recv, m_fd, msg.wbuffer(), head_len, MSG_WAITALL)) {
-//             LOG(ERROR) << "eio fail, close or error ";
+//             ELOG << "eio fail, close or error ";
 //             return;
 //         }
 //         msg.commit(head_len);
 //         auto body_len = msg.length() - head_len;
 //         msg.prepare(body_len);
 //         if (!Eayew::eio(recv, m_fd, msg.wbuffer(), body_len, MSG_WAITALL)) {
-//             LOG(ERROR) << "eio fail, close or error ";
+//             ELOG << "eio fail, close or error ";
 //             return;
 //         }
 //         msg.commit(body_len);
@@ -110,7 +115,7 @@ void Session::send(Message::ptr msg) {
 //         auto head_len = Message::LEN_SIZE;
 //         char buffs[head_len];
 //         if (!Eayew::eio(recv, m_fd, &buffs[0], head_len, MSG_WAITALL)) {
-//             LOG(ERROR) << "eio fail, close or error ";
+//             ELOG << "eio fail, close or error ";
 //             return;
 //         }
 //         auto len = *((uint16_t*)(&buffs[0]));
@@ -118,10 +123,10 @@ void Session::send(Message::ptr msg) {
 //         Message msg(len - Message::HEAD_LEN);
 //         msg.length(len);
 //         if (!Eayew::eio(recv, m_fd, msg.data() + head_len, body_len, MSG_WAITALL)) {
-//             LOG(ERROR) << "eio fail, close or error ";
+//             ELOG << "eio fail, close or error ";
 //             return;
 //         }
-//         LOG(INFO) << "---msg " << msg.strInfo();
+//         LOG << "---msg " << msg.strInfo();
 //         if (m_onMessageCB != nullptr) {
 //             m_onMessageCB(std::move(msg));
 //         }
@@ -135,7 +140,7 @@ void Session::sync_read() {
     uint32_t rlen = 0;
     for (;;) {
         if (index < rlen) {
-            LOG(WARNING) << "memmove index " << index << " rlen " << rlen;
+            WLOG << "memmove index " << index << " rlen " << rlen;
             memcpy(&buffs[0], &buffs[index], rlen - index);
             index = rlen - index;
         } else {
@@ -143,60 +148,60 @@ void Session::sync_read() {
         }
         rlen = read(m_fd, &buffs[index], MAX_SIZE - index);
         if (0 == rlen) {
-            LOG(WARNING) << "close";
+            WLOG << "close";
             if (m_onCloseCB != nullptr) {
-                m_onCloseCB(id());
+                m_onCloseCB(sender());
             }
             close(m_fd);
             return;
         } else if (-1 == rlen) {
             if (errno == EINTR || errno==EAGAIN) {
-                LOG(WARNING) << "errno " << errno;
+                WLOG << "errno " << errno;
                 continue;
             } else {
-                LOG(ERROR) << "errno " << errno;
+                ELOG << "errno " << errno;
                 return;
             }
         }
 
-        // LOG(WARNING) << "---rlen " << rlen << " index " << index;
+        WLOG << "---rlen " << rlen << " index " << index;
         rlen += index;
         index = 0;
         while (index < rlen) {
             auto p = (uint16_t*)(&buffs[index]);
-            // LOG(INFO) << "p " << p << " data size " << *p;
+            LOG << "p " << p << " data size " << *p;
             auto size = *p;
             if (size > MAX_SIZE) {
-                LOG(ERROR) << "overflow , size " << size << " MAX_SIZE" << MAX_SIZE;
+                ELOG << "overflow , size " << size << " MAX_SIZE" << MAX_SIZE;
                 return;
             }
             if (size > rlen - index) {
-                LOG(WARNING) << "warning " << " rlen " << rlen << " index " << index << " size " << size; // 还需要做下处理，粘包
+                WLOG << "warning " << " rlen " << rlen << " index " << index << " size " << size; // 还需要做下处理，粘包
                 break;
             }
-            // LOG(INFO) << "len " << rlen << " size " << size << " index " << index;
-            auto msg = std::make_shared<Message>(size - Message::HEAD_LEN);
+            LOG << "len " << rlen << " size " << size << " index " << index;
+            auto msg = co::make_shared<Message>(size - Message::HEAD_LEN);
             memcpy(msg->data(), &buffs[index], size);
             if (m_onMessageCB != nullptr) {
-                // LOG(INFO) << "msg " << msg.strInfo();
+                //LOG << "msg " << msg.strInfo();
                 m_onMessageCB(msg);
             }
             index += size;
-            // LOG(WARNING) << "loop, len " << rlen << " index " << index;
+            WLOG << "loop, len " << rlen << " index " << index;
         }
-        // LOG(WARNING) << "once read, len " << rlen << " index " << index;
+        WLOG << "once read, len " << rlen << " index " << index;
     }
 }
 
 void Session::sync_write() {
     for (;;) {
-        if (m_wMsgs.size() == 0) {
-            LOG(WARNING) << "m_wMsgs empty";
-        }
+        // if (m_wMsgs.size() == 0) {
+        //     WLOG << "m_wMsgs empty";
+        // }
 
         Message::ptr msg;
         m_wMsgs >> msg;
-        // LOG(INFO) << "sync_write " << msg.strInfo();
+        LOG << "sync_write " << msg->strInfo();
         write(m_fd, msg->data(), msg->size());
     }
 }

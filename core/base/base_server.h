@@ -4,11 +4,11 @@
 #include <memory>
 #include <unordered_map>
 
-#include <libgo/libgo.h>
-
 #include <ppconsul/agent.h>
 #include <ppconsul/consul.h>
 #include <ppconsul/kv.h>
+
+#include <co/all.h>
 
 #include "core/message.h"
 
@@ -38,6 +38,10 @@ public:
 
     const std::string& name() { return m_name; }
 
+    co::Sched* mainSched() { return m_mainSched; }
+
+    co::Sched* workSched() { return m_workSched; }
+
     void run();
 
     void rpcDispatch(std::string& msg);
@@ -45,8 +49,6 @@ public:
     void initByConfig(const std::string& file);
 
     virtual void beforeRun() {}
-
-    std::shared_ptr<co::CoTimer> timer();
 
     std::shared_ptr<RpcManager> rpcManager() { return m_rpcManager; }
 
@@ -84,6 +86,9 @@ private:
     std::unordered_map<uint32_t, std::shared_ptr<Session> > m_sessions;
 
     std::shared_ptr<WorkRoutineManager> m_workRoutineMgr;
+
+    co::Sched* m_mainSched;
+    co::Sched* m_workSched;
 };
 
 }

@@ -9,7 +9,7 @@
 
 #include <sstream>
 
-#include "log/glog.h"
+#include <co/log.h>
 
 namespace Eayew {
 
@@ -41,16 +41,27 @@ uint16_t getTypeByName(const std::string& name) {
 }
 
 Message::ptr covertRspMsg(Message::ptr msg, const google::protobuf::Message& gpm) {
-    // LOG(INFO) << "covertRspMsg begin " << msg.strInfo();
+    // // LOG << "covertRspMsg begin " << msg.strInfo();
+    // auto nsize = gpm.ByteSizeLong();
+    // if (nsize > msg->size()) {
+    //     msg->prepare(nsize - msg->size());
+    // }
+    // gpm.SerializeToArray(msg->pdata(), nsize);
+    // msg->length(Message::HEAD_LEN + nsize);
+    // msg->msgId(msg->msgId() + 1);
+    // // LOG << "covertRspMsg end " << msg.strInfo();
+    // return msg;
+    LOG << "covertRspMsg begin " << msg->strInfo();
     auto nsize = gpm.ByteSizeLong();
-    if (nsize > msg->size()) {
-        msg->prepare(nsize - msg->size());
-    }
-    gpm.SerializeToArray(msg->pdata(), nsize);
-    msg->length(Message::HEAD_LEN + nsize);
-    msg->msgId(msg->msgId() + 1);
-    // LOG(INFO) << "covertRspMsg end " << msg.strInfo();
-    return msg;
+    auto nmsg = co::make_shared<Message>(nsize);
+    gpm.SerializeToArray(nmsg->pdata(), nsize);
+    nmsg->senderId(msg->senderId());
+    nmsg->receiverId(msg->receiverId());
+    nmsg->msgId(msg->msgId() + 1);
+    nmsg->roleId(msg->roleId());
+    nmsg->sessionId(msg->sessionId());
+    LOG << "covertRspMsg end " << nmsg->strInfo();
+    return nmsg;
 }
 
 std::string getIP() {
@@ -64,7 +75,7 @@ std::string getIP() {
             tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
             char addressBuffer[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-            //LOG(ERROR) << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
+            //ELOG << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
             if (strcmp(ifAddrStruct->ifa_name,"lo") == 0) {
                 ifAddrStruct=ifAddrStruct->ifa_next;
                 continue;
@@ -74,7 +85,7 @@ std::string getIP() {
             tmpAddrPtr=&((struct sockaddr_in*)ifAddrStruct->ifa_addr)->sin_addr;
             char addressBuffer[INET6_ADDRSTRLEN];
             inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-            //LOG(ERROR) << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
+            //ELOG << "ifAddrStruct->ifa_name " << ifAddrStruct->ifa_name << " addressBuffer " << addressBuffer;
         }
         ifAddrStruct=ifAddrStruct->ifa_next;
     }

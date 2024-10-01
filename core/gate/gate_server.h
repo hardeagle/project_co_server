@@ -4,7 +4,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 #include <ppconsul/agent.h>
 #include <ppconsul/consul.h>
@@ -38,7 +38,6 @@ private:
     void init();
 
     void consulServer();
-
     void discoverServer();
 
 
@@ -55,7 +54,8 @@ private:
     ppconsul::agent::Agent m_agent;
     ppconsul::kv::Kv m_kv;
 
-    co_timer m_timer;
+    co::Tasked m_task;
+    co::Sched* m_sched;
 
     std::unordered_map<uint64_t, uint64_t> m_sessionIdToRoleIds;
     std::unordered_map<uint64_t, std::shared_ptr<GateSession> > m_sessions;

@@ -9,15 +9,15 @@
 
 #include "logic/common/redis_key.h"
 #include "logic/protocol/public.pb.h"
-#include "logic/rank/protocol/rank_id.pb.h"
-#include "logic/rank/protocol/rank.pb.h"
+#include "logic/protocol/rank_id.pb.h"
+#include "logic/protocol/rank.pb.h"
 #include "logic/rank/servlet/rank_servlet.h"
 #include "logic/rank/server_resource.h"
 
 void RankServer::beforeRun() {
     initByConfig("./json/login_server.json");
 
-    ServerResource::get()->init(timer());
+    ServerResource::get()->init(workSched());
 
     initServlet();
 
@@ -34,32 +34,33 @@ void RankServer::initTimer() {
     ServerResource::get()->timerMgr()->addDailyTimer(23, 59, 59, [] {
         std::set<std::string> keys;
         auto results = ServerResource::get()->redisMgr()->hgetall<int32_t, std::string>("pcs_game_info_hash");
-        for (auto [key, val] : results) {
-            keys.insert(RankZsetKey(key, 1));
+        for (const auto& pair : results) {
+            keys.insert(RankZsetKey(pair.first, 1));
         }
         ServerResource::get()->redisMgr()->del<std::string>(keys);
-        LOG(INFO) << "Del rank complete";
+        LOG << "Del rank complete";
     });
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
-        notifyTodayRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(30000, [&] {
+    //     notifyTodayRank();
+    // }, false);
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(90000, [&] {
-        notifyLevelRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(20, [&] {
+    //     notifyLevelRank();
+    // }, false);
 
-    ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
-        notifyScoreRank();
-    }, false);
+    // ServerResource::get()->timerMgr()->addIntervalTimer(150000, [&] {
+    //     notifyScoreRank();
+    // }, false);
 }
 
 void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
+    LOG << "notify rank gameid " << gameid << " subtype " << subtype;
     auto rankkey = RankZsetKey(gameid, subtype);
     auto scores = ServerResource::get()->redisMgr()->zrevrange<uint64_t, uint32_t>(rankkey, 0, 2);
     std::set<std::string> keys;
     for (const auto& val : scores) {
-        LOG(INFO) << "rank data id " << val.first << " score " << val.second;
+        LOG << "rank data id " << val.first << " score " << val.second;
         keys.insert(BaseRoleInfoSetKey(val.first));
     }
     auto index = 0;
@@ -68,7 +69,7 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
     for (auto& role : roles) {
         auto bri = std::make_shared<PublicProtocol::BaseRoleInfo>();
         if (!bri->ParseFromString(role)) {
-            LOG(WARNING) << "parseFromeString fail";
+            WLOG << "parseFromeString fail";
             continue;
         }
         bris[bri->role_id()] = bri;
@@ -78,7 +79,7 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
     for (const auto& val: scores) {
         auto bri = bris[val.first];
         if (!bri) {
-            LOG(WARNING) << "Invalid id " << val.first;
+            WLOG << "Invalid id " << val.first;
             continue;
         }
         auto ri = ntf.add_ris();
@@ -87,23 +88,24 @@ void RankServer::notifyRank(uint32_t gameid, uint32_t subtype) {
         ri->set_name(bri->name());
         ri->set_avatarurl(bri->avatarurl());
         ri->set_score(val.second);   // ?
-        // LOG(INFO) << "ri " << ri->DebugString();
+        // LOG << "ri " << ri->DebugString();
     }
+    ntf.set_gameid(gameid);
     ntf.set_subtype(subtype);
 
     auto s = getSession(Eayew::ServerType::EST_GATE);
     if (s) {
         auto nsize = ntf.ByteSizeLong();
-        auto msg = std::make_shared<Eayew::Message>(nsize);
+        auto msg = co::make_shared<Eayew::Message>(nsize);
         ntf.SerializeToArray(msg->pdata(), nsize);
 
         uint16_t msgid = RankProtocol::S2C_RANK_NOTIFY & 0XFFFF;
         msg->msgId(msgid);
-        msg->roleId(Eayew::MsgType::EMT_NOTIFY_ROLE_ID); 
+        msg->roleId(Eayew::MsgType::EMT_NOTIFY_ROLE_ID);
         msg->sessionId(Eayew::MsgType::EMT_NOTIFY_SESSION_ID);
         msg->senderId(Eayew::ServerType::EST_GATE);
         msg->receiverId(Eayew::ServerType::EST_RANK);
-        LOG(INFO) << "notify msg " << msg->strInfo();
+        LOG << "notify msg " << msg->strInfo();
         s->send(msg);
     }
 }
@@ -116,8 +118,13 @@ void RankServer::notifyTodayRank() {
 }
 
 void RankServer::notifyLevelRank() {
-    notifyRank(3, 2);
-    ServerResource::get()->timerMgr()->addIntervalTimer(180000, [&] {
+    std::set<std::string> keys;
+    auto results = ServerResource::get()->redisMgr()->hgetall<int32_t, std::string>("pcs_game_info_hash");
+    for (const auto& pair : results) {
+        notifyRank(pair.first, 2);
+    }
+
+    ServerResource::get()->timerMgr()->addIntervalTimer(20, [&] {
         notifyLevelRank();
     }, false);
 }

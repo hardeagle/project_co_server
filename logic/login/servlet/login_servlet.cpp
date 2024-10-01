@@ -1,8 +1,8 @@
 #include "login_servlet.h"
 
-#define CPPHTTPLIB_OPENSSL_SUPPORT
-#define CPPHTTPLIB_USE_POLL
-#include "core/httplib.h"
+// #define CPPHTTPLIB_OPENSSL_SUPPORT
+// #define CPPHTTPLIB_USE_POLL
+// #include "core/httplib.h"
 
 #include <json/json.h>
 
@@ -17,8 +17,8 @@
 
 #include "logic/login/game_info_manager.h"
 #include "logic/login/id_manager.h"
-#include "logic/login/protocol/login_id.pb.h"
-#include "logic/login/protocol/login.pb.h"
+#include "logic/protocol/login_id.pb.h"
+#include "logic/protocol/login.pb.h"
 #include "logic/login/server_resource.h"
 
 bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
@@ -35,7 +35,7 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr ms
         case LoginProtocol::ID::C2S_LOGIN_UPDATE:
             return doUpdate(session, msg);
         default:
-            LOG(ERROR) << "invalid id " << id;
+            ELOG << "invalid id " << id;
             return true;
     }
 
@@ -43,18 +43,19 @@ bool LoginServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr ms
 }
 
 bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doLogin begin...";
+    LOG << "doLogin begin...";
     LoginProtocol::C2S_LoginLogin req;
     if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
+        ELOG << "ParseFromArray fail";
         return false;
     }
 
     LoginProtocol::S2C_LoginLogin resp;
     do {
         auto role_id = ServerResource::get()->redisMgr()->get<uint64_t>(LoginNameToRoleIdSetKey(req.loginname()));
+        LOG << "doLogin role id " << role_id;
         if (role_id == 0) {
-            LOG(INFO) << "new role";
+            LOG << "new role";
             resp.set_ret(EC_LOGIN::NO_ROLE);
             break;
         }
@@ -63,27 +64,28 @@ bool LoginServlet::doLogin(Eayew::Session::ptr session, Eayew::Message::ptr msg)
     } while (false);
     
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doLogin end... resp " << resp.DebugString();
+    LOG << "doLogin end... resp " << resp.DebugString();
     return true;
 }
 
 bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doCreate begin...";
+    LOG << "doCreate begin...";
     LoginProtocol::C2S_LoginCreate req;
     if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
+        ELOG << "ParseFromArray fail";
         return false;
     }
-    LOG(INFO) << "req " << req.DebugString();
+    LOG << "req " << req.DebugString();
 
     LoginProtocol::S2C_LoginCreate resp;
     do {
         auto role_id = ServerResource::get()->idMgr()->generateId();
         if (role_id <= 0) {
-            LOG(ERROR) << "general id fail, role id " << role_id;
+            ELOG << "general id fail, role id " << role_id;
             resp.set_ret(EC_LOGIN::GENERATE_ID_FAIL);
             break;
         }
+        LOG << "doCreate role id " << role_id;
         ServerResource::get()->redisMgr()->set(LoginNameToRoleIdSetKey(req.loginname()), role_id);
         ServerResource::get()->redisMgr()->set(RoleIdToGameIdSetKey(role_id), req.gameid());
 
@@ -100,30 +102,75 @@ bool LoginServlet::doCreate(Eayew::Session::ptr session, Eayew::Message::ptr msg
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doCreate end... resp " << resp.DebugString();
+    LOG << "doCreate end... resp " << resp.DebugString();
     return true;
 }
 
 bool LoginServlet::doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doLoad begin...";
+    LOG << "doLoad begin...";
     LoginProtocol::C2S_LoginLoad req;
     if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
+        ELOG << "ParseFromArray fail";
         return false;
     }
+    LOG << "doLoad req " << req.DebugString();
     LoginProtocol::S2C_LoginLogin resp;
     do {
-
+        auto role_id = ServerResource::get()->redisMgr()->get<uint64_t>(LoginNameToRoleIdSetKey(req.loginname()));
+        if ( req.role_id() != role_id || req.role_id() != msg->roleId()) {
+            ELOG << "req role id " << req.role_id() << " redis roleid " << role_id << " msg role id " << msg->roleId();
+            resp.set_ret(EC_LOGIN::NO_ROLE);
+            break;
+        }
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(ERROR) << "doLoad end... resp " << resp.DebugString();
+    ELOG << "doLoad end... resp " << resp.DebugString();
     return true;
 }
 
 EC_LOGIN ttOpenid(std::string& openid, GameInfo::ptr gi, const std::string& code) {
-    httplib::SSLClient cli("developer.toutiao.com");
-    cli.enable_server_certificate_verification(false);
+    // httplib::SSLClient cli("developer.toutiao.com");
+    // cli.enable_server_certificate_verification(false);
+
+    // std::string params = "/api/apps/jscode2session";
+    // params += "?appid=";
+    // params += gi->appid();
+    // params += "&secret=";
+    // params += gi->secret();
+    // params += "&code=";
+    // params += code;
+    // LOG << "params " << params;
+    // if (auto res = cli.Get(params)) {
+    //     if (res->status != httplib::StatusCode::OK_200) {
+    //         ELOG << "http response status " << res->status;
+    //         return EC_LOGIN::HTTP_TT_STATUS_ERROR;
+    //     }
+
+    //     LOG << "resp body " << res->body;
+    //     Json::Value root;
+    //     Json::Reader reader;
+    //     if (reader.parse(res->body, root)) {
+    //         // LOG << "parse resp " << root;
+    //         auto ret = root["error"].asInt64();
+    //         if (ret != 0) {
+    //             ELOG << "resp error ret " << ret;
+    //             return EC_LOGIN::HTTP_TT_RSP_FAIL;
+    //         }
+    //         openid = root["openid"].asString();
+    //     } else {
+    //         ELOG << "parse error, body " << res->body;
+    //         return EC_LOGIN::HTTP_TT_RSP_PARSE_FAIL;
+    //     }
+    // } else {
+    //     ELOG << "http fail err " << int(res.error());
+    //     return EC_LOGIN::HTTP_TT_GET_FAIL;
+    // }
+    // return EC_LOGIN::SUCCESS;
+
+    // http::Client c(FLG_s.c_str());
+
+    http::Client cli("developer.toutiao.com");
 
     std::string params = "/api/apps/jscode2session";
     params += "?appid=";
@@ -132,40 +179,37 @@ EC_LOGIN ttOpenid(std::string& openid, GameInfo::ptr gi, const std::string& code
     params += gi->secret();
     params += "&code=";
     params += code;
-    LOG(INFO) << "params " << params;
-    if (auto res = cli.Get(params)) {
-        if (res->status != httplib::StatusCode::OK_200) {
-            LOG(ERROR) << "http response status " << res->status;
-            return EC_LOGIN::HTTP_TT_STATUS_ERROR;
-        }
-
-        LOG(INFO) << "resp body " << res->body;
-        Json::Value root;
-        Json::Reader reader;
-        if (reader.parse(res->body, root)) {
-            // LOG(INFO) << "parse resp " << root;
-            auto ret = root["error"].asInt64();
-            if (ret != 0) {
-                LOG(ERROR) << "resp error ret " << ret;
-                return EC_LOGIN::HTTP_TT_RSP_FAIL;
-            }
-            openid = root["openid"].asString();
-        } else {
-            LOG(ERROR) << "parse error, body " << res->body;
-            return EC_LOGIN::HTTP_TT_RSP_PARSE_FAIL;
-        }
-    } else {
-        LOG(ERROR) << "http fail err " << res.error();
+    LOG << "params " << params;
+    cli.get(params.c_str());
+    if (cli.status() != 200) {
+        ELOG <<"get error " << cli.status();
         return EC_LOGIN::HTTP_TT_GET_FAIL;
     }
+
+    LOG << "resp body " << cli.body();
+    Json::Value root;
+    Json::Reader reader;
+    if (reader.parse(cli.body().c_str(), root)) {
+        auto ret = root["error"].asInt64();
+        if (ret != 0) {
+            ELOG << "resp error ret " << ret;
+            return EC_LOGIN::HTTP_TT_RSP_FAIL;
+        }
+        openid = root["openid"].asString();
+        LOG << "---openid " << openid;
+    } else {
+        ELOG << "parse error, body " << cli.body();
+        return EC_LOGIN::HTTP_TT_RSP_PARSE_FAIL;
+    }
+
     return EC_LOGIN::SUCCESS;
 }
 
 bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doOpenid begin...";
+    LOG << "doOpenid begin...";
     LoginProtocol::C2S_LoginOpenid req;
     if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
+        ELOG << "ParseFromArray fail";
         return false;
     }
 
@@ -174,7 +218,7 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg
         auto gi_mgr = ServerResource::get()->gameInfoMgr();
         auto gi = gi_mgr->get(req.gameid());
         if (!gi) {
-            LOG(ERROR) << "Not exist game id " << req.gameid();
+            ELOG << "Not exist game id " << req.gameid();
             resp.set_ret(EC_LOGIN::GAME_ID_ILLEGAL);
             break;
         }
@@ -182,7 +226,7 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg
         std::string openid;
         auto ret = ttOpenid(openid, gi, req.code());
         if (ret != EC_LOGIN::SUCCESS) {
-            LOG(ERROR) << "ttOpenid ret " << ret;
+            ELOG << "ttOpenid ret " << ret;
             resp.set_ret(ret);
             break;
         }
@@ -190,15 +234,15 @@ bool LoginServlet::doOpenid(Eayew::Session::ptr session, Eayew::Message::ptr msg
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(ERROR) << "doOpenid end... resp " << resp.DebugString();
+    ELOG << "doOpenid end... resp " << resp.DebugString();
     return true;
 }
 
 bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doUpdate begin...";
+    LOG << "doUpdate begin...";
     LoginProtocol::C2S_LoginUpdate req;
     if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
+        ELOG << "ParseFromArray fail";
         return false;
     }
     
@@ -208,7 +252,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg
         auto val = ServerResource::get()->redisMgr()->get<std::string>(BaseRoleInfoSetKey(roleid));
         PublicProtocol::BaseRoleInfo bri;
         if (!bri.ParseFromString(val)) {
-            LOG(ERROR) << "parseFromString fail roleid " << roleid;
+            ELOG << "parseFromString fail roleid " << roleid;
             resp.set_ret(EC_LOGIN::PARSE_FROM_STRING_FAIL);
             break;
         }
@@ -220,7 +264,7 @@ bool LoginServlet::doUpdate(Eayew::Session::ptr session, Eayew::Message::ptr msg
     } while(false);
 
     session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doUpdate end... resp " << resp.DebugString();
+    LOG << "doUpdate end... resp " << resp.DebugString();
     return true;
 }
 

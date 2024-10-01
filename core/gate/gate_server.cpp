@@ -7,8 +7,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include <libgo/libgo.h>
-
 #include "core/const.hpp"
 #include "core/message.h"
 #include "core/rpc/rpc_manager.h"
@@ -26,10 +24,10 @@ namespace Eayew {
 GateServer::GateServer()
     : m_type(ServerType::EST_GATE)
     , m_agent(m_consul)
-    , m_kv(m_consul)
-    , m_timer(std::chrono::milliseconds(1), &co_sched) {
+    , m_kv(m_consul) {
     auto ip = getIP();
-    LOG(INFO) << "ip " << ip;
+    LOG << "ip " << ip;
+    m_sched = co::next_sched();
 }
 
 GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
@@ -45,11 +43,11 @@ GatePeerSession::ptr GateServer::getGatePeerSession(uint16_t type) {
     // 断线重连
     // auto servers = m_agent.services();
     // for (auto [id, si] : servers) {
-    //     LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+    //     LOG << "discoverServer id " << id << " name " << si.name;
     //     uint16_t st = std::atoi(si.name.data());
     //     if (st == type) {
     //         auto gps = std::make_shared<GatePeerSession>(si.address, si.port, *this);
-    //         LOG(INFO) << "config self type " << this->type() << " rpc type " << st;
+    //         LOG << "config self type " << this->type() << " rpc type " << st;
     //         gps->senderType(this->type());
     //         gps->receiverType(st);
     //         gps->run();
@@ -84,17 +82,17 @@ void GateServer::run() {
     addr.sin_addr.s_addr = inet_addr("0.0.0.0"); //inet_addr(m_ip.data());
     socklen_t len = sizeof(addr);
     if (-1 == bind(accept_fd, (sockaddr*)&addr, len)) {
-        LOG(ERROR) << "bind error, port " << m_port;
+        ELOG << "bind error, port " << m_port;
         return;
     }
     if (-1 == listen(accept_fd, 2048)) {
-        LOG(ERROR) << "listen error";
+        ELOG << "listen error";
         return;
     }
 
-    LOG(INFO) << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
+    LOG << "listen success, type " << m_type << " ip " << m_ip << " port " << m_port;
 
-    go [&] {
+    m_sched->go([&] {
         for(;;) {
             int fd = accept(accept_fd, (sockaddr*)&addr, &len);
             if (-1 == fd) {
@@ -102,15 +100,17 @@ void GateServer::run() {
                     close(fd);
                     continue;
                 }
-                LOG(ERROR) << "accept error";
+                ELOG << "accept error";
                 close(fd);
                 return;
             }
 
-            LOG(INFO) << "accept success, fd " << fd;
+            LOG << "accept success, fd " << fd;
             auto gws = std::make_shared<GateWsSession>(fd);
+            gws->setrSched(m_sched);
+            gws->setwSched(m_sched);
             if (!gws->start()) {
-                LOG(WARNING) << "illegal ws client";
+                WLOG << "illegal ws client";
                 close(fd);
                 continue;
             }
@@ -119,39 +119,42 @@ void GateServer::run() {
                 uint16_t receiver_id = msg->receiverId();
                 auto gps = getGatePeerSession(receiver_id);
                 if (!gps) {
-                    LOG(ERROR) << "Invalid receiver " << receiver_id;
+                    ELOG << "Invalid receiver " << receiver_id;
                     return;
                 }
                 msg->sessionId(gws_id);
-                // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
+                LOG << "onMessage, receiver_id " << receiver_id << " msg " << msg->strInfo();
                 auto it = m_sessionIdToRoleIds.find(gws_id);
                 if (it != m_sessionIdToRoleIds.end()) {
                     msg->roleId(it->second);
                 }
-                // LOG(INFO) << "onMessage, receiver_id " << receiver_id << " msg " << msg.strInfo();
+                LOG << "onMessage, receiver_id " << receiver_id << " msg " << msg->strInfo();
                 gps->send(msg);
             });
             gws->setOnClose([&](uint64_t id) {
-                m_wsSessions[id]->closeMsg(CloseMsgId::ECMI_WebsocketSession, id);
+                LOG << "GateWsSession close cb";
+                // m_wsSessions[id]->closeMsg(CloseMsgId::ECMI_WebsocketSession, id);
 
-                m_wsSessions.erase(id);
-                m_sessionIdToRoleIds.erase(id);
+                // m_wsSessions.erase(id);
+                // m_sessionIdToRoleIds.erase(id);
 
-                LOG(INFO) << "gws close id " << id << " m_wsSessions size " << m_wsSessions.size() << " m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
-                for (const auto& pair : m_gpSessions) {
-                    for (const auto& gps : pair.second) {
-                        gps.second->closeMsg(CloseMsgId::ECMI_WorkRoutine, id);
-                    }
-                }
+                // LOG << "gws close id " << id << " m_wsSessions size " << m_wsSessions.size() << " m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
+                // for (const auto& pair : m_gpSessions) {
+                //     for (const auto& gps : pair.second) {
+                //         gps.second->closeMsg(CloseMsgId::ECMI_WorkRoutine, id);
+                //     }
+                // }
             });
             m_wsSessions[gws->id()] = gws;
             gws->run();
         }
-    };
+    });
 
     consulServer();
 
-    co_sched.Start(1, 1);
+    co::wait_group wg;
+    wg.add(1);
+    wg.wait();
 }
 
 void GateServer::init() {
@@ -170,7 +173,7 @@ void GateServer::init() {
     m_name = std::to_string(m_type);
     m_serverId = serverId(m_name, m_type, m_ip, m_port);
 
-    LOG(INFO) << "m_ip " << m_ip << " m_port " << m_port << " m_name " << m_name << " m_serverId " << m_serverId;
+    LOG << "m_ip " << m_ip << " m_port " << m_port << " m_name " << m_name << " m_serverId " << m_serverId;
 }
 
 void GateServer::consulServer() {
@@ -182,9 +185,18 @@ void GateServer::consulServer() {
         ppconsul::agent::kw::id = m_serverId
     );
 
-    m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
-        discoverServer();
-    });
+    // m_timer.ExpireAt(std::chrono::seconds(1), [this, self = shared_from_this()] {
+    //     discoverServer();
+    // });
+
+    // m_sched->go([this]() {
+    //     discoverServer();
+    // });
+    m_task.run_every([this]() {
+        m_sched->go([this]() {
+            discoverServer();
+        });
+    }, 10);
 }
 
 void GateServer::discoverServer() {
@@ -192,7 +204,7 @@ void GateServer::discoverServer() {
     for (auto& pair : servers) {
         auto& id = pair.first;
         auto& si = pair.second;
-        LOG(INFO) << "discoverServer id " << id << " name " << si.name;
+        LOG << "discoverServer id " << id << " name " << si.name;
         if (id == m_serverId) {
             continue;
         }
@@ -201,20 +213,24 @@ void GateServer::discoverServer() {
         if (it != m_gpSessions.end()) {
             auto it1 = it->second.find(id);
             if (it1 != it->second.end()) {
-                // LOG(INFO) << "exist,  id " << si.id;
+                // LOG << "exist,  id " << si.id;
                 continue;
             }
         }
-        LOG(INFO) << "config self type " << type() << " rpc type " << st;
+        LOG << "config self type " << type() << " rpc type " << st;
 
         auto gps = std::make_shared<GatePeerSession>();
+        gps->setrSched(m_sched);
+        gps->setwSched(m_sched);
         if (!gps->sync_connect(si.address, si.port, type(), st)) {
-            LOG(WARNING) << "sync connect fail";
+            WLOG << "sync connect fail";
             continue;
         }
         gps->setOnMessage([&](Message::ptr msg) {
             if (msg->roleId() == Eayew::MsgType::EMT_NOTIFY_ROLE_ID && msg->sessionId() == Eayew::MsgType::EMT_NOTIFY_SESSION_ID) {
+                LOG << "wtf notify msg " << msg->strInfo();
                 for (const auto& ws : m_wsSessions) {
+                    LOG << "wtf wssession id " << ws.first;
                     ws.second->send(msg);
                 }
                 return;
@@ -223,7 +239,7 @@ void GateServer::discoverServer() {
             auto session_id = msg->sessionId();
             auto s = getWsSession(session_id);
             if (!s) {
-                LOG(ERROR) << "Invalid session " << session_id;
+                ELOG << "Invalid session " << session_id;
                 return;
             }
             if ((msg->receiverId() == ServerType::EST_LOGIN) && (msg->msgId() == 1002 || msg->msgId() == 1004 || msg->msgId() == 1008)) {
@@ -231,30 +247,27 @@ void GateServer::discoverServer() {
                     m_sessionIdToRoleIds[session_id] = msg->roleId();
                 }
             } else if (m_sessionIdToRoleIds.find(session_id) == m_sessionIdToRoleIds.end()) {
-                LOG(ERROR) << "dispatch error, session id " << session_id << " msg id " << msg->msgId() << " msg receiver id " << msg->receiverId();
+                ELOG << "dispatch error, session id " << session_id << " msg id " << msg->msgId() << " msg receiver id " << msg->receiverId();
             }
-            // LOG(INFO) << "onMessage " << msg.strInfo();
+            // LOG << "onMessage " << msg.strInfo();
             s->send(msg);
         });
         gps->setOnClose([&, st, sid = si.id](uint64_t) {
-            LOG(INFO) << "onClose st " << st << " sid " << sid << " size " << m_gpSessions[st].size();
+            LOG << "onClose st " << st << " sid " << sid << " size " << m_gpSessions[st].size();
             m_gpSessions[st].erase(sid);
         });
         gps->run();
         m_gpSessions[st][si.id] = gps;
     }
 
-    m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
-        discoverServer();
-    });
-
-    LOG(INFO) << "m_sessionIdToRoleIds size " << m_sessionIdToRoleIds.size();
-    LOG(INFO) << "m_sessions size " << m_sessions.size();
-    LOG(INFO) << "m_wsSessions size " << m_wsSessions.size();
-    for (const auto& pair : m_gpSessions) {
-        LOG(INFO) << "m_gpSessions type " << pair.first << " m_gpSessions size " << pair.second.size();
-    } 
-    LOG(INFO) << co::CoDebugger::getInstance().GetAllInfo().c_str();
+    // m_task.run_every([this]() {
+    //     m_sched->go([this]() {
+    //         discoverServer();
+    //     });
+    // }, 10);
+    // m_timer.ExpireAt(std::chrono::seconds(10), [this, self = shared_from_this()] {
+    //     discoverServer();
+    // });
 }
 
 }

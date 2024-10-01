@@ -1,9 +1,10 @@
 #ifndef __LOGIC_RANK_SERVER_RESOURCE_H__
 #define __LOGIC_RANK_SERVER_RESOURCE_H__
 
+#include <functional>
 #include <memory>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 namespace Eayew {
     class RedisManager;
@@ -21,7 +22,7 @@ public:
         return res;
     }
 
-    void init(std::shared_ptr<co::CoTimer> timer);
+    void init(co::Sched* sched);
 
     std::shared_ptr<Eayew::TimerManager> timerMgr() { 
         return m_timerMgr; 

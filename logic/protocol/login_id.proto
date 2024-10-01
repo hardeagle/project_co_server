@@ -9,14 +9,14 @@ enum ID {
 
     C2S_LOGIN_BASE          = 132072;   // ID_BASE + 1000
     C2S_LOGIN_LOGIN         = 132073;
-    S2C_LOGIN_LOGIN         = 132074;
+    S2C_LOGIN_LOGIN         = 132074;   // 1002
     C2S_LOGIN_CREATE        = 132075;
-    S2C_LOGIN_CREATE        = 132076;
+    S2C_LOGIN_CREATE        = 132076;   // 1004
     C2S_LOGIN_LOAD          = 132077;
-    S2C_LOGIN_LOAD          = 132078;
+    S2C_LOGIN_LOAD          = 132078;   // 1006
     C2S_LOGIN_OPENID        = 132079;
-    S2C_LOGIN_OPENID        = 132080;
+    S2C_LOGIN_OPENID        = 132080;   // 1008
     C2S_LOGIN_UPDATE        = 132081;
-    S2C_LOGIN_UPDATE        = 132082;
+    S2C_LOGIN_UPDATE        = 132082;   // 1010
     C2S_LOGIN_TOP           = 133071;
 }

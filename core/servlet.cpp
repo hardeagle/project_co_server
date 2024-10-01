@@ -14,20 +14,20 @@ bool ServletDispatchRange::Element::operator < (const Element& element) const {
 
 bool ServletDispatchRange::doRequest(Session::ptr session, Message::ptr msg) {
     auto id = msg->realMsgId();
-    //LOG(INFO) << "ServletDispatchRange doRequest id: " << id;
-    //LOG(WARNING) << msg.strInfo();
+    LOG << "ServletDispatchRange doRequest id: " << id;
+    WLOG << msg->strInfo();
 
     auto it = m_servlets.lower_bound(Element(id));
     if (it == m_servlets.end()) {
-        LOG(WARNING) << "over diaptch, id " << id;
+        WLOG << "over diaptch, id " << id;
     } else if (id >= it->from && id <= it->to) {
         ++count;
         if (count % 10000 == 0) {
-            LOG(ERROR) << "-----------count" << count;
+            ELOG << "-----------count" << count;
         }
         return it->servlet->doRequest(session, msg);
     } else {
-        LOG(WARNING) << "wtf? id " << id;
+        WLOG << "wtf? id " << id;
     }
 
     return true;

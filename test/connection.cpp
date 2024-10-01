@@ -4,7 +4,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#include <libgo/libgo.h>
 
 #include "log/glog.h"
 
@@ -17,7 +16,7 @@ Connection::Connection()
 
 bool Connection::sync_connect(const std::string& ip, uint16_t port, uint16_t sender, uint16_t receiver) {
     if (!Eayew::Session::sync_connect(ip, port)) {
-        LOG(ERROR) << "sync_connect fail";
+        ELOG << "sync_connect fail";
         return false;
     }
     m_sender = sender;

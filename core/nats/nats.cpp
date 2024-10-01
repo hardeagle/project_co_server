@@ -11,7 +11,7 @@ Nats::Nats(std::string& ip, uint16_t port)
 
 bool Nats::init() {
     if (natsOptions_Create(&m_opts) != NATS_OK) {
-        LOG(ERROR) << "natsOptionas_Create fail";
+        ELOG << "natsOptionas_Create fail";
         return false;
     }
     return true;

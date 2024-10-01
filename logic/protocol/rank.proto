@@ -31,13 +31,17 @@ message S2C_RankUpdate {
 }
 
 message C2S_RankMyself {
+    int32 subtype = 1;
 }
 
 message S2C_RankMyself {
-    repeated RankItem myself = 1;
+    int32 ret = 1;
+    int32 subtype = 2;
+    RankItem myself = 3;
 }
 
 message S2C_RankNotify {
-    int32 subtype = 1;
-    repeated RankItem ris = 2;
+    int32 gameid = 1;
+    int32 subtype = 2;
+    repeated RankItem ris = 3;
 }

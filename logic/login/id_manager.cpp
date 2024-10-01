@@ -1,5 +1,7 @@
 #include "id_manager.h"
 
+#include <co/all.h>
+
 #include "core/redis/redis_manager.h"
 
 #include "server_resource.h"
@@ -25,5 +27,6 @@ uint64_t IdManager::generateId(int eid) {
 
 uint64_t IdManager::generateId() {
     auto aid = ServerResource::get()->redisMgr()->hincrby("pcs_id_increment", "role_id", 1);
-    return (uint64_t(37) << 32) | aid;
+    LOG << "aid " << aid;
+    return (uint64_t(37) << 32) | (aid & 0xFFFFFFFF);
 }

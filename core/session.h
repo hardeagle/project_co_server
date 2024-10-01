@@ -8,9 +8,7 @@
 
 #include <google/protobuf/message.h>
 
-#include <libgo/libgo.h>
-
-#include "log/glog.h"
+#include <co/all.h>
 
 #include "core/message.h"
 
@@ -23,18 +21,18 @@ bool eio(OriginF fn, int __fd, char* __buf, size_t n_bytes, Args&&... args) {
         if (len == n_bytes) {
             return true;
         } else if (0 == len) {
-            LOG(ERROR) << "close";
+            ELOG << "close";
             return false;
         } else if (-1 == len) {
             if (errno == EINTR || errno==EAGAIN) {
-                LOG(WARNING) << "errno " << errno;
+                WLOG << "errno " << errno;
                 continue;
             } else {
-                LOG(ERROR) << "errno " << errno;
+                ELOG << "errno " << errno;
                 return false;
             }
         } else {
-            LOG(WARNING) << "not enough, len " << len << " n_bytes " << n_bytes;
+            WLOG << "not enough, len " << len << " n_bytes " << n_bytes;
         }
         n_bytes -= len;
         __buf += len;
@@ -56,6 +54,9 @@ public:
 
     uint16_t receiver() { return m_receiver; }
     void receiver(uint16_t v) { m_receiver = v; }
+
+    void setrSched(co::Sched* s) { m_rSched = s; }
+    void setwSched(co::Sched* s) { m_wSched = s; }
 
     void setOnMessage(std::function<void(Message::ptr)>);
     void setOnClose(std::function<void(uint64_t)>);
@@ -88,8 +89,11 @@ protected:
     uint16_t m_sender;
     uint16_t m_receiver;
 
-    co_chan<Message::ptr> m_rMsgs;
-    co_chan<Message::ptr> m_wMsgs;
+    co::chan<Message::ptr> m_rMsgs;
+    co::chan<Message::ptr> m_wMsgs;
+
+    co::Sched* m_rSched;
+    co::Sched* m_wSched;
 };
 
 }

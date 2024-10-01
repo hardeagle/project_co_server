@@ -4,8 +4,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include <libgo/libgo.h>
-
 #include "log/glog.h"
 
 #include "core/message.h"
@@ -57,7 +55,7 @@ void RpcManager::init(const std::string& file) {
 void RpcManager::call(int type, std::string& req) {
     RpcSession::ptr rs = getClient(type);
     if (!rs) {
-        LOG(ERROR) << "getClient fail";
+        ELOG << "getClient fail";
         return;
     }
     // Message msg(0);
@@ -67,7 +65,7 @@ void RpcManager::call(int type, std::string& req) {
 void RpcManager::call(int type, std::string& req, std::string& rsp) {
     RpcSession::ptr rs = getClient(type);
     if (!rs) {
-        LOG(ERROR) << "getClient fail";
+        ELOG << "getClient fail";
         return;
     }
 

@@ -6,18 +6,4 @@
 .vscode/settings.json
 
 build/
-bin/co_server
-bin/co_test
-bin/chat_server
-bin/game_server
-bin/login_server
-bin/gate_server
-bin/rank_server
-bin/test
-bin/core.
-bin/log/
-bin/nohup.out
-bin/core.*
-bin/*.json
-bin/*.py
-bin/*.txt
+bin/

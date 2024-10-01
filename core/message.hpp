@@ -5,8 +5,6 @@
 #include <string>
 #include <string_view>
 
-#include "log/glog.h"
-
 #include "buffer.hpp"
 
 namespace Eayew {
@@ -40,7 +38,7 @@ public:
         , m_sessionId(other.m_sessionId)
         , m_roleId(other.m_roleId)
         , m_data(other.m_data) {
-        LOG(ERROR) << "copy";
+        ELOG << "copy";
     }
 
     Message& operator=(const Message& other) noexcept {
@@ -51,7 +49,7 @@ public:
             m_sessionId = other.m_sessionId;
             m_roleId = other.m_roleId;
             m_data = other.m_data;
-            LOG(ERROR) << "assign";
+            ELOG << "assign";
         }
         return *this;
     }
@@ -63,7 +61,7 @@ public:
         , m_sessionId(std::exchange(other.m_sessionId, 0))
         , m_roleId(std::exchange(other.m_roleId, 0))
         , m_data(std::move(other.m_data)) {
-        //LOG(ERROR) << "move000000";
+        //ELOG << "move000000";
     }
 
     Message& operator=(Message&& other) noexcept {
@@ -74,7 +72,7 @@ public:
             m_sessionId = std::exchange(other.m_sessionId, 0);
             m_roleId = std::exchange(other.m_roleId, 0);
             m_data = std::move(other.m_data);
-            //LOG(ERROR) << "move1111";
+            //ELOG << "move1111";
         }
         return *this;
     }
@@ -217,7 +215,7 @@ public:
     }
 
     void debugString() {
-        LOG(INFO) << "message size " << size() << " length " << length() << " sender " << senderId()
+        LOG << "message size " << size() << " length " << length() << " sender " << senderId()
                     << " receiver " << receiverId() << " session id " << sessionId() << " msg id " << msgId()
                     << " ,role id " << roleId();
     }

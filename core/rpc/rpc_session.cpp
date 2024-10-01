@@ -9,7 +9,7 @@ RpcSession::RpcSession()
 
 bool RpcSession::sync_connect(const std::string& ip, uint16_t port, uint16_t sender, uint16_t receiver) {
     if (!Session::sync_connect(ip, port)) {
-        LOG(ERROR) << "sync_connect fail";
+        ELOG << "sync_connect fail";
         return false;
     }
     m_sender = sender;
@@ -87,17 +87,17 @@ bool RpcSession::sync_connect(const std::string& ip, uint16_t port, uint16_t sen
 // //     addr.sin_port = htons(m_port);
 // //     addr.sin_addr.s_addr = inet_addr(m_ip.data());
 // //     if (-1 == connect(m_fd, (sockaddr*)&addr, sizeof(addr))) {
-// //         LOG(ERROR) << "connect fail, port " << m_port;
+// //         ELOG << "connect fail, port " << m_port;
 // //         return;
 // //     }
 
-// //     LOG(INFO) << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
+// //     LOG << "sync connect success, fd " << m_fd << " ip " << m_ip << " port " << m_port;
 
 // //     Message msg;
 // //     msg.setSender(senderType());
 // //     msg.setReceiver(receiverType());
 // //     msg.writeData("");
-// //     LOG(INFO) << "msg " << msg.data() << " size " << msg.size();
+// //     LOG << "msg " << msg.data() << " size " << msg.size();
 // //     write(m_fd, msg.data(), msg.size());
 // // }
 
@@ -107,14 +107,14 @@ bool RpcSession::sync_connect(const std::string& ip, uint16_t port, uint16_t sen
 // //         char head_buf[head_len];
 // //         int rlen = read(m_fd, head_buf, head_len);
 // //         if (rlen != head_len) {
-// //             LOG(ERROR) << "Invalid head length";
+// //             ELOG << "Invalid head length";
 // //             return;
 // //         }
 // //         int body_len = 0;
 // //         char body_buf[2048];
 // //         rlen = read(m_fd, body_buf, body_len);
 // //         if (rlen != body_len) {
-// //             LOG(ERROR) << "Invalid body length";
+// //             ELOG << "Invalid body length";
 // //             return;
 // //         }
 // //         // parse

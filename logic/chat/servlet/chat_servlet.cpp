@@ -8,8 +8,8 @@
 #include "logic/common/redis_key.h"
 #include "logic/protocol/public.pb.h"
 
-#include "logic/chat/protocol/chat_id.pb.h"
-#include "logic/chat/protocol/chat.pb.h"
+#include "logic/protocol/chat_id.pb.h"
+#include "logic/protocol/chat.pb.h"
 
 
 bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
@@ -20,7 +20,7 @@ bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg
         case ChatProtocol::ID::C2S_CHAT_CHAT:
             return doChat(session, msg);
         default:
-            LOG(ERROR) << "invalid id " << id;
+            ELOG << "invalid id " << id;
             return true;
     }
 
@@ -28,36 +28,36 @@ bool ChatServlet::doRequest(Eayew::Session::ptr session, Eayew::Message::ptr msg
 }
 
 bool ChatServlet::doLoad(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doLoad begin...";
-    ChatProtocol::C2S_ChatLoad req;
-    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
-        return false;
-    }
+    LOG << "doLoad begin...";
+    // ChatProtocol::C2S_ChatLoad req;
+    // if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
+    //     ELOG << "ParseFromArray fail";
+    //     return false;
+    // }
 
-    ChatProtocol::S2C_ChatLoad resp;
-    do {
-    } while (false);
+    // ChatProtocol::S2C_ChatLoad resp;
+    // do {
+    // } while (false);
     
-    session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doLoad end...";
+    // session->send(covertRspMsg(msg, resp));
+    LOG << "doLoad end...";
     return true;
 }
 
 bool ChatServlet::doChat(Eayew::Session::ptr session, Eayew::Message::ptr msg) {
-    LOG(INFO) << "doChat begin...";
-    ChatProtocol::C2S_ChatChat req;
-    if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
-        LOG(ERROR) << "ParseFromArray fail";
-        return false;
-    }
-    LOG(INFO) << "req " << req.DebugString();
+    LOG << "doChat begin...";
+    // ChatProtocol::C2S_ChatChat req;
+    // if (!req.ParseFromArray(msg->pdata(), msg->psize())) {
+    //     ELOG << "ParseFromArray fail";
+    //     return false;
+    // }
+    // LOG << "req " << req.DebugString();
 
-    ChatProtocol::S2C_ChatChat resp;
-    do {
-    } while(false);
+    // ChatProtocol::S2C_ChatChat resp;
+    // do {
+    // } while(false);
 
-    session->send(covertRspMsg(msg, resp));
-    LOG(INFO) << "doChat end...";
+    // session->send(covertRspMsg(msg, resp));
+    LOG << "doChat end...";
     return true;
 }

@@ -18,6 +18,7 @@ protected:
 private:
     void initServlet();
 
+    void initHttpServer();
 };
 
 #endif

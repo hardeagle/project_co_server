@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <libgo/libgo.h>
+#include <co/all.h>
 
 namespace Eayew {
 
@@ -38,7 +38,7 @@ private:
 
     std::shared_ptr<BaseServer> m_baseServer;
 
-    co_chan<std::string> m_rChannel;
+    co::chan<std::string> m_rChannel;
 };
 
 }

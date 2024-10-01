@@ -35,10 +35,15 @@ message S2C_LoginCreate {
 
 message C2S_LoginLoad {
     int64 role_id = 1;
+    int32 gameid = 2;
+    string loginname = 3;
 }
 
 message S2C_LoginLoad {
     int32 ret = 1;
+    int64 role_id = 2;
+    int32 gameid = 3;
+    string loginname = 4;
 }
 
 message C2S_LoginOpenid {

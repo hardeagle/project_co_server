@@ -24,7 +24,6 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/protocol PUBLIC_SRC_LIST)
 
 # chat server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat CHAT_SRC_LIST)
-aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat/protocol CHAT_SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/chat/servlet CHAT_SRC_LIST)
 
 # game server
@@ -32,12 +31,10 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/game GAME_SRC_LIST)
 
 # login server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login LOGIN_SRC_LIST)
-aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/protocol LOGIN_SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/servlet LOGIN_SRC_LIST)
 
 # rank server
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank RANK_SRC_LIST)
-aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank/protocol RANK_SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/logic/rank/servlet RANK_SRC_LIST)
 
 # task server
@@ -46,11 +43,11 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/logic/task TASK_SRC_LIST)
 
 # test
 aux_source_directory(${PROJECT_SOURCE_DIR}/test TEST_SRC_LIST)
-aux_source_directory(${PROJECT_SOURCE_DIR}/logic/login/protocol TEST_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/logic/protocol TEST_SRC_LIST)
 
 
 #set(CMAKE_CXX_FLAGS "-std=c++2a -g -O0 ${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "-std=c++17 -Og ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O0 ")
 
 
 add_executable(co_server main.cpp ${SRC_LIST} ${TEST_SRC_LIST})
@@ -63,18 +60,21 @@ add_executable(test main_test.cpp ${SRC_LIST} ${TEST_SRC_LIST})
 
 add_executable(co_test main_test_libgo.cpp ${SRC_LIST})
 
+add_executable(bench main_bench.cpp ${SRC_LIST} ${TEST_SRC_LIST})
+
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(exes co_server chat_server game_server login_server gate_server rank_server test co_test)
+set(exes co_server chat_server game_server login_server gate_server rank_server test co_test bench)
 FOREACH(exe ${exes})
+    target_link_libraries(${exe} -lco)
     target_link_libraries(${exe} -lssl)
+    target_link_libraries(${exe} -lbacktrace)
+    target_link_libraries(${exe} -lcurl)
     target_link_libraries(${exe} -lcrypto)
     target_link_libraries(${exe} -ldl)
     target_link_libraries(${exe} -lglog)
     target_link_libraries(${exe} -lhiredis)
     target_link_libraries(${exe} -ljsoncpp)
-    target_link_libraries(${exe} -ljemalloc)
-    target_link_libraries(${exe} -llibgo)
-    target_link_libraries(${exe} -ljemalloc)
+    # target_link_libraries(${exe} -ltcmalloc)
     target_link_libraries(${exe} -lppconsul)
     target_link_libraries(${exe} -lprotobuf)
     target_link_libraries(${exe} -lpthread)

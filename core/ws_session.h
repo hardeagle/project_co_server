@@ -53,6 +53,8 @@ public:
     void sync_read();
     void sync_write();
 
+	bool sync_connect(const std::string& url);
+
 	/**
 	 * @param input_frame .in. pointer to input frame
 	 * @param input_len .in. length of input frame
