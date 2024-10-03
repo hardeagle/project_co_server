@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "log/glog.h"
+#include <co/all.h>
 
 #include <time.h>
 

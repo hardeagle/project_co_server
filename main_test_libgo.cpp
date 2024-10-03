@@ -2,8 +2,9 @@
 #include <memory>
 #include <chrono>
 
+#include <co/all.h>
+
 #include "core/message.h"
-#include "log/glog.h"
 
 // uint64_t getCurMs() {
 //     return std::chrono::duration_cast<std::chrono::milliseconds >(std::chrono::system_clock::now().time_since_epoch()).count();

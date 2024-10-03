@@ -10,7 +10,6 @@
 
 #include <co/all.h>
 
-#include  "log/glog.h"
 
 namespace Eayew {
 

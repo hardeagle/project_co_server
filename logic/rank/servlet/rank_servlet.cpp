@@ -4,7 +4,7 @@
 
 #include <json/json.h>
 
-#include "log/glog.h"
+#include <co/all.h>
 
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"

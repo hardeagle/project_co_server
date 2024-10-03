@@ -2,11 +2,9 @@
 
 #include "logic/game/game_server.h"
 
-#include "log/glog.h"
+#include <co/all.h>
 
 int main(int argc, char* argv[]) {
-    // GLog glog(argv[0]);
-
     auto game_server = std::make_shared<GameServer>();
     game_server->run();
 

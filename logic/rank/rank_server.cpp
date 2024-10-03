@@ -1,6 +1,6 @@
 #include "rank_server.h"
 
-#include "log/glog.h"
+#include <co/all.h>
 
 #include "core/base/timer_manager.h"
 #include "core/const.hpp"

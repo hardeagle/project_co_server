@@ -4,7 +4,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "log/glog.h"
+#include <co/all.h>
 
 #include "core/message.h"
 

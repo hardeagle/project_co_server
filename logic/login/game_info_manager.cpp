@@ -1,6 +1,6 @@
 #include "game_info_manager.h"
 
-#include "log/glog.h"
+#include <co/all.h>
 
 #include "core/redis/redis_manager.h"
 #include "logic/login/server_resource.h"

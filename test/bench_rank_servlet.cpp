@@ -6,8 +6,6 @@
 
 #include <json/json.h>
 
-#include "log/glog.h"
-
 #include "core/const.hpp"
 #include "core/redis/redis_manager.h"
 #include "core/util/util.h"

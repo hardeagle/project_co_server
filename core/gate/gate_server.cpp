@@ -7,11 +7,12 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
+#include <co/all.h>
+
 #include "core/const.hpp"
 #include "core/message.h"
 #include "core/rpc/rpc_manager.h"
 
-#include "log/glog.h"
 #include "core/const.hpp"
 #include "core/util/util.h"
 

@@ -2,11 +2,9 @@
 
 #include "logic/chat/chat_server.h"
 
-#include "log/glog.h"
+#include <co/all.h>
 
 int main(int argc, char* argv[]) {
-    // GLog glog(argv[0]);
-
     auto chat_server = std::make_shared<ChatServer>();
     chat_server->run();
 

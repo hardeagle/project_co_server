@@ -1,6 +1,6 @@
 #include "nats.h"
 
-#include "log/glog.h"
+#include <co/all.h>
 
 namespace Eayew {
 

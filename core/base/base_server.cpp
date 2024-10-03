@@ -4,12 +4,12 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#include <co/all.h>
+
 #include "core/message.h"
 #include "core/servlet.h"
 #include "core/rpc/rpc_manager.h"
 #include "core/util/util.h"
-
-#include "log/glog.h"
 
 #include "work_routine_manager.h"
 #include "gate_server_session.h"
